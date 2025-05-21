@@ -1,0 +1,34 @@
+@import "../globals.css";
+
+.sidebar-links {
+  padding-right: 5.5rem;
+}
+
+.sidebar-link {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  align-items: center;
+  font-size: 1.5rem;
+  color: var(--clr-gray);
+}
+
+.sidebar-link:hover {
+  color: var(--clr-primary);
+  opacity: 0.75;
+}
+
+.sidebar-link .icon {
+  max-width: 2rem;
+}
+
+.sidebar-link.logout {
+  position: absolute;
+  bottom: 0.25rem;
+  font-weight: 800;
+}
+
+.icon-logout {
+  display: block;
+  max-width: 5.5rem;
+}

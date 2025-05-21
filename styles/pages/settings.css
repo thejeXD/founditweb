@@ -1,0 +1,271 @@
+/* Settings Container */
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Settings Content */
+.settings-content {
+  padding: 2rem;
+}
+
+/* Settings Sections */
+.settings-section {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--clr-gray-90);
+  margin-bottom: 1.5rem;
+}
+
+/* Profile Section */
+.profile-section {
+  background: linear-gradient(to right, var(--clr-blue-50), white);
+  border: 1px solid var(--clr-blue-50);
+}
+
+.profile-badge {
+  background-color: var(--clr-lime);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* User Details */
+.user-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.detail-item label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-gray-50);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.detail-item p {
+  font-size: 1.125rem;
+  color: var(--clr-gray-90);
+  font-weight: 500;
+}
+
+.status-active {
+  color: var(--clr-success);
+  font-weight: 500;
+}
+
+/* Activity Stats */
+.activity-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--clr-gray-10);
+  border-radius: 8px;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.stat-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.stat-icon.lost {
+  background-color: var(--clr-error-light);
+  color: var(--clr-error);
+}
+
+.stat-icon.found {
+  background-color: var(--clr-success-light);
+  color: var(--clr-success);
+}
+
+.stat-icon.total {
+  background-color: var(--clr-primary-light);
+  color: var(--clr-primary);
+}
+
+.stat-info h3 {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--clr-gray-70);
+  margin-bottom: 0.25rem;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--clr-gray-90);
+}
+
+/* Account Actions */
+.action-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.action-card {
+  background-color: var(--clr-gray-10);
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.warning-card {
+  background-color: #FFF5F5;
+  border: 1px solid #FFE3E3;
+}
+
+.warning-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.warning-icon {
+  width: 24px;
+  height: 24px;
+  color: #FF6B6B;
+}
+
+.warning-header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #FF6B6B;
+  margin: 0;
+}
+
+.warning-text {
+  font-size: 0.875rem;
+  color: #FF6B6B;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.warning-details {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.warning-details p {
+  font-size: 0.875rem;
+  color: var(--clr-gray-70);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.warning-details p:last-child {
+  margin-bottom: 0;
+}
+
+.action-info h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--clr-gray-90);
+  margin-bottom: 0.5rem;
+}
+
+.action-info p {
+  font-size: 0.875rem;
+  color: var(--clr-gray-70);
+  line-height: 1.5;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: fit-content;
+  border: none;
+}
+
+.btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn-danger {
+  background-color: #FF6B6B;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #FF5252;
+}
+
+.btn-secondary {
+  background-color: #4A90E2;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #357ABD;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settings-section {
+    padding: 1.5rem;
+  }
+
+  .user-details {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .action-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+} 

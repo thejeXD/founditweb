@@ -1,0 +1,74 @@
+@import "../globals.css";
+
+header {
+  padding-inline: 5rem;
+  padding-block: 2rem;
+}
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+}
+
+.header-nav-links {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-nav-link {
+  color: var(--clr-gray-50);
+  text-decoration: none;
+  font-size: 1.125rem;
+  transition: color 0.2s ease;
+}
+
+.header-nav-link:hover {
+  color: var(--clr-primary);
+}
+
+.sign-up-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--clr-primary);
+  font-weight: 500;
+}
+
+.sign-up-btn .icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Breakpoints */
+
+@media (width < 90rem /* 1440px */) {
+  header {
+    padding-inline: 2rem;
+  }
+}
+
+@media (width < 80rem /* 1280px */) {
+  header {
+    padding-inline: 1.5rem;
+  }
+  
+  .header-nav-links {
+    gap: 2rem;
+  }
+}
+
+@media (width < 48rem /* 768px */) {
+  .header-nav-links {
+    display: none;
+  }
+}

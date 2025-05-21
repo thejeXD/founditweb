@@ -1,0 +1,101 @@
+:root {
+  /* FONT */
+  --font-heading: "Roboto", sans-serif;
+  --font-body: "Roboto", sans-serif;
+
+  /* COLORS */
+  --clr-primary: #6f9ee9;
+  --clr-dark: #424242;
+  --clr-blue-50: #f2f7ff;
+  --clr-gray-50: #d9d9d9;
+  --clr-gray: #625b5b;
+  --clr-red: #ff0606;
+  --clr-lime: #6fe990;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font: inherit;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* Heading & paragraph */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p {
+  max-width: 75ch;
+  text-wrap: balance;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"],
+li {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  height: 100vh;
+  text-rendering: optimizeSpeed;
+  overflow-x: hidden;
+}
+
+.max-container {
+  max-width: 96rem;
+  margin-inline: auto;
+}
+
+button:hover {
+  opacity: 0.75;
+}
+
+button:active {
+  opacity: 1;
+}
+
+/* Global font styles */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+p,
+a,
+input,
+button {
+  font-family: var(--font-body);
+}
+
+a {
+  text-decoration: none;
+}
+
+.logo {
+  max-width: 5.25rem;
+}

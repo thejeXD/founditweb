@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Lost | Found IT</title>
+    <link
+      rel="stylesheet"
+      href="/styles/normalize.css" />
+    <link
+      rel="stylesheet"
+      href="/styles/pages/lost-found.css" />
+    <link
+      rel="stylesheet"
+      href="/styles/components/header.css" />
+
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="max-container">
+      <nav class="header-nav">
+        <div>
+          <a href="/"
+            ><img
+              src="/assets/logo.png"
+              alt="Logo"
+              class="logo"
+          /></a>
+        </div>
+
+        <p class="user">
+          Staff
+          <img
+            src="/assets/staff_1.png"
+            alt=""
+            class="user-img" />
+        </p>
+      </nav>
+    </header>
+    <main class="max-container">
+      <div class="main-content">
+        <div class="title-wrap">
+          <h1>Found Items</h1>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Lost Item ID</th>
+              <th>Item Name</th>
+              <th>Description</th>
+              <th>Reported By</th>
+              <th>Date Reported</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- found/lost item example -->
+            <tr>
+              <td>L001</td>
+              <td>IPhone</td>
+              <td>black phone, clear case</td>
+              <td>Ryan</td>
+              <td>2/01/25</td>
+              <td class="status">not claimed</td>
+              <td><button class="edit-btn">Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sidebar Navigation  -->
+      <aside class="sidebar">
+        <h2>Quick Access</h2>
+        <ul>
+          <li>
+            <a
+              href="/"
+              class="sidebar-link">
+              <img
+                src="/assets/home.png"
+                alt=""
+                class="icon" />Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="lost.html"
+              class="sidebar-link">
+              <img
+                src="/assets/caution.png"
+                alt=""
+                class="icon" />
+              Lost items inquiry</a
+            >
+          </li>
+          <li>
+            <a
+              href="found.html"
+              class="sidebar-link">
+              <img
+                src="/assets/check.png"
+                alt=""
+                class="icon" />
+              Found items entry</a
+            >
+          </li>
+          <li>
+            <a
+              href="settings.html"
+              class="sidebar-link">
+              <img
+                src="/assets/settings.png"
+                alt=""
+                class="icon" />
+              Settings</a
+            >
+          </li>
+        </ul>
+        <a
+          href="/"
+          class="sidebar-link logout"
+          ><img
+            src="/assets/logout.png"
+            alt=""
+            class="icon-logout" />Log out</a
+        >
+      </aside>
+    </main>
+  </body>
+</html>

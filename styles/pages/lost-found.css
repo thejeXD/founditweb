@@ -1,0 +1,123 @@
+@import "../globals.css";
+@import "../components/sidebar.css";
+
+header {
+  margin-bottom: 2.5rem;
+}
+
+body {
+  background-color: #f7f7f7;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.user img {
+  max-width: 4.5rem;
+}
+
+main {
+  display: flex;
+  min-height: 25rem;
+}
+
+.main-content {
+  flex: 1;
+  order: 1;
+}
+
+.title-wrap {
+  display: flex;
+  margin-bottom: 1rem;
+  padding-block: 1.5rem;
+  padding-inline: 2.5rem;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--clr-primary);
+  border-radius: 1.25rem;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  border: none;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.add-btn .icon {
+  max-width: 2rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-left: 1rem;
+  margin-bottom: 3.25rem;
+}
+
+.table {
+  width: 100%;
+  background-color: white;
+  border-collapse: collapse;
+  border-radius: 1.25rem;
+  text-align: center;
+}
+
+.table thead {
+  border-bottom: 1px solid var(--clr-gray-50);
+}
+
+.table th {
+  padding: 2.75rem 3.125rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.table td,
+.table th {
+  color: var(--clr-gray);
+  text-wrap: balance;
+}
+
+.table tbody td {
+  font-family: var(--font-body);
+  padding-block: 1.75rem;
+  padding-inline: 2rem;
+}
+
+.table tbody td.status {
+  color: var(--clr-red);
+}
+
+.edit-btn {
+  padding-block: 0.5rem;
+  padding-inline: 1.25rem;
+  font-weight: 700;
+  color: white;
+  background-color: var(--clr-primary);
+  border: none;
+  border-radius: 0.625rem;
+  cursor: pointer;
+}
+
+label, input, select, textarea, .form-label, .form-group {
+  font-family: var(--font-body);
+}

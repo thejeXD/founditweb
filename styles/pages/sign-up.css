@@ -1,0 +1,721 @@
+@import "../globals.css";
+
+/* HEADER */
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+}
+
+/* .logo {
+  height: 120px;
+  width: 120px;
+} */
+
+.header-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.header-nav-link {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #000000;
+  text-decoration: none;
+}
+
+.header-nav-link:hover {
+  color: var(--clr-primary);
+}
+
+.sign-up-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  color: #ffffff;
+  background-color: #739fe6;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  border: none;
+}
+
+.sign-up-btn:hover {
+  background-color: #5b8fe6;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.sign-up-btn .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.hamburger-menu {
+  display: none;
+}
+
+@media (width < 768px) {
+  .header-nav {
+    padding: 1rem;
+  }
+  
+  .header-nav-links {
+    gap: 1.5rem;
+  }
+}
+
+/* MAIN */
+body {
+  background: white;
+  min-height: 100vh;
+}
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 5rem;
+}
+
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 3.25rem;
+  border: 1px solid var(--clr-gray-50);
+  border-radius: 40px;
+}
+
+.sign-up-main-title {
+  font-weight: 700;
+  font-size: 6rem;
+  color: var(--clr-primary);
+  margin-bottom: 0;
+}
+
+.sign-up-main-title-2 {
+  font-size: 1.5rem;
+  color: var(--clr-gray-50);
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+/* Form Fields */
+.form-label {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.input-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-gray-50);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--clr-primary);
+  padding-block: 1rem;
+  padding-inline: 1.5rem;
+  border-radius: 20px;
+  background: transparent;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+}
+
+.floating-label {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.2s ease all;
+  color: var(--clr-gray-50);
+  pointer-events: none;
+  background: white;
+  padding: 0 0.25rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+input:focus ~ .floating-label,
+input:not(:placeholder-shown) ~ .floating-label {
+  top: 0;
+  font-size: 0.875rem;
+  color: var(--clr-primary);
+  font-weight: 600;
+}
+
+input::placeholder {
+  color: var(--clr-gray-50);
+}
+
+/* Password Input */
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--clr-gray-50);
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle:hover {
+  color: var(--clr-primary);
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  background-color: var(--clr-primary);
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* EULA Styles */
+.eula-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.eula-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.eula-checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-custom {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border: 1px solid var(--clr-primary);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.eula-checkbox-label input[type="checkbox"]:checked ~ .checkbox-custom::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--clr-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.eula-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
+  color: var(--clr-gray-50);
+  font-weight: 500;
+}
+
+.eula-link {
+  color: var(--clr-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.eula-link:hover {
+  text-decoration: underline;
+}
+
+/* Form Step Transitions */
+.form-step {
+  width: 100%;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#step2 {
+  display: none;
+  opacity: 0;
+}
+
+#step2.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Update the indicator when going back */
+#step1 .indicator-line-2 {
+  background-color: #E5E7EB;
+}
+
+#step2 .indicator-line-1 {
+  background-color: var(--clr-primary);
+}
+
+.indicator-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+  gap: 1rem;
+}
+
+.indicator-line-1,
+.indicator-line-2 {
+  width: 65px;
+  height: 3px;
+  background-color: #E5E7EB;
+  border-radius: 1.5px;
+  transition: background-color 0.3s ease;
+}
+
+.indicator-line-1 {
+  background-color: var(--clr-primary);
+}
+
+.indicator-line-2.active {
+  background-color: var(--clr-primary);
+}
+
+/* Alternative Account Link */
+.alternative-action {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #747f8d;
+}
+
+.alternative-action a {
+  color: #00b0f4;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.alternative-action a:hover {
+  text-decoration: underline;
+}
+
+@media (width < 90rem /* 1440px */) {
+  main {
+    padding-inline: 7rem;
+  }
+}
+
+@media (width < 80rem /* 1280px */) {
+  header {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (width < 64rem /* 1024px */) {
+  main {
+    padding-block: 2rem;
+  }
+  .sign-up-main-title {
+    font-size: 4rem;
+  }
+}
+
+@media (width < 48rem /* 768px */) {
+  .header-nav-links {
+    display: none;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
+
+  .sign-up-main-title {
+    font-size: 3rem;
+  }
+
+  .footer-wrap {
+    padding-inline: 2rem;
+  }
+}
+
+/* SIGN UP */
+
+.sign-up-form {
+  display: block;
+  max-width: 34rem;
+
+  .sign-up-main-title {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--clr-primary);
+  }
+
+  .sign-up-main-title-2 {
+    font-size: 2.25rem;
+    color: var(--clr-gray-50);
+    margin-bottom: 1.25rem;
+  }
+
+  input {
+    display: block;
+    margin-inline: auto;
+    margin-bottom: 2.25rem;
+    max-width: 80%;
+  }
+
+  input::placeholder {
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
+
+  .submit-btn {
+    display: block;
+    margin-inline: auto;
+    width: 80%;
+  }
+
+  .indicator-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+    gap: 1rem;
+
+    .indicator-line-1 {
+      width: 65px;
+      height: 3px;
+      background-color: var(--clr-primary);
+    }
+
+    .indicator-line-2 {
+      width: 65px;
+      height: 3px;
+      background-color: black;
+    }
+  }
+}
+
+/* EULA Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+  background-color: white;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 80%;
+  overflow-y: auto;
+  font-family: 'Roboto', sans-serif;
+  color: var(--clr-gray-50);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  color: var(--clr-primary);
+  margin-bottom: 1rem;
+}
+
+.modal-content p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--clr-gray-50);
+}
+
+.close:hover,
+.close:focus {
+  color: var(--clr-primary);
+}
+
+.eula-wrap {
+  display: flex;
+  justify-content: center;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.eula-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.eula-label input[type="checkbox"] {
+  transform: scale(1.2);
+  accent-color: var(--clr-primary);
+}
+
+.eula-label a {
+  color: var(--clr-primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.eula-label a:hover {
+  opacity: 0.8;
+}
+
+/* Footer Logo */
+.footer-title img {
+  width: 140px;
+  height: 120px;
+  object-fit: contain;
+}
+
+.footer-nav-li {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-nav-li h3 {
+  color: var(--clr-primary);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-nav-li a {
+  color: black;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s ease;
+}
+
+.footer-nav-li a:hover {
+  color: var(--clr-primary);
+}
+
+/* Error message styling */
+.error-message {
+  color: #dc3545;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  position: absolute;
+  bottom: -1.25rem;
+  left: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+/* EULA error message specific styling */
+.eula-container .error-message {
+  position: static;
+  margin-top: 0.5rem;
+  text-align: center;
+  display: block;
+}
+
+.form-label input.invalid {
+  border-color: #dc3545;
+}
+
+/* Password strength indicator */
+.password-strength {
+  position: absolute;
+  bottom: -1.25rem;
+  left: 0;
+  font-size: 0.75rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.password-strength.weak {
+  color: #dc3545;
+}
+
+.password-strength.medium {
+  color: #ffc107;
+}
+
+.password-strength.strong {
+  color: #28a745;
+}
+
+/* Back button styling */
+.back-btn {
+  background: transparent;
+  border: 1px solid var(--clr-primary);
+  color: var(--clr-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-btn:hover {
+  background: var(--clr-primary);
+  color: white;
+}
+
+/* Button layout in step 2 */
+#step2 .button-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 80%;
+  margin-inline: auto;
+}
+
+#step2 .submit-btn {
+  flex: 2;
+  margin: 0;
+}
+
+#step2 .back-btn {
+  flex: 1;
+  margin: 0;
+}
+
+/* Custom Notification */
+.custom-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Merriweather Sans', sans-serif;
+  transform: translateX(150%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  max-width: 400px;
+}
+
+.custom-notification.show {
+  transform: translateX(0);
+}
+
+.notification-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.notification-message {
+  font-size: 0.75rem;
+  color: #666666;
+  line-height: 1.4;
+}
+
+/* Notification types */
+.custom-notification.error {
+  border-left: 4px solid #dc3545;
+}
+
+.custom-notification.error .notification-icon {
+  color: #dc3545;
+}
+
+.custom-notification.success {
+  border-left: 4px solid #28a745;
+}
+
+.custom-notification.success .notification-icon {
+  color: #28a745;
+}
+
+.custom-notification.warning {
+  border-left: 4px solid #ffc107;
+}
+
+.custom-notification.warning .notification-icon {
+  color: #ffc107;
+}
+
+.custom-notification.info {
+  border-left: 4px solid var(--clr-primary);
+}
+
+.custom-notification.info .notification-icon {
+  color: var(--clr-primary);
+}
+
+label, input, select, textarea, .form-label, .form-group {
+  font-family: var(--font-body);
+}

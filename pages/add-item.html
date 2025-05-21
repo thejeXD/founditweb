@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Found | Found IT</title>
+    <link
+      rel="stylesheet"
+      href="/styles/normalize.css" />
+    <link
+      rel="stylesheet"
+      href="/styles/pages/lost-found.css" />
+    <link
+      rel="stylesheet"
+      href="/styles/pages/add-item.css" />
+    <link
+      rel="stylesheet"
+      href="/styles/components/header.css" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="max-container">
+      <nav class="header-nav">
+        <div>
+          <a href="/"
+            ><img
+              src="/assets/logo.png"
+              alt="Logo"
+              class="logo"
+          /></a>
+        </div>
+
+        <p class="user">
+          Staff
+          <img
+            src="/assets/staff_1.png"
+            alt=""
+            class="user-img" />
+        </p>
+      </nav>
+    </header>
+    <main class="max-container">
+      <div class="main-content">
+        <div class="title-wrap">
+          <h1>Add Item</h1>
+        </div>
+        <div>
+          <form class="form-add-item">
+            <div class="form-label-wrap">
+              <label
+                for="item-name"
+                class="form-label"
+                >Item Name<input
+                  id="item-name"
+                  name="item-name"
+                  type="text"
+              /></label>
+              <label
+                for="year-level"
+                class="form-label"
+                >Year Level<input
+                  id="year-level"
+                  name="year-level"
+                  type="text"
+              /></label>
+            </div>
+            <div class="form-label-wrap">
+              <div class="form-label">
+                <label
+                  for="description"
+                  class="form-label"
+                  >Description</label
+                >
+                <textarea
+                  id="description"
+                  name="description"
+                  placeholder="e.g. leather wallet with pink keychain"
+                  rows="5"
+                  cols="33"></textarea>
+              </div>
+              <label
+                for="date-reported"
+                class="form-label"
+                >Date Reported<input
+                  id="date-reported"
+                  name="date-reported"
+                  type="text"
+              /></label>
+            </div>
+            <label
+              for="reported-by"
+              class="form-label"
+              >Reported By<input
+                id="reported-by"
+                name="reported-by"
+                type="text"
+                placeholder="lastname, firstname"
+            /></label>
+            <button class="submit-btn">Submit</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation  -->
+      <aside class="sidebar">
+        <h2>Quick Access</h2>
+        <div class="sidebar-links">
+          <ul>
+            <li>
+              <a
+                href="/"
+                class="sidebar-link">
+                <img
+                  src="/assets/home.png"
+                  alt=""
+                  class="icon" />Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="lost.html"
+                class="sidebar-link">
+                <img
+                  src="/assets/caution.png"
+                  alt=""
+                  class="icon" />
+                Lost items</a
+              >
+            </li>
+            <li>
+              <a
+                href="found.html"
+                class="sidebar-link">
+                <img
+                  src="/assets/check.png"
+                  alt=""
+                  class="icon" />
+                Found items</a
+              >
+            </li>
+            <li>
+              <a
+                href="settings.html"
+                class="sidebar-link">
+                <img
+                  src="/assets/settings.png"
+                  alt=""
+                  class="icon" />
+                Settings</a
+              >
+            </li>
+          </ul>
+          <a
+            href="/"
+            class="sidebar-link logout"
+            ><img
+              src="/assets/logout.png"
+              alt=""
+              class="icon-logout" />Log out</a
+          >
+        </div>
+      </aside>
+    </main>
+  </body>
+</html>

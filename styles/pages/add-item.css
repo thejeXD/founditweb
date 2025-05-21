@@ -1,0 +1,57 @@
+@import "../globals.css";
+@import "../components/sidebar.css";
+
+.form-add-item {
+  padding-block: 2.25rem 4rem;
+  padding-inline: 1.75rem;
+  background-color: white;
+  border-radius: 1.25rem;
+}
+
+.form-label-wrap {
+  display: flex;
+  gap: 4.375rem;
+}
+
+.form-label {
+  margin-bottom: 2.25rem;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--clr-gray);
+  flex: 1;
+}
+
+.form-label input,
+textarea {
+  margin-top: 0.75rem;
+  display: block;
+  width: 100%;
+  padding-block: 1rem;
+  border: 1px solid var(--clr-gray-50);
+  border-radius: 0.625rem;
+}
+
+.form-label input::placeholder {
+  color: var(--clr-gray-50);
+}
+
+.form-label #reported-by {
+  max-width: 47%;
+}
+
+.submit-btn {
+  display: block;
+  margin-top: 8.5rem;
+  margin-inline: auto;
+  padding-block: 1rem;
+  padding-inline: 8.25rem;
+  color: white;
+  background-color: var(--clr-lime);
+  border: none;
+  border-radius: 1.25rem;
+  cursor: pointer;
+}
+
+label, input, select, textarea, .form-label, .form-group {
+  font-family: var(--font-body);
+}
