@@ -79,3 +79,18 @@ CREATE TABLE inbox (
     FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
+
+
+
+### CHANGES
+```
+Cram Day 1:
+- Moved to XAMPP
+- Connected database
+- User Dashboard : Semi Done (profile, dashboard, inbox, my-items) : Not Done: submit item & activity log
+- Login & Signup : Full Done all connected to database.
+- Admin Dashboard : Static
+- Lost & Found Page : Static
+- Database Table : accounts, items, activity_log and inbox.
+- PHP Apis
+```
