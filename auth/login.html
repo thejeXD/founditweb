@@ -5,16 +5,16 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Login | Found IT</title>
+    <title>Login - Found IT</title>
     <link
       rel="stylesheet"
       href="/styles/normalize.css" />
     <link
       rel="stylesheet"
-      href="/styles/pages/login.css" />
-    <!-- <link
+      href="/styles/components/header.css" />
+    <link
       rel="stylesheet"
-      href="/styles/components/header.css" /> -->
+      href="/styles/pages/login.css" />
     <link
       rel="stylesheet"
       href="/styles/components/footer.css" />
@@ -31,27 +31,33 @@
     />
   </head>
   <body>
-    <header class="max-container">
+    <header class="header">
       <nav class="header-nav">
-        <div>
-          <a href="/"
-            ><img
-              src="/assets/logo.png"
-              alt="Logo"
-              class="logo"
-          /></a>
-        </div>
+        <a href="/" class="logo-link">
+          <img
+            src="/assets/logo.png"
+            alt="Found IT Logo"
+            class="logo"
+          />
+        </a>
         <ul class="header-nav-links">
           <li>
             <a
-              href="about.html"
+              href="/"
+              class="header-nav-link"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="/public/about.html"
               class="header-nav-link"
               >About</a
             >
           </li>
           <li>
             <a
-              href="contact.html"
+              href="/public/contact.html"
               class="header-nav-link"
               >Contact</a
             >
@@ -66,20 +72,22 @@
           <li>
             <a
               href="/auth/sign-up.html"
-              class="header-nav-link sign-up-btn">
+              class="sign-up-btn"
+              >Sign Up
               <img
-                src="/assets/profile.svg"
-                alt=""
-                class="icon" />
-              Sign up</a
-            >
+                src="/assets/icons_svg/user.svg"
+                alt="User Icon"
+                class="icon"
+              />
+            </a>
           </li>
         </ul>
         <button class="hamburger-menu">
           <img
             src="/assets/hamburger-menu-svgrepo-com.svg"
-            alt=""
-            class="hamburger-icon" />
+            alt="Menu"
+            class="hamburger-icon"
+          />
         </button>
       </nav>
     </header>
@@ -140,8 +148,8 @@
           </li>
           <li class="footer-nav-li">
             <h3>QUICK LINKS</h3>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="/public/about.html">About</a>
+            <a href="/public/contact.html">Contact</a>
           </li>
           <li class="footer-nav-li">
             <h3>ACCOUNT</h3>
@@ -157,13 +165,12 @@
     </footer>
 
     <script>
-      // Password visibility toggle
       document.querySelector('.password-toggle').addEventListener('click', function() {
         const input = this.parentElement.querySelector('input');
         const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
         input.setAttribute('type', type);
-        
-        // Update icon based on visibility state
+
+
         const path = this.querySelector('path');
         if (type === 'text') {
           path.setAttribute('d', 'M12 6.5c-3.79 0-7.17 2.13-8.82 5.5 1.65 3.37 5.03 5.5 8.82 5.5s7.17-2.13 8.82-5.5C19.17 8.63 15.79 6.5 12 6.5zm0 9c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zm0-4c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z');

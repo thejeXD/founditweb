@@ -1,4 +1,4 @@
-@import "../globals.css";
+@import "../common.css";
 
 /* HEADER */
 .header-nav {
@@ -83,23 +83,25 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-block: 5rem;
+  min-height: calc(100vh - 200px); /* Account for header and footer */
+  padding: 2rem;
 }
 
 .login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.75rem;
-  padding: 3.25rem;
-  border: 1px solid var(--clr-gray-50);
-  border-radius: 40px;
+  width: 100%;
+  max-width: 24rem;
+  padding: 2.5rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .main-title {
-  font-weight: 700;
-  font-size: 6rem;
-  color: var(--clr-primary);
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--clr-dark);
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 /* Form Fields */
@@ -153,16 +155,15 @@ input:not(:placeholder-shown) ~ .floating-label {
 
 .password-toggle {
   position: absolute;
-  right: 1rem;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  cursor: pointer;
-  color: var(--clr-gray-50);
   background: none;
   border: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--clr-gray);
+  transition: color 0.2s ease;
 }
 
 .password-toggle:hover {
@@ -192,13 +193,12 @@ input:not(:placeholder-shown) ~ .floating-label {
   text-align: center;
   margin-top: 1.5rem;
   color: var(--clr-primary);
-  text-decoration: none;
-  font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-size: 0.875rem;
+  transition: opacity 0.2s ease;
 }
 
 .sign-up-link:hover {
+  opacity: 0.8;
   text-decoration: underline;
 }
 
@@ -220,8 +220,16 @@ input:not(:placeholder-shown) ~ .floating-label {
 }
 
 @media (width < 48rem /* 768px */) {
+  main {
+    padding: 1rem;
+  }
+
+  .login-form {
+    padding: 1.5rem;
+  }
+  
   .main-title {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 }
 

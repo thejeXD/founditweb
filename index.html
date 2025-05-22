@@ -22,6 +22,21 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet" />
+    <style>
+      /* Icon color customization */
+      .steps-icon, .features-icon {
+        width: 48px;
+        height: 48px;
+        fill: #2563eb; /* This will make the icons blue - you can change this color */
+      }
+      
+      /* For different colors, you can use these presets:
+      Blue: #2563eb
+      Red: #dc2626
+      Green: #16a34a
+      Purple: #7c3aed
+      */
+    </style>
   </head>
   <body>
     <header class="max-container">
@@ -37,14 +52,21 @@
         <ul class="header-nav-links">
           <li>
             <a
-              href="about.html"
+              href="/"
+              class="header-nav-link"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="/public/about.html"
               class="header-nav-link"
               >About</a
             >
           </li>
           <li>
             <a
-              href="contact.html"
+              href="/public/contact.html"
               class="header-nav-link"
               >Contact</a
             >
@@ -61,7 +83,7 @@
               href="/auth/sign-up.html"
               class="header-nav-link sign-up-btn">
               <img
-                src="/assets/profile.svg"
+                src="/assets/icons_white/user.png"
                 alt=""
                 class="icon" />
 
@@ -93,7 +115,7 @@
                 href="/auth/login.html"
                 class="cta-lost"
                 ><img
-                  src="/assets/pen.svg"
+                  src="/assets/icons_white/pencil.png"
                   alt=""
                   class="icon" />Report Lost Item</a
               ><a
@@ -117,7 +139,7 @@
           <li class="steps-li">
             <div>
               <img
-                src="/assets/mail-svgrepo-com.svg"
+                src="/assets/icons_svg/mail_colored.svg"
                 alt=""
                 class="steps-icon" />
               <h3 class="steps-heading">Submit Details</h3>
@@ -129,7 +151,7 @@
           <li class="steps-li">
             <div>
               <img
-                src="/assets/chain-hyperlink-interface-svgrepo-com.svg"
+                src="/assets/icons_colored/link_colored.png"
                 alt=""
                 class="steps-icon" />
               <h3 class="steps-heading">We Match</h3>
@@ -141,7 +163,7 @@
           <li class="steps-li">
             <div>
               <img
-                src="/assets/chain-hyperlink-interface-svgrepo-com.svg"
+                src="/assets/icons_colored/tick_colored.png"
                 alt=""
                 class="steps-icon" />
               <h3 class="steps-heading">Get it Back</h3>
@@ -156,7 +178,7 @@
           <li class="features-li">
             <div>
               <img
-                src="/assets/bell-svgrepo-com.svg"
+                src="/assets/icons_white/notification.png"
                 alt=""
                 class="features-icon" />
               <h3 class="features-heading">Notifications</h3>
@@ -168,36 +190,36 @@
           <li class="features-li">
             <div>
               <img
-                src="/assets/image-03-svgrepo-com.svg"
+                src="/assets/icons_white/desktop.png"
                 alt=""
                 class="features-icon" />
-              <h3 class="features-heading">Photo upload</h3>
+              <h3 class="features-heading">Dashboard</h3>
               <p class="features-description">
-                Upload images for faster identification.
+                Overview of all your lost and found activity.
               </p>
             </div>
           </li>
           <li class="features-li">
             <div>
               <img
-                src="/assets/chain-links-svgrepo-com.svg"
+                src="/assets/icons_white/magnifying glass.png"
                 alt=""
                 class="features-icon" />
-              <h3 class="features-heading">Matching</h3>
+              <h3 class="features-heading">Search</h3>
               <p class="features-description">
-                Get alerts when your item is found.
+                Quickly find items with filters.
               </p>
             </div>
           </li>
           <li class="features-li">
             <div>
               <img
-                src="/assets/user-svgrepo-com.svg"
+                src="/assets/icons_white/user.png"
                 alt=""
                 class="features-icon" />
               <h3 class="features-heading">User Friendly</h3>
               <p class="features-description">
-                Get alerts when your item is found.
+                No learning curve and just tap, find, or report.
               </p>
             </div>
           </li>
@@ -221,8 +243,8 @@
           </li>
           <li class="footer-nav-li">
             <h3>QUICK LINKS</h3>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="/public/about.html">About</a>
+            <a href="/public/contact.html">Contact</a>
           </li>
           <li class="footer-nav-li">
             <h3>ACCOUNT</h3>

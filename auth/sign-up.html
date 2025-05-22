@@ -6,6 +6,7 @@
     <title>Sign Up | Found IT</title>
     
     <link rel="stylesheet" href="/styles/normalize.css" />
+    <link rel="stylesheet" href="/styles/components/header.css" />
     <link rel="stylesheet" href="/styles/pages/sign-up.css" />
     <!-- <link rel="stylesheet" href="/styles/components/header.css" /> -->
     <link rel="stylesheet" href="/styles/components/footer.css" />
@@ -26,54 +27,22 @@
   </head>
 
   <body>
-    <header class="max-container">
+    <header class="header">
       <nav class="header-nav">
-        <div>
-          <a href="/"
-            ><img
-              src="/assets/logo.png"
-              alt="Logo"
-              class="logo"
-          /></a>
-        </div>
+        <a href="/" class="logo-link">
+          <img src="/assets/logo.png" alt="Found IT Logo" class="logo" />
+        </a>
         <ul class="header-nav-links">
-          <li>
-            <a
-              href="about.html"
-              class="header-nav-link"
-              >About</a
-            >
-          </li>
-          <li>
-            <a
-              href="contact.html"
-              class="header-nav-link"
-              >Contact</a
-            >
-          </li>
-          <li>
-            <a
-              href="sign-up.html"
-              class="header-nav-link"
-              >Sign up</a
-            >
-          </li>
-          <li>
-            <a
-              href="login.html"
-              class="header-nav-link sign-up-btn">
-              <img
-                src="/assets/profile.svg"
-                alt=""
-                class="icon" />
-              Login</a
-            >
-          </li>
+          <li><a href="/" class="header-nav-link">Home</a></li>
+          <li><a href="/public/about.html" class="header-nav-link">About</a></li>
+          <li><a href="/public/contact.html" class="header-nav-link">Contact</a></li>
+          <li><a href="/auth/login.html" class="header-nav-link">Login</a></li>
+          <li><a href="/auth/sign-up.html" class="sign-up-btn">Sign Up <img src="/assets/icons_svg/user.svg" alt="User Icon" class="icon"></a></li>
         </ul>
         <button class="hamburger-menu">
           <img
             src="/assets/hamburger-menu-svgrepo-com.svg"
-            alt=""
+            alt="Menu"
             class="hamburger-icon" />
         </button>
       </nav>
@@ -106,7 +75,7 @@
               <input type="checkbox" id="eula" name="eula" required />
               <span class="checkbox-custom"></span>
               <span class="eula-text">
-                I agree to the <a href="eula.html" target="_blank" id="open-eula" class="eula-link">End User License Agreement</a>
+                I agree to the <a href="/public/eula.html" target="_blank" id="open-eula" class="eula-link">End User License Agreement</a>
               </span>
             </label>
           </div>
@@ -175,8 +144,8 @@
           </li>
           <li class="footer-nav-li">
             <h3>QUICK LINKS</h3>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="/public/about.html">About</a>
+            <a href="/public/contact.html">Contact</a>
           </li>
           <li class="footer-nav-li">
             <h3>ACCOUNT</h3>

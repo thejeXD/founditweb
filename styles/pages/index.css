@@ -60,7 +60,8 @@
 
 .sign-up-btn .icon {
   width: 20px;
-  aspect-ratio: 1;
+  height: 20px;
+  object-fit: contain;
 }
 
 /* MAIN */
@@ -183,9 +184,9 @@ main {
 }
 
 .steps-icon {
-  width: 75px;
-  aspect-ratio: 1;
-  transform: scaleX(-1);
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 /* FEATURES */
@@ -222,8 +223,9 @@ main {
 }
 
 .features-icon {
-  width: 75px;
-  aspect-ratio: 1;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 /* FOOTER */

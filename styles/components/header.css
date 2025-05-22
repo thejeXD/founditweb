@@ -2,51 +2,75 @@
 
 header {
   padding-inline: 5rem;
-  padding-block: 2rem;
+  padding-block: 1rem;
 }
 
 .header-nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
-  width: 120px;
-  height: auto;
+  width: 140px;
+  height: 120px;
+  object-fit: contain;
 }
 
 .header-nav-links {
   display: flex;
-  gap: 2.5rem;
   align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  gap: 2rem;
 }
 
 .header-nav-link {
-  color: var(--clr-gray-50);
-  text-decoration: none;
-  font-size: 1.125rem;
-  transition: color 0.2s ease;
-}
-
-.header-nav-link:hover {
-  color: var(--clr-primary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--clr-dark);
 }
 
 .sign-up-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--clr-primary);
-  font-weight: 500;
+  gap: 0.75rem;
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  color: white;
+  background-color: var(--clr-primary);
+  border-radius: 0.75rem;
+  max-width: fit-content;
+}
+
+.sign-up-btn:hover {
+  background-color: #7ba6f5;
+  font-size: 0.895rem;
+  box-shadow: -1px 1px 1px -1px rgba(0, 0, 0, 0.75);
+}
+
+.sign-up-btn:active {
+  background-color: var(--clr-primary);
+  font-size: 0.875rem;
+  box-shadow: none;
 }
 
 .sign-up-btn .icon {
   width: 20px;
   height: 20px;
+  object-fit: contain;
+}
+
+.hamburger-menu {
+  display: none;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.hamburger-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 /* Breakpoints */
@@ -70,5 +94,9 @@ header {
 @media (width < 48rem /* 768px */) {
   .header-nav-links {
     display: none;
+  }
+
+  .hamburger-menu {
+    display: block;
   }
 }

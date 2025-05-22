@@ -1,0 +1,174 @@
+@import "globals.css";
+
+/* Common Form Styles */
+.form-label {
+  position: relative;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.form-label input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--clr-gray-50);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-label input:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+}
+
+.floating-label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--clr-gray);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.form-label input:focus + .floating-label,
+.form-label input:not(:placeholder-shown) + .floating-label {
+  top: 0;
+  transform: translateY(-100%);
+  font-size: 0.875rem;
+  color: var(--clr-primary);
+}
+
+/* Common Button Styles */
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--clr-primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #7ba6f5;
+}
+
+.submit-btn:active {
+  background-color: var(--clr-primary);
+}
+
+/* Common Section Styles */
+.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--clr-dark);
+  margin-bottom: 2rem;
+}
+
+.section-description {
+  font-size: 1.125rem;
+  color: var(--clr-gray);
+  margin-bottom: 3rem;
+}
+
+/* Common Container Styles */
+.container {
+  max-width: 96rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/* Common Grid Layout */
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+/* Common Flex Layout */
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+/* Common Spacing */
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+.mb-5 { margin-bottom: 3rem; }
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+.mt-5 { margin-top: 3rem; }
+
+/* Common Text Styles */
+.text-center { text-align: center; }
+.text-primary { color: var(--clr-primary); }
+.text-dark { color: var(--clr-dark); }
+.text-gray { color: var(--clr-gray); }
+
+/* Common Icon Styles */
+.icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Common Card Styles */
+.card {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Common Animation */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Common Responsive Breakpoints */
+@media (width < 90rem /* 1440px */) {
+  .container {
+    padding-inline: 2rem;
+  }
+}
+
+@media (width < 80rem /* 1280px */) {
+  .container {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (width < 48rem /* 768px */) {
+  .container {
+    padding-inline: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .section-description {
+    font-size: 1rem;
+  }
+} 
