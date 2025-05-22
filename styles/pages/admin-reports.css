@@ -1,0 +1,101 @@
+/* Admin Reports Page Styles */
+
+.admin-stats-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+.admin-table-section {
+  margin-top: 2rem;
+}
+.admin-table-wrapper {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-top: 1rem;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+.admin-table th, .admin-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+.admin-table th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+/* Button Uniformity */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.btn-primary {
+  background-color: var(--clr-primary);
+  color: white;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+}
+.btn-secondary {
+  background-color: white;
+  color: var(--clr-gray-50);
+  border: 1px solid var(--clr-gray-30);
+}
+.btn-secondary:hover {
+  background-color: var(--clr-gray-10);
+}
+.btn-danger {
+  background-color: #FF6B6B;
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #FF5252;
+}
+.btn-success {
+  background-color: #43a047;
+  color: white;
+}
+.btn-success:hover {
+  background-color: #388e3c;
+}
+.btn-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+.btn-warning:hover {
+  background-color: #ffeeba;
+}
+
+html, body {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
+}
+*, *::before, *::after {
+  font-family: inherit !important;
+}
+h1, h2, h3, h4, h5, h6, p, a, input, button, label, th, td, select, option {
+  font-family: inherit !important;
+} 

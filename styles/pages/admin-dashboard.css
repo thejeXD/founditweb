@@ -1,0 +1,66 @@
+/* Admin Dashboard Custom Styles */
+
+/* Inherit base dashboard styles */
+@import url('/FoundIT/styles/pages/dashboard.css');
+
+/* Stat icon colors for admin */
+.stat-icon.users {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.stat-icon.items {
+  background: #fff3e0;
+  color: #f57c00;
+}
+.stat-icon.active {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+.stat-icon.resolved {
+  background: #f3e5f5;
+  color: #8e24aa;
+}
+
+/* Activity icon colors */
+.activity-icon.users {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.activity-icon.items {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+/* Admin tweaks */
+.dashboard-content {
+  padding-bottom: 2rem;
+}
+
+.stats-section {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 900px) {
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .stats-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-icon svg, .activity-icon svg {
+  color: inherit !important;
+  fill: none !important;
+}
+.stat-icon, .activity-icon {
+  background: inherit;
+  color: inherit;
+}
+.activity-time {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
+  color: #888;
+  font-size: 0.85em;
+} 

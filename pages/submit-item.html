@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Submit Item | Found IT</title>
     
-    <link rel="stylesheet" href="/styles/normalize.css" />
-    <link rel="stylesheet" href="/styles/pages/dashboard.css" />
-    <link rel="stylesheet" href="/styles/pages/submit-item.css" />
-    <link rel="stylesheet" href="/styles/components/sidebar.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/normalize.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/pages/dashboard.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/pages/submit-item.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/components/notification.css" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,15 +23,15 @@
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <div class="sidebar-header">
-          <a href="/pages/dashboard.html">
-            <img src="/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
+          <a href="/FoundIT/pages/dashboard.html">
+            <img src="/FoundIT/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
           </a>
         </div>
         
         <nav class="sidebar-nav">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="/pages/dashboard.html" class="nav-link">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -39,7 +40,7 @@
               </a>
             </li>
             <li class="nav-item active">
-              <a href="/pages/submit-item.html" class="nav-link">
+              <a href="/FoundIT/pages/submit-item.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
@@ -47,7 +48,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/my-items.html" class="nav-link">
+              <a href="/FoundIT/pages/my-items.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 8v13H3V8M1 3h22v5H1z"></path>
                   <path d="M10 12h4"></path>
@@ -56,7 +57,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/inbox.html" class="nav-link">
+              <a href="/FoundIT/pages/inbox.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
                   <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
@@ -66,7 +67,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/settings.html" class="nav-link">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -122,12 +123,13 @@
               <h2>Item Details</h2>
               
               <div class="form-group">
-                <label for="item-name">Item Name*</label>
+                <label for="item-name">Item Name<span style="color:#dc3545">*</span></label>
                 <input type="text" id="item-name" name="item-name" required placeholder="e.g., Blue Wallet, Student ID" />
+                <div class="error-message" id="error-item-name"></div>
               </div>
 
               <div class="form-group">
-                <label for="category">Category*</label>
+                <label for="category">Category<span style="color:#dc3545">*</span></label>
                 <select id="category" name="category" required>
                   <option value="">Select a category</option>
                   <option value="electronics">Electronics</option>
@@ -136,17 +138,20 @@
                   <option value="clothing">Clothing</option>
                   <option value="other">Other</option>
                 </select>
+                <div class="error-message" id="error-category"></div>
               </div>
 
               <div class="form-group">
-                <label for="description">Description*</label>
+                <label for="description">Description<span style="color:#dc3545">*</span></label>
                 <textarea id="description" name="description" rows="4" required placeholder="Provide detailed description of the item..."></textarea>
+                <div class="error-message" id="error-description"></div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="date">Date*</label>
+                  <label for="date">Date<span style="color:#dc3545">*</span></label>
                   <input type="date" id="date" name="date" required />
+                  <div class="error-message" id="error-date"></div>
                 </div>
 
                 <div class="form-group">
@@ -160,16 +165,18 @@
               <h2>Location Details</h2>
               
               <div class="form-group">
-                <label for="location">Location*</label>
+                <label for="location">Location<span style="color:#dc3545">*</span></label>
                 <select id="location" name="location" required>
                   <option value="">Select location</option>
                   <option value="building-a">Building A</option>
-                  <option value="building-b">Building B</option>
+                  <option value="building-b">Building C</option>
+                  <option value="building-b">Building D</option>
                   <option value="library">Library</option>
                   <option value="cafeteria">Cafeteria</option>
-                  <option value="gym">Gymnasium</option>
+                  <option value="gym">Court</option>
                   <option value="other">Other</option>
                 </select>
+                <div class="error-message" id="error-location"></div>
               </div>
 
               <div class="form-group">
@@ -194,14 +201,18 @@
                     <span>Drop images here or click to upload</span>
                   </div>
                 </div>
+                <div class="error-message" id="error-images"></div>
               </div>
 
+              <div class="image-preview-list" id="image-preview-list"></div>
+
               <div class="form-group">
-                <label for="contact-preference">Contact Method*</label>
+                <label for="contact-preference">Contact Method<span style="color:#dc3545">*</span></label>
                 <select id="contact-preference" name="contact-preference" required>
                   <option value="">Select contact method</option>
                   <option value="email">Email</option>
                 </select>
+                <div class="error-message" id="error-contact-preference"></div>
               </div>
             </div>
 
@@ -223,6 +234,171 @@
           btn.classList.add('active');
         });
       });
+
+      // --- Custom Notification Helper ---
+      function showNotification(type, title, message) {
+        // Assumes you have a .custom-notification element in your layout
+        let notif = document.querySelector('.custom-notification');
+        if (!notif) {
+          notif = document.createElement('div');
+          notif.className = 'custom-notification ' + type;
+          notif.innerHTML = `
+            <span class="notification-icon">&#9888;</span>
+            <div class="notification-content">
+              <div class="notification-title">${title}</div>
+              <div class="notification-message">${message}</div>
+            </div>
+          `;
+          document.body.appendChild(notif);
+        } else {
+          notif.className = 'custom-notification ' + type;
+          notif.querySelector('.notification-title').textContent = title;
+          notif.querySelector('.notification-message').textContent = message;
+        }
+        notif.classList.add('show');
+        setTimeout(() => notif.classList.remove('show'), 4000);
+      }
+
+      // --- Bad Words List ---
+      const BAD_WORDS = [
+        'fuck', 'shit', 'bitch', 'asshole', 'bastard', 'damn', 'crap', 'dick', 'piss', 'cunt', 'fag', 'slut', 'whore', 'nigger', 'fucker', 'motherfucker', 'cock', 'pussy', 'ass', 'retard', 'douche', 'bollocks', 'bugger', 'bloody', 'arse', 'wank', 'twat', 'prick', 'tit', 'tosser', 'wanker', 'jerk', 'idiot', 'moron', 'stupid'
+      ];
+      function containsBadWords(str) {
+        const lower = str.toLowerCase();
+        return BAD_WORDS.some(word => lower.includes(word));
+      }
+
+      // --- Validation ---
+      document.querySelector('.submit-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        // Helper to set error
+        function setError(id, msg) {
+          const el = document.getElementById('error-' + id);
+          if (el) el.textContent = msg;
+          const input = document.getElementById(id);
+          if (input) input.style.borderColor = '#dc3545';
+          valid = false;
+        }
+        function clearError(id) {
+          const el = document.getElementById('error-' + id);
+          if (el) el.textContent = '';
+          const input = document.getElementById(id);
+          if (input) input.style.borderColor = '';
+        }
+
+        // Validate required fields
+        const requiredFields = [
+          'item-name', 'category', 'description', 'date', 'location', 'contact-preference'
+        ];
+        requiredFields.forEach(id => {
+          const val = document.getElementById(id).value.trim();
+          clearError(id);
+          if (!val) setError(id, 'This field is required.');
+        });
+
+        // Regex validation (no script tags, no SQL, no special chars in name/desc)
+        const name = document.getElementById('item-name').value.trim();
+        const desc = document.getElementById('description').value.trim();
+        const regex = /^[a-zA-Z0-9\s.,'"()\-!?:;]+$/;
+        if (name && !regex.test(name)) setError('item-name', 'Invalid characters.');
+        if (desc && !regex.test(desc)) setError('description', 'Invalid characters.');
+
+        // Word censorship
+        if (containsBadWords(name)) setError('item-name', 'Inappropriate language detected.');
+        if (containsBadWords(desc)) setError('description', 'Inappropriate language detected.');
+
+        // Image validation
+        const images = document.getElementById('images');
+        clearError('images');
+        if (images && images.files.length > 0) {
+          if (images.files.length > 5) {
+            setError('images', 'You can upload up to 5 images only.');
+          }
+          for (let i = 0; i < images.files.length; i++) {
+            const file = images.files[i];
+            if (!file.type.startsWith('image/')) {
+              setError('images', 'Only image files are allowed.');
+              break;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+              setError('images', 'Each image must be less than 5MB.');
+              break;
+            }
+          }
+        }
+
+        // If not valid, show notification and stop
+        if (!valid) {
+          showNotification('error', 'Form Error', 'Please fix the errors in the form.');
+          return;
+        }
+
+        // Prepare form data for AJAX
+        const form = e.target;
+        const formData = new FormData(form);
+        // Add item type (lost/found)
+        const type = document.querySelector('.type-btn.active').dataset.type;
+        formData.append('type', type);
+        // Debug: log all form data
+        for (let pair of formData.entries()) {
+          console.log(pair[0]+ ':', pair[1]);
+        }
+        // Submit via AJAX
+        try {
+          const res = await fetch('/FoundIT/api/submit-item.php', {
+            method: 'POST',
+            body: formData
+          });
+          const data = await res.json();
+          if (data.success) {
+            showNotification('success', 'Success', data.message || 'Item submitted successfully!');
+            form.reset();
+            // Optionally redirect or update UI
+          } else {
+            showNotification('error', 'Submission Failed', data.message || 'There was an error submitting your item.');
+          }
+        } catch (err) {
+          showNotification('error', 'Network Error', 'Could not submit item. Please try again.');
+          console.log(err);
+        }
+      });
+
+      // Image preview logic
+      const imagesInput = document.getElementById('images');
+      const previewList = document.getElementById('image-preview-list');
+      if (imagesInput && previewList) {
+        imagesInput.addEventListener('change', function() {
+          previewList.innerHTML = '';
+          if (imagesInput.files && imagesInput.files.length > 0) {
+            Array.from(imagesInput.files).forEach(file => {
+              if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  const img = document.createElement('img');
+                  img.src = e.target.result;
+                  previewList.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+              }
+            });
+          }
+        });
+      }
+
+      // Cancel button logic
+      const cancelBtn = document.querySelector('.btn.btn-secondary');
+      const form = document.querySelector('.submit-form');
+      if (cancelBtn && form) {
+        cancelBtn.addEventListener('click', function() {
+          form.reset();
+          if (previewList) previewList.innerHTML = '';
+          // Optionally clear all error messages and borders
+          document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+          document.querySelectorAll('input, select, textarea').forEach(el => el.style.borderColor = '');
+        });
+      }
     </script>
   </body>
 </html> 

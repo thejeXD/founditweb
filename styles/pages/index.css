@@ -82,10 +82,16 @@ main {
   margin-bottom: 2rem;
 }
 
-.hero-section,
-.steps-section,
+.hero-section {
+  margin-bottom: 3rem;
+}
+
+.steps-section {
+  margin-bottom: 2rem;
+}
+
 .features-section {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .steps-heading,
@@ -157,7 +163,7 @@ main {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 5rem;
+  gap: 2rem;
 }
 
 .steps-li {

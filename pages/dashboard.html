@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard | Found IT</title>
     
-    <link rel="stylesheet" href="/styles/normalize.css" />
-    <link rel="stylesheet" href="/styles/pages/dashboard.css" />
-    <link rel="stylesheet" href="/styles/components/sidebar.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/normalize.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/pages/dashboard.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,15 +21,15 @@
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <div class="sidebar-header">
-          <a href="/pages/dashboard.html">
-            <img src="/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
+          <a href="/FoundIT/pages/dashboard.html">
+            <img src="/FoundIT/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
           </a>
         </div>
         
         <nav class="sidebar-nav">
           <ul class="nav-list">
             <li class="nav-item active">
-              <a href="/pages/dashboard.html" class="nav-link">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -38,7 +38,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/submit-item.html" class="nav-link">
+              <a href="/FoundIT/pages/submit-item.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
@@ -46,7 +46,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/my-items.html" class="nav-link">
+              <a href="/FoundIT/pages/my-items.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 8v13H3V8M1 3h22v5H1z"></path>
                   <path d="M10 12h4"></path>
@@ -55,17 +55,17 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/inbox.html" class="nav-link">
+              <a href="/FoundIT/pages/inbox.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
                   <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
                 </svg>
                 Inbox
-                <span class="notification-badge">2</span>
+                <span class="notification-badge" id="inbox-unread-count"></span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/settings.html" class="nav-link">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -93,7 +93,7 @@
               </button>
             </div>
             <div class="user-profile">
-              <span class="user-name">John Doe</span>
+              <span class="user-name dashboard-user-name">John Doe</span>
             </div>
           </div>
         </header>
@@ -110,7 +110,7 @@
               </div>
               <div class="stat-info">
                 <h3>Lost Items</h3>
-                <p class="stat-number">3</p>
+                <p class="stat-number" id="total-lost">0</p>
               </div>
             </div>
             <div class="stat-card">
@@ -122,7 +122,7 @@
               </div>
               <div class="stat-info">
                 <h3>Found Items</h3>
-                <p class="stat-number">1</p>
+                <p class="stat-number" id="total-found">0</p>
               </div>
             </div>
           </section>
@@ -131,7 +131,7 @@
           <section class="recent-activity">
             <div class="section-header">
               <h2>Recent Activity</h2>
-              <a href="/pages/my-items.html" class="view-all">View All</a>
+              <a href="/FoundIT/pages/my-items.html" class="view-all">View All</a>
             </div>
             <div class="activity-list">
               <div class="activity-item">
@@ -165,5 +165,62 @@
         </div>
       </main>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const res = await fetch('/FoundIT/api/dashboard-data.php');
+      const data = await res.json();
+      if (!data.success) {
+        window.location.href = '/FoundIT/auth/login.html';
+        return;
+      }
+      // Set user name
+      document.querySelectorAll('.dashboard-user-name').forEach(el => {
+        el.textContent = data.user.first_name + ' ' + data.user.last_name;
+      });
+      // Set lost/found counts
+      document.getElementById('total-lost').textContent = data.counts.total_lost;
+      document.getElementById('total-found').textContent = data.counts.total_found;
+      // Set recent items
+      const recentList = document.getElementById('recent-items');
+      if (recentList) {
+        recentList.innerHTML = '';
+        data.recent.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = `${item.name} (${item.category}) - ${item.status == 1 ? 'Active' : 'Archived'} - ${item.date_time} - ${item.location}`;
+          recentList.appendChild(li);
+        });
+        if (data.recent.length === 0) {
+          recentList.innerHTML = '<li>No recent items.</li>';
+        }
+      }
+    });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const badge = document.getElementById('inbox-unread-count');
+      if (badge) {
+        const res = await fetch('/FoundIT/api/inbox.php');
+        const data = await res.json();
+        if (data.success) {
+          let unreadCount = 0;
+          data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+          if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.classList.remove('hidden');
+          } else {
+            badge.textContent = '';
+            badge.classList.add('hidden');
+          }
+        } else {
+          badge.textContent = '';
+          badge.classList.add('hidden');
+        }
+      }
+    });
+    </script>
+
+    <script src="/FoundIT/scripts/inbox-badge.js"></script>
   </body>
 </html> 

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inbox | Found IT</title>
     
-    <link rel="stylesheet" href="/styles/normalize.css" />
-    <link rel="stylesheet" href="/styles/pages/dashboard.css" />
-    <link rel="stylesheet" href="/styles/pages/inbox.css" />
-    <link rel="stylesheet" href="/styles/components/sidebar.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/normalize.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/pages/dashboard.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/pages/inbox.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,21 +16,89 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <style>
+    .inbox-messages-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+    .message-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 1.25rem 1.5rem;
+      border-left: 5px solid #739fe6;
+      transition: box-shadow 0.2s, background 0.2s;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+    }
+    .message-card.unread {
+      border-left-color: #ffb347;
+      background: #f8fafc;
+    }
+    .message-card.read {
+      border-left-color: #b5e7a0;
+      background: #fff;
+    }
+    .message-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-family: 'Roboto', sans-serif;
+    }
+    .message-subject {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #2d3a4a;
+      font-family: 'Roboto', sans-serif;
+    }
+    .message-date {
+      font-size: 0.95rem;
+      color: #888;
+      margin-left: 1rem;
+      font-family: 'Roboto', sans-serif;
+    }
+    .message-status {
+      font-size: 0.85rem;
+      padding: 0.2em 0.7em;
+      border-radius: 12px;
+      background: #e5e7eb;
+      color: #555;
+      margin-left: 1rem;
+      font-family: 'Roboto', sans-serif;
+    }
+    .message-status.unread {
+      background: #ffb347;
+      color: #fff;
+    }
+    .message-status.read {
+      background: #b5e7a0;
+      color: #2d3a4a;
+    }
+    .message-body {
+      color: #444;
+      font-size: 1rem;
+      line-height: 1.5;
+      font-family: 'Roboto', sans-serif;
+    }
+    </style>
   </head>
   <body>
     <div class="dashboard-container">
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <div class="sidebar-header">
-          <a href="/pages/dashboard.html">
-            <img src="/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
+          <a href="/FoundIT/pages/dashboard.html">
+            <img src="/FoundIT/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
           </a>
         </div>
         
         <nav class="sidebar-nav">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="/pages/dashboard.html" class="nav-link">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -39,7 +107,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/submit-item.html" class="nav-link">
+              <a href="/FoundIT/pages/submit-item.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
@@ -47,7 +115,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/my-items.html" class="nav-link">
+              <a href="/FoundIT/pages/my-items.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 8v13H3V8M1 3h22v5H1z"></path>
                   <path d="M10 12h4"></path>
@@ -56,17 +124,17 @@
               </a>
             </li>
             <li class="nav-item active">
-              <a href="/pages/inbox.html" class="nav-link">
+              <a href="/FoundIT/pages/inbox.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
                   <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
                 </svg>
                 Inbox
-                <span class="notification-badge">2</span>
+                <span class="notification-badge hidden" id="inbox-unread-count"></span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pages/settings.html" class="nav-link">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -94,7 +162,7 @@
               </button>
             </div>
             <div class="user-profile">
-              <span class="user-name">John Doe</span>
+              <span class="user-name dashboard-user-name">John Doe</span>
             </div>
           </div>
         </header>
@@ -103,11 +171,10 @@
         <div class="inbox-container">
           <div class="inbox-header">
             <div class="inbox-tabs">
-              <button class="tab-btn active">All</button>
-              <button class="tab-btn">Unread</button>
-              <button class="tab-btn">Important</button>
+              <button class="tab-btn active" id="tab-all">All</button>
+              <button class="tab-btn" id="tab-unread">Unread</button>
             </div>
-            <button class="mark-all-read">
+            <button class="mark-all-read" id="mark-all-read">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
@@ -116,78 +183,125 @@
             </button>
           </div>
 
-          <div class="messages-list">
-            <!-- Match Found Notification -->
-            <div class="message-item unread">
-              <div class="message-icon match">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-              </div>
-              <div class="message-content">
-                <div class="message-header">
-                  <h3>Potential Match Found: Blue Wallet</h3>
-                  <span class="message-time">2 hours ago</span>
-                </div>
-                <p class="message-text">
-                  We found an item that matches your lost item description. Please check the details and confirm if this is your item.
-                </p>
-                <div class="message-actions">
-                  <button class="btn btn-primary">View Match</button>
-                  <button class="btn btn-secondary">Dismiss</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Item Status Update -->
-            <div class="message-item unread">
-              <div class="message-icon status">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="17 8 12 3 7 8"></polyline>
-                  <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg>
-              </div>
-              <div class="message-content">
-                <div class="message-header">
-                  <h3>Item Status Updated: Physics Textbook</h3>
-                  <span class="message-time">1 day ago</span>
-                </div>
-                <p class="message-text">
-                  Your item has been submitted successfully.
-                </p>
-                <div class="message-actions">
-                  <button class="btn btn-primary">View Item</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- System Notification -->
-            <div class="message-item">
-              <div class="message-icon system">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="16" x2="12" y2="12"></line>
-                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                </svg>
-              </div>
-              <div class="message-content">
-                <div class="message-header">
-                  <h3>Welcome to FoundIT!</h3>
-                  <span class="message-time">2 days ago</span>
-                </div>
-                <p class="message-text">
-                  Welcome to FoundIT! We're here to help you find your lost items or report found ones. Get started by submitting your first item.
-                </p>
-                <div class="message-actions">
-                  <button class="btn btn-primary">Submit Item</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="inbox-messages-list" id="inbox-messages-list"></div>
         </div>
       </main>
     </div>
+
+    <script src="/FoundIT/scripts/inbox-badge.js"></script>
+    <script>
+    let allMessages = [];
+    let unreadCount = 0;
+
+    function renderMessages(filter) {
+      const container = document.getElementById('inbox-messages-list');
+      container.innerHTML = '';
+      let filtered = allMessages;
+      if (filter === 'unread') {
+        filtered = allMessages.filter(msg => msg.is_read == 0);
+      }
+      filtered.forEach(msg => {
+        const card = document.createElement('div');
+        card.className = 'message-card' + (msg.is_read == 1 ? ' read' : ' unread');
+        card.innerHTML = `
+          <div class="message-header">
+            <span class="message-subject">${msg.subject}</span>
+            <span class="message-date">${msg.created_at}</span>
+            <span class="message-status ${msg.is_read == 1 ? 'read' : 'unread'}">${msg.is_read == 1 ? 'Read' : 'Unread'}</span>
+          </div>
+          <div class="message-body">${msg.message.replace(/\n/g, '<br>')}</div>
+        `;
+        if (msg.is_read == 0) {
+          card.addEventListener('click', async function() {
+            card.classList.remove('unread');
+            card.classList.add('read');
+            card.querySelector('.message-status').textContent = 'Read';
+            card.querySelector('.message-status').classList.remove('unread');
+            card.querySelector('.message-status').classList.add('read');
+            msg.is_read = 1;
+            unreadCount = Math.max(0, unreadCount - 1);
+            updateBadge();
+            await fetch('/FoundIT/api/mark-inbox-read.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: msg.id })
+            });
+            if (window.updateInboxBadge) await window.updateInboxBadge();
+          });
+        }
+        container.appendChild(card);
+      });
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#888;">No messages found.</div>';
+      }
+    }
+
+    function updateBadge() {
+      const badge = document.getElementById('inbox-unread-count');
+      if (badge) {
+        if (unreadCount > 0) {
+          badge.textContent = unreadCount;
+          badge.classList.remove('hidden');
+        } else {
+          badge.textContent = '';
+          badge.classList.add('hidden');
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Fetch and display user name
+      const userRes = await fetch('/FoundIT/api/dashboard-data.php');
+      const userData = await userRes.json();
+      if (!userData.success) {
+        window.location.href = '/FoundIT/auth/login.html';
+        return;
+      }
+      document.querySelectorAll('.dashboard-user-name').forEach(el => {
+        el.textContent = userData.user.first_name + ' ' + userData.user.last_name;
+      });
+
+      // Fetch and display inbox messages
+      const res = await fetch('/FoundIT/api/inbox.php');
+      const data = await res.json();
+      if (!data.success) {
+        window.location.href = '/FoundIT/auth/login.html';
+        return;
+      }
+      allMessages = data.messages;
+      unreadCount = allMessages.filter(msg => msg.is_read == 0).length;
+      updateBadge();
+      renderMessages('all');
+
+      // Tab functionality
+      document.getElementById('tab-all').addEventListener('click', function() {
+        document.getElementById('tab-all').classList.add('active');
+        document.getElementById('tab-unread').classList.remove('active');
+        renderMessages('all');
+      });
+      document.getElementById('tab-unread').addEventListener('click', function() {
+        document.getElementById('tab-unread').classList.add('active');
+        document.getElementById('tab-all').classList.remove('active');
+        renderMessages('unread');
+      });
+
+      // Mark all as read
+      document.getElementById('mark-all-read').addEventListener('click', async function() {
+        const unreadMsgs = allMessages.filter(msg => msg.is_read == 0);
+        await Promise.all(unreadMsgs.map(msg =>
+          fetch('/FoundIT/api/mark-inbox-read.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: msg.id })
+          })
+        ));
+        unreadMsgs.forEach(msg => { msg.is_read = 1; });
+        unreadCount = 0;
+        updateBadge();
+        renderMessages(document.getElementById('tab-unread').classList.contains('active') ? 'unread' : 'all');
+        if (window.updateInboxBadge) await window.updateInboxBadge();
+      });
+    });
+    </script>
   </body>
 </html> 

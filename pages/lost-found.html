@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost and Found Items | FoundIT</title>
+  <!-- <link rel="stylesheet" href="/FoundIT/styles/pages/lost-found.css" /> -->
+  <link rel="stylesheet" href="/FoundIT/styles/components/header.css" />
+  <link rel="stylesheet" href="/FoundIT/styles/components/footer.css" />
+  <link rel="stylesheet" href="/FoundIT/styles/normalize.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <style>
+    body, h1, h2, h3, h4, h5, h6, p, a, input, button, label, th, td, select, option {
+      font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
+    }
+    body {
+      background-color: #f7f7f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .lost-found-container {
+      max-width: 1200px;
+      margin: 2.5rem auto 2rem auto;
+      padding: 2.5rem 2rem 2rem 2rem;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .lost-found-container h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #222;
+      margin-bottom: 0.5rem;
+    }
+    .lost-found-container .subheading {
+      font-size: 1.13rem;
+      color: #444;
+      margin-bottom: 0.7rem;
+    }
+    .notice {
+      color: #388e3c;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .lost-found-table-wrapper {
+      overflow-x: auto;
+      margin-top: 1.5rem;
+      background: #f9fbfd;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 1.5rem 1rem 2.5rem 1rem;
+      max-width: 100%;
+    }
+    .lost-found-table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 1.08rem;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .lost-found-table th {
+      background: #fff;
+      color: #1db954;
+      font-weight: 700;
+      padding: 1rem 1.2rem;
+      text-align: left;
+      border-bottom: 2px solid #e3f2fd;
+      font-size: 1.08rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .lost-found-table td {
+      padding: 0.85rem 1.2rem;
+      border-bottom: 1px solid #f0f0f0;
+      color: #222;
+      font-size: 1.05rem;
+      background: #fff;
+    }
+    .lost-found-table tr:nth-child(even) td {
+      background: #f6fafd;
+    }
+    .lost-found-table tr.item-link {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .lost-found-table tr.item-link:hover td {
+      background: #e3f2fd;
+    }
+    .lost-found-table th:first-child, .lost-found-table td:first-child {
+      border-top-left-radius: 10px;
+    }
+    .lost-found-table th:last-child, .lost-found-table td:last-child {
+      border-top-right-radius: 10px;
+    }
+    @media (max-width: 900px) {
+      .lost-found-container {
+        padding: 1.2rem 0.5rem;
+      }
+    }
+    @media (max-width: 700px) {
+      .lost-found-container {
+        padding: 0.7rem 0.2rem;
+      }
+      .lost-found-table-wrapper {
+        padding: 0.5rem 0.1rem;
+      }
+      .lost-found-table th, .lost-found-table td {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.97rem;
+      }
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 2.5rem 0 0 0;
+      font-size: 1.08rem;
+      user-select: none;
+    }
+    .pagination-btn {
+      background: #fff;
+      border: 1px solid #1db954;
+      color: #1db954;
+      border-radius: 6px;
+      padding: 0.35rem 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .pagination-btn.active, .pagination-btn:hover {
+      background: #1db954;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <nav class="header-nav">
+      <a href="/FoundIT/" class="logo-link">
+        <img src="/FoundIT/assets/logo.png" alt="Found IT Logo" class="logo" />
+      </a>
+      <ul class="header-nav-links">
+        <li><a href="/FoundIT/" class="header-nav-link">Home</a></li>
+        <li><a href="/FoundIT/public/about.html" class="header-nav-link">About</a></li>
+        <li><a href="/FoundIT/public/contact.html" class="header-nav-link">Contact</a></li>
+        <li><a href="/FoundIT/auth/login.html" class="header-nav-link">Login</a></li>
+        <li><a href="/FoundIT/auth/sign-up.html" class="sign-up-btn">Sign Up <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="icon" /></a></li>
+      </ul>
+      <button class="hamburger-menu">
+        <img src="/FoundIT/assets/hamburger-menu-svgrepo-com.svg" alt="Menu" class="hamburger-icon" />
+      </button>
+    </nav>
+  </header>
+  <main class="lost-found-container">
+    <h1>Daily Lost and Found Monitoring</h1>
+    <div class="subheading">Below is the daily updated list of lost and found items reported across the campus. This list is for reference only. To view item details or claim an item, you must have an account.</div>
+    <div class="notice">Notice: Items are listed here for 2 months from the date found. For further assistance, please contact the campus Lost &amp; Found office.</div>
+    <div class="lost-found-table-wrapper">
+      <table class="lost-found-table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Name/Description</th>
+            <th>Reference No.</th>
+            <th>Date Found</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Library</td>
+            <td><b>Blue Water Bottle</b></td>
+            <td>2024-001</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Science Building</td>
+            <td><b>Black Umbrella</b></td>
+            <td>2024-002</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Gymnasium</td>
+            <td><b>PE Uniform (Medium)</b></td>
+            <td>2024-003</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Main Hall</td>
+            <td><b>Notebook with Math Notes</b></td>
+            <td>2024-004</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Admin Office</td>
+            <td><b>USB Drive (16GB)</b></td>
+            <td>2024-005</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Parking Lot</td>
+            <td><b>Car Keys (Toyota)</b></td>
+            <td>2024-006</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Cafeteria</td>
+            <td><b>Wallet (Brown)</b></td>
+            <td>2024-007</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Library</td>
+            <td><b>Scientific Calculator</b></td>
+            <td>2024-008</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Science Building</td>
+            <td><b>Lab Goggles</b></td>
+            <td>2024-009</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+          <tr>
+            <td>Main Hall</td>
+            <td><b>Black Jacket</b></td>
+            <td>2024-010</td>
+            <td>21 Aug 2024</td>
+            <td>Unclaimed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button class="pagination-btn active">1</button>
+      <button class="pagination-btn">2</button>
+      <button class="pagination-btn">3</button>
+      <span style="color:#bbb;">...</span>
+      <button class="pagination-btn">Next</button>
+    </div>
+  </main>
+  <footer>
+    <nav class="footer-nav max-container">
+      <ul class="footer-nav-links">
+        <li class="footer-title">
+          <a href="/FoundIT/"><img src="/FoundIT/assets/footer-logo.png" alt="" /></a>
+          <p class="footer-description">
+            To provide students with a system for tracking, reporting, and recovering lost items on campus, reducing unclaimed belongings and creating a more organized and efficient lost-and-found system.
+          </p>
+        </li>
+        <li class="footer-nav-li">
+          <h3>QUICK LINKS</h3>
+          <a href="/FoundIT/public/about.html">About</a>
+          <a href="/FoundIT/public/contact.html">Contact</a>
+        </li>
+        <li class="footer-nav-li">
+          <h3>ACCOUNT</h3>
+          <a href="/FoundIT/auth/login.html">Login</a>
+          <a href="/FoundIT/auth/sign-up.html">Sign Up</a>
+        </li>
+        <li class="footer-nav-li">
+          <h3>LEGAL</h3>
+          <a href="/FoundIT/public/eula.html">EULA</a>
+        </li>
+      </ul>
+    </nav>
+  </footer>
+</body>
+</html> 

@@ -1,12 +1,19 @@
 @import "../globals.css";
 @import "../components/sidebar.css";
 
-header {
-  margin-bottom: 2.5rem;
+body, h1, h2, h3, h4, h5, h6, p, a, input, button, label, th, td, select, option {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
 }
 
 body {
   background-color: #f7f7f7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  margin-bottom: 2.5rem;
 }
 
 header nav {
@@ -118,6 +125,324 @@ h2 {
   cursor: pointer;
 }
 
-label, input, select, textarea, .form-label, .form-group {
-  font-family: var(--font-body);
+.lost-found-container {
+  max-width: 1200px;
+  margin: 2.5rem auto 2rem auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+.lost-found-container h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+.lost-found-container .subheading {
+  font-size: 1.13rem;
+  color: #444;
+  margin-bottom: 0.7rem;
+}
+.notice {
+  color: #388e3c;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+.lost-found-table-wrapper {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+  background: #f9fbfd;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.5rem 1rem;
+}
+.lost-found-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 1.08rem;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+.lost-found-table th {
+  background: #fff;
+  color: #1db954;
+  font-weight: 700;
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 2px solid #e3f2fd;
+  font-size: 1.08rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.lost-found-table td {
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid #f0f0f0;
+  color: #222;
+  font-size: 1.05rem;
+  background: #fff;
+}
+.lost-found-table tr:nth-child(even) td {
+  background: #f6fafd;
+}
+.lost-found-table tr.item-link {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.lost-found-table tr.item-link:hover td {
+  background: #e3f2fd;
+}
+.lost-found-table th:first-child, .lost-found-table td:first-child {
+  border-top-left-radius: 10px;
+}
+.lost-found-table th:last-child, .lost-found-table td:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Modern Footer Styles */
+footer {
+  margin-top: auto;
+  background: #222;
+  color: #fff;
+  padding: 2.5rem 0 1.5rem 0;
+}
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.footer-title {
+  flex: 2 1 300px;
+  min-width: 220px;
+}
+.footer-title img {
+  width: 120px;
+  margin-bottom: 1rem;
+}
+.footer-description {
+  color: #bbb;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+.footer-nav-li {
+  flex: 1 1 180px;
+  min-width: 150px;
+}
+.footer-nav-li h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+  font-weight: 700;
+}
+.footer-nav-li a {
+  display: block;
+  color: #bbb;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-nav-li a:hover {
+  color: #fff;
+}
+@media (max-width: 900px) {
+  .lost-found-container {
+    padding: 1.2rem 0.5rem;
+  }
+  .footer-nav-links {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 700px) {
+  .lost-found-container {
+    padding: 0.7rem 0.2rem;
+  }
+  .lost-found-table-wrapper {
+    padding: 0.5rem 0.1rem;
+  }
+  .lost-found-table th, .lost-found-table td {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.97rem;
+  }
+  .footer-title img {
+    width: 90px;
+  }
+}
+
+body .lost-found-container {
+  max-width: 1200px;
+  margin: 2.5rem auto 2rem auto;
+  padding: 2.5rem 2rem 2rem 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+body .lost-found-container h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+body .lost-found-container .subheading {
+  font-size: 1.13rem;
+  color: #444;
+  margin-bottom: 0.7rem;
+}
+body .notice {
+  color: #388e3c;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+body .lost-found-table-wrapper {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+  background: #f9fbfd;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.5rem 1rem;
+}
+body .lost-found-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 1.08rem;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+body .lost-found-table th {
+  background: #fff;
+  color: #1db954;
+  font-weight: 700;
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 2px solid #e3f2fd;
+  font-size: 1.08rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+body .lost-found-table td {
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid #f0f0f0;
+  color: #222;
+  font-size: 1.05rem;
+  background: #fff;
+}
+body .lost-found-table tr:nth-child(even) td {
+  background: #f6fafd;
+}
+body .lost-found-table tr.item-link {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+body .lost-found-table tr.item-link:hover td {
+  background: #e3f2fd;
+}
+body .lost-found-table th:first-child, body .lost-found-table td:first-child {
+  border-top-left-radius: 10px;
+}
+body .lost-found-table th:last-child, body .lost-found-table td:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Modern Footer Styles */
+body footer {
+  margin-top: auto;
+  background: #222;
+  color: #fff;
+  padding: 2.5rem 0 1.5rem 0;
+}
+body .footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+body .footer-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+body .footer-title {
+  flex: 2 1 300px;
+  min-width: 220px;
+}
+body .footer-title img {
+  width: 120px;
+  margin-bottom: 1rem;
+}
+body .footer-description {
+  color: #bbb;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+body .footer-nav-li {
+  flex: 1 1 180px;
+  min-width: 150px;
+}
+body .footer-nav-li h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+  font-weight: 700;
+}
+body .footer-nav-li a {
+  display: block;
+  color: #bbb;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+body .footer-nav-li a:hover {
+  color: #fff;
+}
+@media (max-width: 900px) {
+  body .lost-found-container {
+    padding: 1.2rem 0.5rem;
+  }
+  body .footer-nav-links {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+@media (max-width: 700px) {
+  body .lost-found-container {
+    padding: 0.7rem 0.2rem;
+  }
+  body .lost-found-table-wrapper {
+    padding: 0.5rem 0.1rem;
+  }
+  body .lost-found-table th, body .lost-found-table td {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.97rem;
+  }
+  body .footer-title img {
+    width: 90px;
+  }
 }

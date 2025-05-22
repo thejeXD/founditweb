@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Items | Found IT</title>
     
-    <link rel="stylesheet" href="/styles/normalize.css" />
-    <link rel="stylesheet" href="/styles/pages/dashboard.css" />
-    <link rel="stylesheet" href="/styles/pages/my-items.css" />
-    <link rel="stylesheet" href="/styles/components/sidebar.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/normalize.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/pages/dashboard.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/pages/my-items.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,15 +22,15 @@
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <div class="sidebar-header">
-          <a href="/dashboard.html">
-            <img src="/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
+          <a href="/FoundIT/pages/dashboard.html">
+            <img src="/FoundIT/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
           </a>
         </div>
         
         <nav class="sidebar-nav">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="/dashboard.html" class="nav-link">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -39,7 +39,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/submit-item.html" class="nav-link">
+              <a href="/FoundIT/pages/submit-item.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
@@ -47,7 +47,7 @@
               </a>
             </li>
             <li class="nav-item active">
-              <a href="/my-items.html" class="nav-link">
+              <a href="/FoundIT/pages/my-items.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 8v13H3V8M1 3h22v5H1z"></path>
                   <path d="M10 12h4"></path>
@@ -56,17 +56,17 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/inbox.html" class="nav-link">
+              <a href="/FoundIT/pages/inbox.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
                   <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
                 </svg>
                 Inbox
-                <span class="notification-badge">2</span>
+                <span class="notification-badge" id="inbox-unread-count"></span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/settings.html" class="nav-link">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -94,7 +94,7 @@
               </button>
             </div>
             <div class="user-profile">
-              <span class="user-name">John Doe</span>
+              <span class="user-name dashboard-user-name">John Doe</span>
             </div>
           </div>
         </header>
@@ -115,7 +115,7 @@
                 <option value="found">Found Items</option>
               </select>
             </div>
-            <a href="/submit-item.html" class="btn btn-primary">
+            <a href="/FoundIT/pages/submit-item.html" class="btn btn-primary">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 5v14M5 12h14"></path>
               </svg>
@@ -124,7 +124,7 @@
           </div>
 
           <div class="table-container">
-            <table class="items-table">
+            <table class="items-table" id="my-items-table">
               <thead>
                 <tr>
                   <th>Item Name</th>
@@ -136,105 +136,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <div class="item-info">
-                      <img src="/assets/items/wallet.jpg" alt="Blue Wallet" class="item-image" />
-                      <div>
-                        <span class="item-name">Blue Wallet</span>
-                        <span class="item-id">#ITM001</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>Accessories</td>
-                  <td>
-                    <span class="status-badge found">Found</span>
-                  </td>
-                  <td>Mar 15, 2024</td>
-                  <td>Library</td>
-                  <td>
-                    <div class="action-buttons">
-                      <button class="action-btn edit" title="Edit">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                      </button>
-                      <button class="action-btn delete" title="Delete">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M3 6h18"></path>
-                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="item-info">
-                      <img src="/assets/items/textbook.jpg" alt="Physics Textbook" class="item-image" />
-                      <div>
-                        <span class="item-name">Physics Textbook</span>
-                        <span class="item-id">#ITM002</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>Books</td>
-                  <td>
-                    <span class="status-badge found">Found</span>
-                  </td>
-                  <td>Mar 14, 2024</td>
-                  <td>Building A</td>
-                  <td>
-                    <div class="action-buttons">
-                      <button class="action-btn edit" title="Edit">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                      </button>
-                      <button class="action-btn delete" title="Delete">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M3 6h18"></path>
-                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="item-info">
-                      <img src="/assets/items/laptop.jpg" alt="MacBook Pro" class="item-image" />
-                      <div>
-                        <span class="item-name">MacBook Pro</span>
-                        <span class="item-id">#ITM003</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>Electronics</td>
-                  <td>
-                    <span class="status-badge lost">Lost</span>
-                  </td>
-                  <td>Mar 13, 2024</td>
-                  <td>Cafeteria</td>
-                  <td>
-                    <div class="action-buttons">
-                      <button class="action-btn edit" title="Edit">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                      </button>
-                      <button class="action-btn delete" title="Delete">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M3 6h18"></path>
-                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                <!-- Items will be dynamically added here -->
               </tbody>
             </table>
           </div>
@@ -258,5 +160,63 @@
         </div>
       </main>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const res = await fetch('/FoundIT/api/my-items.php');
+      const data = await res.json();
+      if (!data.success) {
+        window.location.href = '/FoundIT/auth/login.html';
+        return;
+      }
+      const table = document.getElementById('my-items-table');
+      if (table) {
+        const tbody = table.querySelector('tbody');
+        tbody.innerHTML = '';
+        data.items.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${item.name}</td><td>${item.category}</td><td>${item.status == 1 ? 'Active' : 'Archived'}</td><td>${item.date_time}</td><td>${item.location}</td>`;
+          tbody.appendChild(tr);
+        });
+        if (data.items.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5">No items found.</td></tr>';
+        }
+      }
+      // Update user name in top bar
+      const res2 = await fetch('/FoundIT/api/dashboard-data.php');
+      const data2 = await res2.json();
+      if (data2.success) {
+        document.querySelectorAll('.dashboard-user-name').forEach(el => {
+          el.textContent = data2.user.first_name + ' ' + data2.user.last_name;
+        });
+      }
+    });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const badge = document.getElementById('inbox-unread-count');
+      if (badge) {
+        const res = await fetch('/FoundIT/api/inbox.php');
+        const data = await res.json();
+        if (data.success) {
+          let unreadCount = 0;
+          data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+          if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.classList.remove('hidden');
+          } else {
+            badge.textContent = '';
+            badge.classList.add('hidden');
+          }
+        } else {
+          badge.textContent = '';
+          badge.classList.add('hidden');
+        }
+      }
+    });
+    </script>
+
+    <script src="/FoundIT/scripts/inbox-badge.js"></script>
   </body>
 </html> 

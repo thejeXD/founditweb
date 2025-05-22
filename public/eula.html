@@ -8,10 +8,16 @@
     <title>End User License Agreement | Found IT</title>
     <link
       rel="stylesheet"
-      href="/styles/normalize.css" />
+      href="/FoundIT/styles/normalize.css" />
     <link
       rel="stylesheet"
-      href="/styles/pages/eula.css" />
+      href="/FoundIT/styles/components/header.css" />
+    <link
+      rel="stylesheet"
+      href="/FoundIT/styles/components/footer.css" />
+    <link
+      rel="stylesheet"
+      href="/FoundIT/styles/pages/eula.css" />
     <link
       rel="preconnect"
       href="https://fonts.googleapis.com" />
@@ -25,49 +31,22 @@
     />
   </head>
   <body>
-    <header class="max-container">
+    <header class="header">
       <nav class="header-nav">
-        <div>
-          <a href="/"
-            ><img
-              src="/assets/logo.png"
-              alt="Logo"
-              class="logo"
-          /></a>
-        </div>
+        <a href="/FoundIT/" class="logo-link">
+          <img
+            src="/FoundIT/assets/logo.png"
+            alt="Logo"
+            class="logo"
+          />
+        </a>
         <ul class="header-nav-links">
-          <li>
-            <a
-              href="about.html"
-              class="header-nav-link"
-              >About</a
-            >
-          </li>
-          <li>
-            <a
-              href="contact.html"
-              class="header-nav-link"
-              >Contact</a
-            >
-          </li>
-          <li>
-            <a
-              href="/auth/login.html"
-              class="header-nav-link"
-              >Login</a
-            >
-          </li>
-          <li>
-            <a
-              href="/auth/sign-up.html"
-              class="header-nav-link sign-up-btn">
-              <img
-                src="/assets/profile.svg"
-                alt=""
-                class="icon" />
-              Sign up</a
-            >
-          </li>
+          <li><a href="/FoundIT/" class="header-nav-link">Home</a></li>
+          <li><a href="/FoundIT/public/about.html" class="header-nav-link">About</a></li>
+          <li><a href="/FoundIT/public/contact.html" class="header-nav-link">Contact</a></li>
+          <li><a href="/FoundIT/pages/lost-found.html" class="header-nav-link">Lost &amp; Found</a></li>
+          <li><a href="/FoundIT/auth/login.html" class="header-nav-link">Login</a></li>
+          <li><a href="/FoundIT/auth/sign-up.html" class="sign-up-btn">Sign Up <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="icon" /></a></li>
         </ul>
       </nav>
     </header>
@@ -183,10 +162,10 @@
       <nav class="footer-nav max-container">
         <ul class="footer-nav-links">
           <li class="footer-title">
-            <a href="/"
+            <a href="/FoundIT/"
               ><img
-                src="/assets/footer-logo.png"
-                alt=""
+                src="/FoundIT/assets/footer-logo.png"
+                alt="Found IT Logo"
             /></a>
             <p class="footer-description">
               To provide students with a system for tracking, reporting, and
@@ -196,18 +175,17 @@
           </li>
           <li class="footer-nav-li">
             <h3>QUICK LINKS</h3>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="/FoundIT/public/about.html">About</a>
+            <a href="/FoundIT/public/contact.html">Contact</a>
           </li>
           <li class="footer-nav-li">
             <h3>ACCOUNT</h3>
-            <a href="login.html">Login</a>
-            <a href="sign-up.html">Sign Up</a>
+            <a href="/FoundIT/auth/login.html">Login</a>
+            <a href="/FoundIT/auth/sign-up.html">Sign Up</a>
           </li>
           <li class="footer-nav-li">
             <h3>LEGAL</h3>
-            <a href="privacy-policy.html">Privacy Policy</a>
-            <a href="terms.html">Terms of Service</a>
+            <a href="/FoundIT/public/eula.html">EULA</a>
           </li>
         </ul>
       </nav>

@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up | Found IT</title>
     
-    <link rel="stylesheet" href="/styles/normalize.css" />
-    <link rel="stylesheet" href="/styles/components/header.css" />
-    <link rel="stylesheet" href="/styles/pages/sign-up.css" />
+    <link rel="stylesheet" href="../styles/normalize.css" />
+    <link rel="stylesheet" href="../styles/components/header.css" />
+    <link rel="stylesheet" href="../styles/pages/sign-up.css" />
     <!-- <link rel="stylesheet" href="/styles/components/header.css" /> -->
-    <link rel="stylesheet" href="/styles/components/footer.css" />
+    <link rel="stylesheet" href="../styles/components/footer.css" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,19 +29,20 @@
   <body>
     <header class="header">
       <nav class="header-nav">
-        <a href="/" class="logo-link">
-          <img src="/assets/logo.png" alt="Found IT Logo" class="logo" />
+        <a href="/FoundIT/" class="logo-link">
+          <img src="../assets/logo.png" alt="Found IT Logo" class="logo" />
         </a>
         <ul class="header-nav-links">
-          <li><a href="/" class="header-nav-link">Home</a></li>
-          <li><a href="/public/about.html" class="header-nav-link">About</a></li>
-          <li><a href="/public/contact.html" class="header-nav-link">Contact</a></li>
-          <li><a href="/auth/login.html" class="header-nav-link">Login</a></li>
-          <li><a href="/auth/sign-up.html" class="sign-up-btn">Sign Up <img src="/assets/icons_svg/user.svg" alt="User Icon" class="icon"></a></li>
+          <li><a href="/FoundIT/" class="header-nav-link">Home</a></li>
+          <li><a href="/FoundIT/public/about.html" class="header-nav-link">About</a></li>
+          <li><a href="/FoundIT/public/contact.html" class="header-nav-link">Contact</a></li>
+          <li><a href="/FoundIT/pages/lost-found.html" class="header-nav-link">Lost &amp; Found</a></li>
+          <li><a href="/FoundIT/auth/login.html" class="header-nav-link">Login</a></li>
+          <li><a href="/FoundIT/auth/sign-up.html" class="sign-up-btn">Sign Up <img src="../assets/icons_svg/user.svg" alt="User Icon" class="icon"></a></li>
         </ul>
         <button class="hamburger-menu">
           <img
-            src="/assets/hamburger-menu-svgrepo-com.svg"
+            src="../assets/hamburger-menu-svgrepo-com.svg"
             alt="Menu"
             class="hamburger-icon" />
         </button>
@@ -49,7 +50,7 @@
     </header>
 
     <main>
-      <form class="sign-up-form">
+      <form class="sign-up-form" action="/FoundIT/auth/register.php" method="POST">
         <h1 class="sign-up-main-title">FoundIT</h1>
         <h2 class="sign-up-main-title-2">Creating your Account</h2>
 
@@ -75,7 +76,7 @@
               <input type="checkbox" id="eula" name="eula" required />
               <span class="checkbox-custom"></span>
               <span class="eula-text">
-                I agree to the <a href="/public/eula.html" target="_blank" id="open-eula" class="eula-link">End User License Agreement</a>
+                I agree to the <a href="/FoundIT/public/eula.html" target="_blank" id="open-eula" class="eula-link">End User License Agreement</a>
               </span>
             </label>
           </div>
@@ -135,7 +136,7 @@
       <nav class="footer-nav max-container">
         <ul class="footer-nav-links">
           <li class="footer-title">
-            <a href="/"><img src="/assets/footer-logo.png" alt="" /></a>
+            <a href="/FoundIT/"><img src="../assets/footer-logo.png" alt="" /></a>
             <p class="footer-description">
               To provide students with a system for tracking, reporting, and
               recovering lost items on campus, reducing unclaimed belongings and
@@ -144,22 +145,23 @@
           </li>
           <li class="footer-nav-li">
             <h3>QUICK LINKS</h3>
-            <a href="/public/about.html">About</a>
-            <a href="/public/contact.html">Contact</a>
+            <a href="/FoundIT/public/about.html">About</a>
+            <a href="/FoundIT/public/contact.html">Contact</a>
           </li>
           <li class="footer-nav-li">
             <h3>ACCOUNT</h3>
-            <a href="login.html">Login</a>
-            <a href="sign-up.html">Sign Up</a>
+            <a href="/FoundIT/auth/login.html">Login</a>
+            <a href="/FoundIT/auth/sign-up.html">Sign Up</a>
           </li>
           <li class="footer-nav-li">
             <h3>LEGAL</h3>
-            <a href="eula.html">EULA</a>
+            <a href="/FoundIT/public/eula.html">EULA</a>
           </li>
         </ul>
       </nav>
     </footer>
 
-    <script src="/scripts/signup-validation.js"></script>
+    <script src="../scripts/signup-validation.js"></script>
+    <script src="../scripts/signup-handler.js"></script>
   </body>
 </html>

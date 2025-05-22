@@ -301,8 +301,9 @@
 }
 
 .activity-time {
-  font-size: 0.75rem;
-  color: var(--clr-gray-40);
+  font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
+  color: #888;
+  font-size: 0.85em;
 }
 
 /* Responsive Design */
@@ -332,4 +333,21 @@
 
 select, option {
   font-family: var(--font-body);
+}
+
+label {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--clr-gray-70);
+}
+
+html, body {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
+}
+*, *::before, *::after {
+  font-family: inherit !important;
+}
+h1, h2, h3, h4, h5, h6, p, a, input, button, label, th, td, select, option {
+  font-family: inherit !important;
 } 
