@@ -21,21 +21,20 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 require_once '../database/connection.php';
 
-// Get JSON data from request
-$json = file_get_contents('php://input');
-if (!$json) {
-    echo json_encode(['success' => false, 'message' => 'No data received']);
-    exit();
+// Get POST data (JSON or form)
+if (isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode(['success' => false, 'message' => 'Invalid JSON data']);
+        exit();
+    }
+    $email = isset($data['email']) ? trim($data['email']) : '';
+    $password = isset($data['password']) ? $data['password'] : '';
+} else {
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
 }
-
-$data = json_decode($json, true);
-if (json_last_error() !== JSON_ERROR_NONE) {
-    echo json_encode(['success' => false, 'message' => 'Invalid JSON data']);
-    exit();
-}
-
-$email = isset($data['email']) ? trim($data['email']) : '';
-$password = isset($data['password']) ? $data['password'] : '';
 
 if (empty($email) || empty($password)) {
     echo json_encode(['success' => false, 'message' => 'Email and password are required.']);
@@ -48,7 +47,7 @@ $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 session_start();
 
 try {
-    $stmt = $conn->prepare("SELECT id, password, status, first_name, last_name FROM accounts WHERE email = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, password, status, first_name, last_name FROM accounts WHERE email = ? AND status = 1 LIMIT 1");
     if (!$stmt) {
         throw new Exception("Prepare failed: " . $conn->error);
     }
@@ -60,10 +59,6 @@ try {
         exit();
     }
     $user = $result->fetch_assoc();
-    if ($user['status'] != 1) {
-        echo json_encode(['success' => false, 'message' => 'Account is not active.']);
-        exit();
-    }
     if (!password_verify($password, $user['password'])) {
         echo json_encode(['success' => false, 'message' => 'Invalid email or password.']);
         exit();
@@ -73,6 +68,7 @@ try {
     $_SESSION['first_name'] = $user['first_name'];
     $_SESSION['last_name'] = $user['last_name'];
     $_SESSION['email'] = $email;
+    $_SESSION['LAST_ACTIVITY'] = time();
     $stmt = $conn->prepare("UPDATE accounts SET last_login = NOW() WHERE id = ?");
     $stmt->bind_param("i", $user['id']);
     $stmt->execute();

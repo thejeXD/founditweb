@@ -127,6 +127,7 @@
             <table class="items-table" id="my-items-table">
               <thead>
                 <tr>
+                  <th>Reference ID</th>
                   <th>Item Name</th>
                   <th>Category</th>
                   <th>Status</th>
@@ -162,6 +163,28 @@
     </div>
 
     <script>
+    // --- Custom Notification Helper (from login/signup) ---
+    function showNotification(type, title, message) {
+      let notif = document.querySelector('.custom-notification');
+      if (!notif) {
+        notif = document.createElement('div');
+        notif.className = 'custom-notification ' + type;
+        notif.innerHTML = `
+          <span class="notification-icon">&#9888;</span>
+          <div class="notification-content">
+            <div class="notification-title">${title}</div>
+            <div class="notification-message">${message}</div>
+          </div>
+        `;
+        document.body.appendChild(notif);
+      } else {
+        notif.className = 'custom-notification ' + type;
+        notif.querySelector('.notification-title').textContent = title;
+        notif.querySelector('.notification-message').textContent = message;
+      }
+      notif.classList.add('show');
+      setTimeout(() => notif.classList.remove('show'), 4000);
+    }
     document.addEventListener('DOMContentLoaded', async function() {
       const res = await fetch('/FoundIT/api/my-items.php');
       const data = await res.json();
@@ -169,26 +192,115 @@
         window.location.href = '/FoundIT/auth/login.html';
         return;
       }
-      const table = document.getElementById('my-items-table');
-      if (table) {
-        const tbody = table.querySelector('tbody');
-        tbody.innerHTML = '';
-        data.items.forEach(item => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${item.name}</td><td>${item.category}</td><td>${item.status == 1 ? 'Active' : 'Archived'}</td><td>${item.date_time}</td><td>${item.location}</td>`;
-          tbody.appendChild(tr);
-        });
-        if (data.items.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5">No items found.</td></tr>';
+      // Filtering logic using existing controls
+      let allItems = data.items;
+      let filteredItems = allItems.slice();
+      function renderTable() {
+        const table = document.getElementById('my-items-table');
+        if (table) {
+          const tbody = table.querySelector('tbody');
+          tbody.innerHTML = '';
+          filteredItems.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${item.id}</td>
+              <td>${item.name}</td>
+              <td>${item.category}</td>
+              <td><span class="status-badge ${item.status == 1 ? 'active' : 'archived'}">${item.status == 1 ? 'Active' : 'Archived'}</span></td>
+              <td>${item.date_time}</td>
+              <td>${item.location}</td>
+              <td style="display:flex;gap:8px;align-items:center;">
+                <a href="/FoundIT/pages/view-item.html?id=${item.id}" title="View" style="color:#6f9ee9;${item.status == 0 ? 'pointer-events:none;opacity:0.5;' : ''}"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></a>
+                <a href="#" class="edit-item" data-id="${item.id}" title="Edit" style="color:#ffc107;${item.status == 0 ? 'pointer-events:none;opacity:0.5;' : ''}"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536M9 11l6.293-6.293a1 1 0 0 1 1.414 0l2.586 2.586a1 1 0 0 1 0 1.414L11 15l-4 1 1-4z"/></svg></a>
+                <a href="#" class="archive-item" data-id="${item.id}" title="Archive" style="color:#dc3545;${item.status == 0 ? 'pointer-events:none;opacity:0.5;' : ''}"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3v4M8 3v4"/><path d="M9 17v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg></a>
+              </td>
+            `;
+            tr.style.cursor = item.status == 0 ? 'not-allowed' : 'pointer';
+            if (item.status == 0) {
+              tr.style.opacity = '0.5';
+              tr.style.pointerEvents = 'none';
+            }
+            tr.onclick = function(e) {
+              if (item.status == 0) return;
+              if (e.target.closest('a.edit-item') || e.target.closest('a.archive-item')) return;
+              showNotification('info', 'View Item', 'Viewing item details.');
+              window.location.href = `/FoundIT/pages/view-item.html?id=${item.id}`;
+            };
+            tbody.appendChild(tr);
+          });
+          if (filteredItems.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6">No items found.</td></tr>';
+          }
         }
       }
-      // Update user name in top bar
+      function applyFilters() {
+        const searchInput = document.querySelector('.search-box input[type="text"]');
+        const filterSelect = document.querySelector('.filter-select');
+        const term = searchInput.value.toLowerCase();
+        const type = filterSelect.value;
+        filteredItems = allItems.filter(item => {
+          let ok = true;
+          if (term && !(item.name.toLowerCase().includes(term) || item.category.toLowerCase().includes(term) || (item.description && item.description.toLowerCase().includes(term)))) ok = false;
+          if (type !== 'all' && item.type !== type) ok = false;
+          return ok;
+        });
+        renderTable();
+      }
+      document.querySelector('.search-box input[type="text"]').addEventListener('input', applyFilters);
+      document.querySelector('.filter-select').addEventListener('change', applyFilters);
+      renderTable();
+      // Update user name in top bar and dropdown/notification logic
       const res2 = await fetch('/FoundIT/api/dashboard-data.php');
       const data2 = await res2.json();
       if (data2.success) {
         document.querySelectorAll('.dashboard-user-name').forEach(el => {
           el.textContent = data2.user.first_name + ' ' + data2.user.last_name;
         });
+      }
+      // Notification icon click
+      const notifBtn = document.querySelector('.notification-btn');
+      if (notifBtn) {
+        notifBtn.onclick = function() {
+          window.location.href = '/FoundIT/pages/inbox.html';
+        };
+      }
+      // User dropdown
+      const userName = document.querySelector('.user-name');
+      let userDropdown = document.querySelector('.user-dropdown');
+      if (!userDropdown) {
+        userDropdown = document.createElement('div');
+        userDropdown.className = 'user-dropdown hidden';
+        userDropdown.innerHTML = '<button id="logout-btn" style="background:#dc3545;color:#fff;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;margin-top:8px;">Logout</button>';
+        userName.parentNode.appendChild(userDropdown);
+      }
+      userName.onclick = function() {
+        userDropdown.classList.toggle('hidden');
+      };
+      document.addEventListener('click', function(e) {
+        if (!userDropdown.contains(e.target) && !userName.contains(e.target)) {
+          userDropdown.classList.add('hidden');
+        }
+      });
+      document.getElementById('logout-btn').onclick = async function() {
+        await fetch('/FoundIT/api/logout.php');
+        window.location.href = '/FoundIT/auth/login.html';
+      };
+      // Inbox badge hide if 0
+      const badge = document.getElementById('inbox-unread-count');
+      if (badge) {
+        const res = await fetch('/FoundIT/api/inbox.php');
+        const data = await res.json();
+        let unreadCount = 0;
+        if (data.success) {
+          data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+        }
+        if (unreadCount > 0) {
+          badge.textContent = unreadCount;
+          badge.classList.remove('hidden');
+        } else {
+          badge.textContent = '';
+          badge.classList.add('hidden');
+        }
       }
     });
     </script>
@@ -218,5 +330,207 @@
     </script>
 
     <script src="/FoundIT/scripts/inbox-badge.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Fetch items
+      const res = await fetch('/FoundIT/api/my-items.php');
+      const data = await res.json();
+      if (!data.success) {
+        window.location.href = '/FoundIT/auth/login.html';
+        return;
+      }
+      // Filtering logic using existing controls
+      let allItems = data.items;
+      let filteredItems = allItems.slice();
+      function renderTable() {
+        const table = document.getElementById('my-items-table');
+        if (table) {
+          const tbody = table.querySelector('tbody');
+          tbody.innerHTML = '';
+          filteredItems.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${item.id}</td>
+              <td>${item.name}</td>
+              <td>${item.category}</td>
+              <td><span class="status-badge ${item.status == 1 ? 'active' : 'archived'}">${item.status == 1 ? 'Active' : 'Archived'}</span></td>
+              <td>${item.date_time}</td>
+              <td>${item.location}</td>
+              <td style="display:flex;gap:8px;align-items:center;">
+                <a href="/FoundIT/pages/view-item.html?id=${item.id}" title="View" style="color:#6f9ee9;${item.status == 0 ? 'pointer-events:none;opacity:0.5;' : ''}"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></a>
+                <a href="#" class="edit-item" data-id="${item.id}" title="Edit" style="color:#ffc107;${item.status == 0 ? 'pointer-events:none;opacity:0.5;' : ''}"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536M9 11l6.293-6.293a1 1 0 0 1 1.414 0l2.586 2.586a1 1 0 0 1 0 1.414L11 15l-4 1 1-4z"/></svg></a>
+                <a href="#" class="archive-item" data-id="${item.id}" title="Archive" style="color:#dc3545;${item.status == 0 ? 'pointer-events:none;opacity:0.5;' : ''}"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3v4M8 3v4"/><path d="M9 17v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg></a>
+              </td>
+            `;
+            tr.style.cursor = item.status == 0 ? 'not-allowed' : 'pointer';
+            if (item.status == 0) {
+              tr.style.opacity = '0.5';
+              tr.style.pointerEvents = 'none';
+            }
+            tr.onclick = function(e) {
+              if (item.status == 0) return;
+              if (e.target.closest('a.edit-item') || e.target.closest('a.archive-item')) return;
+              showNotification('info', 'View Item', 'Viewing item details.');
+              window.location.href = `/FoundIT/pages/view-item.html?id=${item.id}`;
+            };
+            tbody.appendChild(tr);
+          });
+          if (filteredItems.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6">No items found.</td></tr>';
+          }
+        }
+      }
+      function applyFilters() {
+        const searchInput = document.querySelector('.search-box input[type="text"]');
+        const filterSelect = document.querySelector('.filter-select');
+        const term = searchInput.value.toLowerCase();
+        const type = filterSelect.value;
+        filteredItems = allItems.filter(item => {
+          let ok = true;
+          if (term && !(item.name.toLowerCase().includes(term) || item.category.toLowerCase().includes(term) || (item.description && item.description.toLowerCase().includes(term)))) ok = false;
+          if (type !== 'all' && item.type !== type) ok = false;
+          return ok;
+        });
+        renderTable();
+      }
+      document.querySelector('.search-box input[type="text"]').addEventListener('input', applyFilters);
+      document.querySelector('.filter-select').addEventListener('change', applyFilters);
+      renderTable();
+      // Edit modal logic
+      let editingItem = null;
+      document.body.addEventListener('click', function(e) {
+        if (e.target.closest('.edit-item')) {
+          e.preventDefault();
+          const id = e.target.closest('.edit-item').dataset.id;
+          const item = allItems.find(i => String(i.id) === String(id));
+          if (!item) return;
+          editingItem = item;
+          document.getElementById('edit-id').value = item.id;
+          document.getElementById('edit-name').value = item.name;
+          document.getElementById('edit-category').value = item.category;
+          console.log('Autofill description:', item.description);
+          document.getElementById('edit-description').value = item.description || '';
+          document.getElementById('edit-date').value = item.date_time ? item.date_time.substring(0,10) : '';
+          document.getElementById('edit-location').value = item.location;
+          document.getElementById('edit-specific-location').value = item.specific_location || '';
+          document.getElementById('edit-type').value = item.type;
+          document.getElementById('edit-status').value = item.status == 0 ? '0' : '1';
+          document.getElementById('edit-modal').style.display = 'flex';
+          showNotification('info', 'Edit Item', 'You are editing your item.');
+        }
+        if (e.target.id === 'close-edit-modal') {
+          document.getElementById('edit-modal').style.display = 'none';
+          showNotification('info', 'Edit Cancelled', 'Edit cancelled.');
+        }
+      });
+      document.getElementById('edit-form').onsubmit = async function(e) {
+        e.preventDefault();
+        const id = document.getElementById('edit-id').value;
+        const description = document.getElementById('edit-description').value;
+        // Regex for inappropriate words (simple example, expand as needed)
+        const badWords = /\b(fuck|shit|bitch|asshole|bastard|damn|cunt|dick|pussy|fag|slut|whore)\b/i;
+        if (badWords.test(description)) {
+          showNotification('error', 'Inappropriate Content', 'Please remove inappropriate words from the description.');
+          return;
+        }
+        const payload = {
+          id,
+          name: document.getElementById('edit-name').value,
+          description,
+          location: document.getElementById('edit-location').value,
+          specific_location: document.getElementById('edit-specific-location').value,
+          status: document.getElementById('edit-status').value
+        };
+        try {
+          const res = await fetch('/FoundIT/api/edit-item.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (data.success) {
+            showNotification('success', 'Item Updated', 'Your item was updated successfully.');
+            document.getElementById('edit-modal').style.display = 'none';
+            // Update in allItems and filteredItems
+            Object.assign(editingItem, payload);
+            editingItem.status = parseInt(payload.status);
+            renderTable();
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            showNotification('error', 'Update Failed', data.message || 'Could not update item.');
+          }
+        } catch {
+          showNotification('error', 'Network Error', 'Could not connect to server.');
+        }
+      };
+      // Archive logic
+      let archiving = false;
+      document.body.addEventListener('click', async function(e) {
+        if (e.target.closest('.archive-item')) {
+          e.preventDefault();
+          if (archiving) return;
+          archiving = true;
+          const id = e.target.closest('.archive-item').dataset.id;
+          try {
+            const res = await fetch('/FoundIT/api/archive-item.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id })
+            });
+            const data = await res.json();
+            if (data.success) {
+              showNotification('success', 'Item Archived', 'The item was archived.');
+              // Update status in allItems and filteredItems
+              const item = allItems.find(i => String(i.id) === String(id));
+              if (item) item.status = 0;
+              renderTable();
+              setTimeout(() => window.location.reload(), 1000);
+            } else {
+              showNotification('error', 'Archive Failed', data.message || 'Could not archive item.');
+            }
+          } catch {
+            showNotification('error', 'Network Error', 'Could not connect to server.');
+          }
+          archiving = false;
+        }
+      });
+    });
+    </script>
+
+    <!-- Add Edit Modal HTML at the end of body -->
+    <div id="edit-modal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;">
+      <form id="edit-form" style="background:#fff;padding:2rem 2.5rem;border-radius:16px;min-width:320px;max-width:95vw;box-shadow:0 4px 24px rgba(0,0,0,0.18);display:flex;flex-direction:column;gap:1.2rem;position:relative;">
+        <button type="button" id="close-edit-modal" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
+        <h2 style="margin-bottom:0.5rem;">Edit Item</h2>
+        <input type="hidden" id="edit-id" />
+        <label>Item Name<input type="text" id="edit-name" required style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;" /></label>
+        <label>Category<input type="text" id="edit-category" required disabled style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;" /></label>
+        <label>Description<textarea id="edit-description" rows="3" required style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;"></textarea></label>
+        <label>Date<input type="date" id="edit-date" required disabled style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;" /></label>
+        <label>Location<input type="text" id="edit-location" required style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;" /></label>
+        <label>Specific Location<input type="text" id="edit-specific-location" style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;" /></label>
+        <label>Type
+          <select id="edit-type" disabled style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;">
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+          </select>
+        </label>
+        <label>Status
+          <select id="edit-status" style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;">
+            <option value="1">UNCLAIM</option>
+            <option value="0">CLAIMED</option>
+          </select>
+        </label>
+        <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Save Changes</button>
+      </form>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Test notification to ensure it works
+      showNotification('info', 'Notification Test', 'Notifications are working!');
+    });
+    </script>
   </body>
 </html> 

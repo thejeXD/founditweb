@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Item | Found IT</title>
+  <link rel="stylesheet" href="/FoundIT/styles/normalize.css" />
+  <link rel="stylesheet" href="/FoundIT/styles/pages/dashboard.css" />
+  <link rel="stylesheet" href="/FoundIT/styles/pages/view-item.css" />
+  <link rel="stylesheet" href="/FoundIT/styles/components/header.css" />
+  <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
+  <link rel="stylesheet" href="/FoundIT/styles/components/notification.css" />
+</head>
+<body style="background:#f7f7f7;min-height:100vh;display:flex;flex-direction:column;">
+  <header class="header">
+    <nav class="header-nav">
+      <a href="/FoundIT/" class="logo-link">
+        <img src="/FoundIT/assets/logo.png" alt="Found IT Logo" class="logo" />
+      </a>
+      <ul class="header-nav-links">
+        <li><a href="/FoundIT/" class="header-nav-link">Home</a></li>
+        <li><a href="/FoundIT/public/about.html" class="header-nav-link">About</a></li>
+        <li><a href="/FoundIT/public/contact.html" class="header-nav-link">Contact</a></li>
+        <li><a href="/FoundIT/pages/dashboard.html" class="header-nav-link">Dashboard</a></li>
+        <li><a href="/FoundIT/pages/my-items.html" class="header-nav-link">My Items</a></li>
+        <li><a href="/FoundIT/pages/inbox.html" class="header-nav-link">Inbox <span class="notification-badge" id="inbox-unread-count"></span></a></li>
+        <li><a href="/FoundIT/pages/settings.html" class="header-nav-link">Settings</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="forum-container" style="max-width:900px;margin:2.5rem auto 2rem auto;padding:0 0 2rem 0;background:none;">
+    <button class="btn btn-secondary" id="back-btn" style="margin-bottom:18px;">&larr; Back</button>
+    <div id="item-details"></div>
+  </main>
+  <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+    &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+  </footer>
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    document.getElementById('back-btn').onclick = function() { window.history.back(); };
+    async function updateInboxCount() {
+      const badge = document.getElementById('inbox-unread-count');
+      const res = await fetch('/FoundIT/api/inbox.php');
+      const data = await res.json();
+      let unreadCount = 0;
+      if (data.success) {
+        data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+      }
+      if (unreadCount > 0) {
+        badge.textContent = unreadCount;
+        badge.classList.remove('hidden');
+      } else {
+        badge.textContent = '';
+        badge.classList.add('hidden');
+      }
+    }
+    updateInboxCount();
+    // User dropdown and notification click logic
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Set user name and dropdown
+      let userName = document.querySelector('.header .user-name');
+      if (!userName) {
+        // Insert user name span if not present
+        const nav = document.querySelector('.header-nav-links');
+        if (nav) {
+          const li = document.createElement('li');
+          li.innerHTML = '<span class="user-name" style="cursor:pointer;font-weight:600;">User</span>';
+          nav.appendChild(li);
+          userName = li.querySelector('.user-name');
+        }
+      }
+      let userDropdown = document.querySelector('.user-dropdown');
+      if (!userDropdown && userName) {
+        userDropdown = document.createElement('div');
+        userDropdown.className = 'user-dropdown hidden';
+        userDropdown.innerHTML = '<button id="logout-btn" style="background:#dc3545;color:#fff;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;margin-top:8px;">Logout</button>';
+        userName.parentNode.appendChild(userDropdown);
+      }
+      if (userName) {
+        userName.onclick = function() {
+          userDropdown.classList.toggle('hidden');
+        };
+      }
+      document.addEventListener('click', function(e) {
+        if (userDropdown && !userDropdown.contains(e.target) && !userName.contains(e.target)) {
+          userDropdown.classList.add('hidden');
+        }
+      });
+      if (userDropdown) {
+        userDropdown.querySelector('#logout-btn').onclick = async function() {
+          await fetch('/FoundIT/api/logout.php');
+          window.location.href = '/FoundIT/auth/login.html';
+        };
+      }
+      // Set user name from API
+      try {
+        const res = await fetch('/FoundIT/api/dashboard-data.php');
+        const data = await res.json();
+        if (data.success && userName) {
+          userName.textContent = data.user.first_name + ' ' + data.user.last_name;
+        }
+      } catch {}
+      // Notification badge click
+      const badge = document.getElementById('inbox-unread-count');
+      if (badge) {
+        badge.onclick = function(e) {
+          e.stopPropagation();
+          window.location.href = '/FoundIT/pages/inbox.html';
+        };
+      }
+      // Also make Inbox nav link notification badge clickable
+      const inboxLink = document.querySelector('a[href$="inbox.html"]');
+      if (inboxLink) {
+        inboxLink.onclick = function(e) {
+          window.location.href = '/FoundIT/pages/inbox.html';
+        };
+      }
+    });
+    async function loadItemDetails() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (!id) {
+        document.getElementById('item-details').innerHTML = '<div style="text-align:center;padding:48px 0;"><h2>Item not found</h2><button class="btn btn-secondary" onclick="window.history.back()">&larr; Back</button></div>';
+        return;
+      }
+      const res = await fetch(`/FoundIT/api/view-item.php?id=${id}`);
+      const data = await res.json();
+      if (!data.success) {
+        document.getElementById('item-details').innerHTML = '<div style="text-align:center;padding:48px 0;"><h2>Item not found or you do not have access.</h2><button class="btn btn-secondary" onclick="window.history.back()">&larr; Back</button></div>';
+        return;
+      }
+      const item = data.item;
+      const user = data.user;
+      let loggedUserId = null;
+      let isOwner = false;
+      try {
+        const userRes = await fetch('/FoundIT/api/dashboard-data.php');
+        const userData = await userRes.json();
+        if (userData.success && userData.user_id) loggedUserId = userData.user_id;
+        if (item.user_id && loggedUserId && item.user_id == loggedUserId) isOwner = true;
+      } catch {}
+      // --- Custom Notification Helper ---
+      function showNotification(type, title, message) {
+        let notif = document.querySelector('.custom-notification');
+        if (!notif) {
+          notif = document.createElement('div');
+          notif.className = 'custom-notification ' + type;
+          notif.innerHTML = `
+            <span class="notification-icon">&#9888;</span>
+            <div class="notification-content">
+              <div class="notification-title">${title}</div>
+              <div class="notification-message">${message}</div>
+            </div>
+          `;
+          document.body.appendChild(notif);
+        } else {
+          notif.className = 'custom-notification ' + type;
+          notif.querySelector('.notification-title').textContent = title;
+          notif.querySelector('.notification-message').textContent = message;
+        }
+        notif.classList.add('show');
+        setTimeout(() => notif.classList.remove('show'), 4000);
+      }
+      // --- Minimalist Button Styles ---
+      const btnStyle = 'padding:0.7rem 1.5rem;font-weight:600;font-size:1rem;border-radius:10px;border:1px solid var(--clr-primary);background:#fff;color:var(--clr-primary);box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all 0.18s;outline:none;cursor:pointer;';
+      const btnPrimary = btnStyle + 'background:var(--clr-primary);color:#fff;border:none;';
+      const btnDanger = btnStyle + 'background:#dc3545;color:#fff;border:none;';
+      let actionBtns = `<div style="display:flex;gap:12px;justify-content:flex-end;margin-top:18px;">`;
+      if (isOwner) {
+        actionBtns += `<button class="btn btn-primary" id="edit-btn" style="${btnPrimary}">Edit</button><button class="btn btn-danger" id="archive-btn" style="${btnDanger}">${item.status == 1 ? 'Archive' : 'Unarchive'}</button>`;
+      }
+      if (!isOwner) {
+        actionBtns += `<button class="btn btn-primary" id="claim-btn" style="${btnPrimary}">Claim</button>`;
+      }
+      actionBtns += `<button class="btn btn-danger" id="report-btn" style="${btnDanger}">Report</button></div>`;
+      // --- Image logic ---
+      let imageHtml = '';
+      if (item.image) {
+        imageHtml = `<img src="/FoundIT/${item.image}" alt="Item Image" id="item-image" style="width:100%;max-width:420px;height:260px;object-fit:cover;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,0.08);margin:0 auto;display:block;cursor:zoom-in;" />`;
+      }
+      document.getElementById('item-details').innerHTML = `
+        <div class="forum-post-card" style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);padding:32px 32px 24px 32px;">
+          <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:260px;">
+              <div style="font-size:2rem;font-weight:800;color:#222;">${item.name}</div>
+              <div style="display:flex;align-items:center;gap:12px;margin:10px 0 18px 0;">
+                <span class="status-badge ${item.type === 'lost' ? 'archived' : 'active'}" style="padding:4px 12px;border-radius:12px;font-weight:bold;color:#fff;background:${item.type === 'lost' ? '#dc3545' : '#28a745'};">${item.type === 'lost' ? 'Lost Post' : 'Found Post'}</span>
+                <span style="color:#888;font-size:1rem;">Posted On: ${new Date(item.created_at).toLocaleDateString(undefined, {day:'2-digit',month:'short',year:'numeric'})}</span>
+              </div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Category:</span> ${item.category}</div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Description:</span> ${item.description}</div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Date & Time:</span> ${item.date_time ? new Date(item.date_time).toLocaleString() : ''}</div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Location:</span> ${item.location || 'N/A'}</div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Specific Location:</span> ${item.specific_location || 'N/A'}</div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Contact Method:</span> ${item.contact_method || 'N/A'}</div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Status:</span> <span class="status-badge ${item.status == 1 ? 'active' : 'archived'}" style="padding:4px 12px;border-radius:12px;font-weight:bold;color:#fff;background:${item.status == 1 ? '#28a745' : '#6c757d'};">${item.status == 1 ? 'Active' : 'Archived'}</span></div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Type:</span> ${item.type.charAt(0).toUpperCase() + item.type.slice(1)}</div>
+              <div style="margin-bottom:18px;"><span style="font-weight:600;">Submitted by:</span> ${user.first_name} ${user.last_name} (${user.email})</div>
+              ${actionBtns}
+            </div>
+            ${item.image ? `<div style="flex:0 0 320px;max-width:420px;" id="image-col">${imageHtml}</div>` : ''}
+          </div>
+        </div>
+        <div id="image-modal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
+          <img id="modal-img" src="" alt="Zoomed Image" style="max-width:90vw;max-height:90vh;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.18);" />
+        </div>`;
+      // CLAIM/REPORT/IMAGE logic
+      setTimeout(() => {
+        const claimBtn = document.getElementById('claim-btn');
+        if (claimBtn) {
+          claimBtn.disabled = true;
+          claimBtn.classList.add('disabled');
+          claimBtn.style.opacity = '0.5';
+          claimBtn.style.pointerEvents = 'none';
+          claimBtn.onclick = async function() {
+            claimBtn.disabled = true;
+            claimBtn.textContent = 'Processing...';
+            try {
+              const res = await fetch('/FoundIT/api/claim-item.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item_id: item.id })
+              });
+              const data = await res.json();
+              if (data.success) {
+                claimBtn.textContent = 'Claimed!';
+                showNotification('success', 'Claim Sent', 'The owner has been notified. Please wait for their response.');
+              } else {
+                claimBtn.textContent = 'Claim';
+                showNotification('error', 'Claim Failed', data.message || 'Failed to claim item.');
+              }
+            } catch {
+              claimBtn.textContent = 'Claim';
+              showNotification('error', 'Network Error', 'Please try again.');
+            }
+            claimBtn.disabled = false;
+          };
+        }
+        const reportBtn = document.getElementById('report-btn');
+        if (reportBtn) {
+          reportBtn.onclick = function() {
+            showNotification('info', 'Report', 'Report functionality coming soon!');
+          };
+        }
+        // Image zoom logic
+        const img = document.getElementById('item-image');
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        if (img && modal && modalImg) {
+          img.onclick = function() {
+            modal.style.display = 'flex';
+            modalImg.src = img.src;
+          };
+          modal.onclick = function() {
+            modal.style.display = 'none';
+            modalImg.src = '';
+          };
+        }
+      }, 0);
+    }
+    loadItemDetails();
+  </script>
+</body>
+</html> 

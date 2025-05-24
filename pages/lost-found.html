@@ -162,99 +162,33 @@
   <main class="lost-found-container">
     <h1>Daily Lost and Found Monitoring</h1>
     <div class="subheading">Below is the daily updated list of lost and found items reported across the campus. This list is for reference only. To view item details or claim an item, you must have an account.</div>
-    <div class="notice">Notice: Items are listed here for 2 months from the date found. For further assistance, please contact the campus Lost &amp; Found office.</div>
+    <div class="notice" style="color:var(--clr-primary);">Notice: Items are listed here for 2 months from the date found. For further assistance, please contact the campus Lost & Found office.</div>
+    <div style="display:flex;gap:1.5rem;align-items:center;margin-bottom:1.5rem;">
+      <select id="filter-location" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;"></select>
+      <input type="date" id="filter-date" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;" />
+      <select id="filter-status" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;">
+        <option value="">All Status</option>
+        <option value="1">ACTIVE</option>
+        <option value="0">ARCHIVED</option>
+      </select>
+    </div>
     <div class="lost-found-table-wrapper">
-      <table class="lost-found-table">
+      <table class="lost-found-table" id="lost-found-table">
         <thead>
           <tr>
-            <th>Location</th>
-            <th>Name/Description</th>
             <th>Reference No.</th>
-            <th>Date Found</th>
+            <th>Location</th>
+            <th>Name / Description</th>
+            <th>Date Found/Lost</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Library</td>
-            <td><b>Blue Water Bottle</b></td>
-            <td>2024-001</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Science Building</td>
-            <td><b>Black Umbrella</b></td>
-            <td>2024-002</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Gymnasium</td>
-            <td><b>PE Uniform (Medium)</b></td>
-            <td>2024-003</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Main Hall</td>
-            <td><b>Notebook with Math Notes</b></td>
-            <td>2024-004</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Admin Office</td>
-            <td><b>USB Drive (16GB)</b></td>
-            <td>2024-005</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Parking Lot</td>
-            <td><b>Car Keys (Toyota)</b></td>
-            <td>2024-006</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Cafeteria</td>
-            <td><b>Wallet (Brown)</b></td>
-            <td>2024-007</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Library</td>
-            <td><b>Scientific Calculator</b></td>
-            <td>2024-008</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Science Building</td>
-            <td><b>Lab Goggles</b></td>
-            <td>2024-009</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
-          <tr>
-            <td>Main Hall</td>
-            <td><b>Black Jacket</b></td>
-            <td>2024-010</td>
-            <td>21 Aug 2024</td>
-            <td>Unclaimed</td>
-          </tr>
+          <!-- Items will be injected by JS -->
         </tbody>
       </table>
     </div>
-    <div class="pagination">
-      <button class="pagination-btn active">1</button>
-      <button class="pagination-btn">2</button>
-      <button class="pagination-btn">3</button>
-      <span style="color:#bbb;">...</span>
-      <button class="pagination-btn">Next</button>
-    </div>
+    <div class="pagination" id="pagination"></div>
   </main>
   <footer>
     <nav class="footer-nav max-container">
@@ -282,5 +216,108 @@
       </ul>
     </nav>
   </footer>
+  <script>
+    // --- PRIMARY COLOR ---
+    document.documentElement.style.setProperty('--clr-success', 'var(--clr-primary)');
+    document.documentElement.style.setProperty('--clr-success-light', 'var(--clr-primary)');
+    // --- PAGINATION + FETCH LOGIC ---
+    const ITEMS_PER_PAGE = 15;
+    let allItems = [];
+    let filteredItems = [];
+    let currentPage = 1;
+    let isLoggedIn = false;
+    let allLocations = [];
+    async function checkLogin() {
+      try {
+        const res = await fetch('/FoundIT/api/settings.php');
+        const data = await res.json();
+        isLoggedIn = !!data.success;
+      } catch { isLoggedIn = false; }
+    }
+    function applyFilters() {
+      const loc = document.getElementById('filter-location').value;
+      const date = document.getElementById('filter-date').value;
+      const status = document.getElementById('filter-status').value;
+      filteredItems = allItems.filter(item => {
+        let ok = true;
+        if (loc && (item.location + (item.specific_location ? ' - ' + item.specific_location : '')) !== loc) ok = false;
+        if (date && item.date_time && item.date_time.substring(0,10) !== date) ok = false;
+        if (status && String(item.status) !== status) ok = false;
+        return ok;
+      });
+      currentPage = 1;
+      renderTable();
+      renderPagination();
+    }
+    function renderTable() {
+      const tbody = document.querySelector('#lost-found-table tbody');
+      tbody.innerHTML = '';
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      const pageItems = filteredItems.slice(start, end);
+      for (const item of pageItems) {
+        const tr = document.createElement('tr');
+        tr.classList.add('item-link');
+        tr.style.cursor = 'pointer';
+        tr.innerHTML = `
+          <td>${item.id}</td>
+          <td>${item.location}${item.specific_location ? ' - ' + item.specific_location : ''}</td>
+          <td><b>${item.name}</b><br><span style="color:#888;font-size:0.95em;">${item.description}</span></td>
+          <td>${item.date_time ? new Date(item.date_time).toLocaleDateString() : ''}</td>
+          <td>${item.status == 1 ? '<span style="color:var(--clr-primary);font-weight:600;">ACTIVE</span>' : '<span style="color:#888;">ARCHIVED</span>'}</td>
+        `;
+        tr.onclick = async function() {
+          await checkLogin();
+          if (!isLoggedIn) {
+            window.location.href = '/FoundIT/auth/sign-up.html';
+          } else {
+            window.location.href = `/FoundIT/pages/view-item.html?id=${item.id}`;
+          }
+        };
+        tbody.appendChild(tr);
+      }
+      if (pageItems.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;">No items found.</td></tr>';
+      }
+    }
+    function renderPagination() {
+      const pag = document.getElementById('pagination');
+      pag.innerHTML = '';
+      const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+      if (totalPages <= 1) return;
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'pagination-btn' + (i === currentPage ? ' active' : '');
+        btn.textContent = i;
+        btn.onclick = function() {
+          currentPage = i;
+          renderTable();
+          renderPagination();
+        };
+        pag.appendChild(btn);
+      }
+    }
+    async function fetchItems() {
+      const res = await fetch('/FoundIT/api/lost-found.php');
+      const data = await res.json();
+      if (data.success) {
+        allItems = data.items;
+        // Populate locations
+        allLocations = Array.from(new Set(allItems.map(i => i.location + (i.specific_location ? ' - ' + i.specific_location : ''))));
+        const locSel = document.getElementById('filter-location');
+        locSel.innerHTML = '<option value="">All Locations</option>' + allLocations.map(l => `<option value="${l}">${l}</option>`).join('');
+        filteredItems = allItems.slice();
+        renderTable();
+        renderPagination();
+      }
+    }
+    document.getElementById('filter-location').onchange = applyFilters;
+    document.getElementById('filter-date').onchange = applyFilters;
+    document.getElementById('filter-status').onchange = applyFilters;
+    document.addEventListener('DOMContentLoaded', async function() {
+      await checkLogin();
+      await fetchItems();
+    });
+  </script>
 </body>
 </html> 

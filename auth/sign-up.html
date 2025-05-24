@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../styles/pages/sign-up.css" />
     <!-- <link rel="stylesheet" href="/styles/components/header.css" /> -->
     <link rel="stylesheet" href="../styles/components/footer.css" />
+    <link rel="stylesheet" href="../styles/components/notification.css" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -163,5 +164,63 @@
 
     <script src="../scripts/signup-validation.js"></script>
     <script src="../scripts/signup-handler.js"></script>
+    <script>
+      // --- Custom Notification Helper ---
+      function showNotification(type, title, message) {
+        let notif = document.querySelector('.custom-notification');
+        if (!notif) {
+          notif = document.createElement('div');
+          notif.className = 'custom-notification ' + type;
+          notif.innerHTML = `
+            <span class="notification-icon">&#9888;</span>
+            <div class="notification-content">
+              <div class="notification-title">${title}</div>
+              <div class="notification-message">${message}</div>
+            </div>
+          `;
+          document.body.appendChild(notif);
+        } else {
+          notif.className = 'custom-notification ' + type;
+          notif.querySelector('.notification-title').textContent = title;
+          notif.querySelector('.notification-message').textContent = message;
+        }
+        notif.classList.add('show');
+        setTimeout(() => notif.classList.remove('show'), 4000);
+      }
+      // --- Signup Handler (example) ---
+      document.querySelector('.sign-up-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        // ... collect form data ...
+        // Example only, adapt to your real validation/fields
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('new-password').value.trim();
+        const confirm = document.getElementById('confirm-password').value.trim();
+        if (!email || !password || !confirm) {
+          showNotification('error', 'Sign Up Error', 'Please fill in all required fields.');
+          return;
+        }
+        if (password !== confirm) {
+          showNotification('error', 'Sign Up Error', 'Passwords do not match.');
+          return;
+        }
+        try {
+          const form = e.target;
+          const formData = new FormData(form);
+          const res = await fetch('/FoundIT/auth/register.php', {
+            method: 'POST',
+            body: formData
+          });
+          const data = await res.json();
+          if (data.success) {
+            showNotification('success', 'Sign Up Successful', 'Redirecting to dashboard...');
+            setTimeout(() => window.location.href = '/FoundIT/pages/dashboard.html', 1200);
+          } else {
+            showNotification('error', 'Sign Up Failed', data.message || 'Could not create account.');
+          }
+        } catch {
+          showNotification('error', 'Network Error', 'Could not connect to server.');
+        }
+      });
+    </script>
   </body>
 </html>

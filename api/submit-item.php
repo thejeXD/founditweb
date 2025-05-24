@@ -55,41 +55,58 @@ if (contains_bad_words($name, $BAD_WORDS)) respond(false, 'Inappropriate languag
 if (contains_bad_words($desc, $BAD_WORDS)) respond(false, 'Inappropriate language in description.');
 
 // --- ENABLE IMAGE UPLOAD LOGIC ---
-$uploaded_files = [];
+$image_path = null;
 $allowed_exts = ['jpg', 'jpeg', 'png', 'gif'];
 $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif'];
-$upload_dir = __DIR__ . '/../web/uploads/';
+$upload_dir = __DIR__ . '/../database/image_uploaded/';
 if (!is_dir($upload_dir)) {
   mkdir($upload_dir, 0777, true);
 }
-if (isset($_FILES['images']) && $_FILES['images']['error'][0] != 4) {
-  if (count($_FILES['images']['name']) > 5) respond(false, 'You can upload up to 5 images only.');
-  foreach ($_FILES['images']['name'] as $i => $original_name) {
-    $tmp_name = $_FILES['images']['tmp_name'][$i];
-    $size = $_FILES['images']['size'][$i];
-    $error = $_FILES['images']['error'][$i];
-    if ($error !== UPLOAD_ERR_OK) continue;
+// Check if a file was actually uploaded
+if (
+    isset($_FILES['images']) &&
+    isset($_FILES['images']['name']) &&
+    $_FILES['images']['name'] !== '' &&
+    $_FILES['images']['error'] != 4
+) {
+  $original_name = $_FILES['images']['name'];
+  $tmp_name = $_FILES['images']['tmp_name'];
+  $size = $_FILES['images']['size'];
+  $error = $_FILES['images']['error'];
+  if ($error === UPLOAD_ERR_OK) {
     $ext = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
-    if (!in_array($ext, $allowed_exts)) continue;
-    $mime = mime_content_type($tmp_name);
-    if (!in_array($mime, $allowed_mimes)) continue;
-    if ($size > 5 * 1024 * 1024) continue;
-    $unique_name = uniqid('img_', true) . '.' . $ext;
-    $dest_path = $upload_dir . $unique_name;
-    if (move_uploaded_file($tmp_name, $dest_path)) {
-      $relative_path = 'web/uploads/' . $unique_name;
-      $uploaded_files[] = $relative_path;
+    if (in_array($ext, $allowed_exts)) {
+      $mime = mime_content_type($tmp_name);
+      if (in_array($mime, $allowed_mimes) && $size <= 5 * 1024 * 1024) {
+        // Insert item first to get the item_id
+        $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
+        $date_time = $date . ($time ? (' ' . $time) : '');
+        $stmt->bind_param('issssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $contact, $type);
+        if (!$stmt->execute()) respond(false, 'Database error: ' . $stmt->error);
+        $item_id = $stmt->insert_id;
+        $stmt->close();
+        $unique_name = $user_id . '_' . $item_id . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $original_name);
+        $dest_path = $upload_dir . $unique_name;
+        if (move_uploaded_file($tmp_name, $dest_path)) {
+          $relative_path = 'database/image_uploaded/' . $unique_name;
+          // Update the item with the image path
+          $update_stmt = $conn->prepare("UPDATE items SET image = ? WHERE id = ?");
+          $update_stmt->bind_param('si', $relative_path, $item_id);
+          $update_stmt->execute();
+          $update_stmt->close();
+        }
+      }
     }
   }
+} else {
+  // Insert item without image
+  $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
+  $date_time = $date . ($time ? (' ' . $time) : '');
+  $stmt->bind_param('issssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $contact, $type);
+  if (!$stmt->execute()) respond(false, 'Database error: ' . $stmt->error);
+  $item_id = $stmt->insert_id;
+  $stmt->close();
 }
-$images_json = json_encode($uploaded_files);
-
-// 4. Insert into items table
-$stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, contact_method, type, images, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW())");
-$date_time = $date . ($time ? (' ' . $time) : '');
-$stmt->bind_param('isssssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $contact, $type, $images_json);
-if (!$stmt->execute()) respond(false, 'Database error: ' . $stmt->error);
-$item_id = $stmt->insert_id;
 
 // 5. Check for matches (simple: same name, category, location, and opposite type)
 $match_type = $type === 'lost' ? 'found' : 'lost';
@@ -101,14 +118,24 @@ if ($match_stmt->num_rows > 0) {
   $match_stmt->bind_result($match_id, $match_user_id);
   while ($match_stmt->fetch()) {
     // Notify the other user
-    $msg = $type === 'lost'
-      ? "Good news! Someone found an item matching your lost item: $name. Please check the details."
-      : "Someone reported losing an item matching what you found: $name. Please check the details.";
+    $link = '/FoundIT/pages/view-item.html?id=' . $match_id;
+    $msg_other = $type === 'lost'
+      ? "Good news! Someone found an item matching your lost item: $name. <a href='$link'>View Item</a>"
+      : "Someone reported losing an item matching what you found: $name. <a href='$link'>View Item</a>";
     $inbox_stmt = $conn->prepare("INSERT INTO inbox (user_id, subject, message, is_read, created_at) VALUES (?, ?, ?, 0, NOW())");
-    $subject = 'Item Match Notification';
-    $inbox_stmt->bind_param('iss', $match_user_id, $subject, $msg);
+    $subject_other = 'Item Match Notification';
+    $inbox_stmt->bind_param('iss', $match_user_id, $subject_other, $msg_other);
     $inbox_stmt->execute();
     $inbox_stmt->close();
+    // Notify the submitter as well
+    $msg_submitter = $type === 'lost'
+      ? "A matching found item was detected for your lost item: $name. <a href='$link'>View Item</a>"
+      : "A matching lost item was detected for your found item: $name. <a href='$link'>View Item</a>";
+    $inbox_stmt2 = $conn->prepare("INSERT INTO inbox (user_id, subject, message, is_read, created_at) VALUES (?, ?, ?, 0, NOW())");
+    $subject_submitter = 'Item Match Notification';
+    $inbox_stmt2->bind_param('iss', $user_id, $subject_submitter, $msg_submitter);
+    $inbox_stmt2->execute();
+    $inbox_stmt2->close();
   }
 }
 $match_stmt->close();
@@ -120,5 +147,13 @@ $log_stmt = $conn->prepare("INSERT INTO activity_log (user_id, action, item_id, 
 $log_stmt->bind_param('isis', $user_id, $action, $item_id, $details);
 $log_stmt->execute();
 $log_stmt->close();
+
+// 7. Inbox notification for submitter
+$inbox_stmt = $conn->prepare("INSERT INTO inbox (user_id, subject, message, is_read, created_at) VALUES (?, ?, ?, 0, NOW())");
+$subject = 'Item Submission Confirmation';
+$msg = "Your item '$name' has been submitted successfully.";
+$inbox_stmt->bind_param('iss', $user_id, $subject, $msg);
+$inbox_stmt->execute();
+$inbox_stmt->close();
 
 respond(true, 'Item submitted successfully!'); 

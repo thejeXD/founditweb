@@ -63,7 +63,7 @@
                   <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
                 </svg>
                 Inbox
-                <span class="notification-badge">2</span>
+                <span class="notification-badge" id="inbox-unread-count"></span>
               </a>
             </li>
             <li class="nav-item">
@@ -191,7 +191,7 @@
               <div class="form-group">
                 <label for="images">Upload Images</label>
                 <div class="file-upload">
-                  <input type="file" id="images" name="images" accept="image/*" multiple />
+                  <input type="file" id="images" name="images" accept="image/*" />
                   <div class="upload-placeholder">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -224,6 +224,62 @@
         </div>
       </main>
     </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        const badge = document.getElementById('inbox-unread-count');
+        if (badge) {
+          const res = await fetch('/FoundIT/api/inbox.php');
+          const data = await res.json();
+          if (data.success) {
+            let unreadCount = 0;
+            data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+            if (unreadCount > 0) {
+              badge.textContent = unreadCount;
+              badge.classList.remove('hidden');
+            } else {
+              badge.textContent = '';
+              badge.classList.add('hidden');
+            }
+          } else {
+            badge.textContent = '';
+            badge.classList.add('hidden');
+          }
+        }
+        // User dropdown and notification click logic
+        const userName = document.querySelector('.user-name');
+        let userDropdown = document.querySelector('.user-dropdown');
+        if (!userDropdown && userName) {
+          userDropdown = document.createElement('div');
+          userDropdown.className = 'user-dropdown hidden';
+          userDropdown.innerHTML = '<button id="logout-btn" style="background:#dc3545;color:#fff;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;margin-top:8px;">Logout</button>';
+          userName.parentNode.appendChild(userDropdown);
+        }
+        if (userName) {
+          userName.onclick = function() {
+            userDropdown.classList.toggle('hidden');
+          };
+        }
+        document.addEventListener('click', function(e) {
+          if (userDropdown && !userDropdown.contains(e.target) && !userName.contains(e.target)) {
+            userDropdown.classList.add('hidden');
+          }
+        });
+        if (userDropdown) {
+          userDropdown.querySelector('#logout-btn').onclick = async function() {
+            await fetch('/FoundIT/api/logout.php');
+            window.location.href = '/FoundIT/auth/login.html';
+          };
+        }
+        // Notification icon click
+        const notifBtn = document.querySelector('.notification-btn');
+        if (notifBtn) {
+          notifBtn.onclick = function() {
+            window.location.href = '/FoundIT/pages/inbox.html';
+          };
+        }
+      });
+      </script>
 
     <script>
       // Toggle between Lost and Found forms
@@ -313,8 +369,8 @@
         const images = document.getElementById('images');
         clearError('images');
         if (images && images.files.length > 0) {
-          if (images.files.length > 5) {
-            setError('images', 'You can upload up to 5 images only.');
+          if (images.files.length > 1) {
+            setError('images', 'You can upload only 1 image.');
           }
           for (let i = 0; i < images.files.length; i++) {
             const file = images.files[i];
@@ -323,7 +379,7 @@
               break;
             }
             if (file.size > 5 * 1024 * 1024) {
-              setError('images', 'Each image must be less than 5MB.');
+              setError('images', 'Image must be less than 5MB.');
               break;
             }
           }
@@ -341,10 +397,7 @@
         // Add item type (lost/found)
         const type = document.querySelector('.type-btn.active').dataset.type;
         formData.append('type', type);
-        // Debug: log all form data
-        for (let pair of formData.entries()) {
-          console.log(pair[0]+ ':', pair[1]);
-        }
+
         // Submit via AJAX
         try {
           const res = await fetch('/FoundIT/api/submit-item.php', {
@@ -361,7 +414,7 @@
           }
         } catch (err) {
           showNotification('error', 'Network Error', 'Could not submit item. Please try again.');
-          console.log(err);
+          console.log("Network Error: " + err);
         }
       });
 
@@ -372,17 +425,28 @@
         imagesInput.addEventListener('change', function() {
           previewList.innerHTML = '';
           if (imagesInput.files && imagesInput.files.length > 0) {
-            Array.from(imagesInput.files).forEach(file => {
-              if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                  const img = document.createElement('img');
-                  img.src = e.target.result;
-                  previewList.appendChild(img);
+            const file = imagesInput.files[0];
+            if (file.type.startsWith('image/')) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                // Add remove button
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = 'Remove';
+                removeBtn.type = 'button';
+                removeBtn.className = 'remove-image-btn';
+                removeBtn.onclick = function() {
+                  imagesInput.value = '';
+                  previewList.innerHTML = '';
                 };
-                reader.readAsDataURL(file);
-              }
-            });
+                const wrapper = document.createElement('div');
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+                previewList.appendChild(wrapper);
+              };
+              reader.readAsDataURL(file);
+            }
           }
         });
       }
@@ -399,6 +463,24 @@
           document.querySelectorAll('input, select, textarea').forEach(el => el.style.borderColor = '');
         });
       }
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        try {
+          const res = await fetch('/FoundIT/api/settings.php');
+          const data = await res.json();
+          if (!data.success) {
+            window.location.href = '/FoundIT/auth/login.html';
+            return;
+          }
+          // Set full name in user profile (top bar)
+          document.querySelectorAll('.user-name').forEach(el => {
+            el.textContent = data.profile.first_name + ' ' + data.profile.last_name;
+          });
+        } catch (e) {
+          window.location.href = '/FoundIT/auth/login.html';
+        }
+      });
     </script>
   </body>
 </html> 

@@ -88,5 +88,39 @@
             </ul>
         </nav>
     </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      let isLoggedIn = false;
+      try {
+        const res = await fetch('/FoundIT/api/settings.php');
+        const data = await res.json();
+        if (data.success) isLoggedIn = true;
+      } catch {}
+      const navLinks = document.querySelector('.header-nav-links');
+      if (!navLinks) return;
+      navLinks.querySelectorAll('.header-nav-link, .logout-btn-dynamic').forEach(link => {
+        if (link.textContent.trim() === 'Login' || link.textContent.trim() === 'Dashboard' || link.classList.contains('logout-btn-dynamic')) {
+          link.parentNode.removeChild(link);
+        }
+      });
+      if (isLoggedIn) {
+        const dashboardLi = document.createElement('li');
+        dashboardLi.innerHTML = '<a href="/FoundIT/pages/dashboard.html" class="header-nav-link">Dashboard</a>';
+        navLinks.insertBefore(dashboardLi, navLinks.querySelector('li:last-child'));
+        const logoutLi = document.createElement('li');
+        logoutLi.innerHTML = '<button class="logout-btn-dynamic" style="background:#dc3545;color:#fff;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;">Logout</button>';
+        navLinks.appendChild(logoutLi);
+        logoutLi.querySelector('button').onclick = async function() {
+          await fetch('/FoundIT/api/logout.php');
+          window.location.reload();
+        };
+      } else {
+        const loginLi = document.createElement('li');
+        loginLi.innerHTML = '<a href="/FoundIT/auth/login.html" class="header-nav-link">Login</a>';
+        navLinks.insertBefore(loginLi, navLinks.querySelector('li:last-child'));
+      }
+    });
+    </script>
 </body>
 </html> 

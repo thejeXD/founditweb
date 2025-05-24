@@ -210,7 +210,7 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', async function() {
+      document.addEventListener('DOMContentLoaded', async function() {
       const res = await fetch('/FoundIT/api/settings.php');
       const data = await res.json();
       if (!data.success) {
@@ -260,6 +260,38 @@
           badge.textContent = '';
           badge.classList.add('hidden');
         }
+      }
+      // User dropdown and notification click logic
+      const userName = document.querySelector('.user-name');
+      let userDropdown = document.querySelector('.user-dropdown');
+      if (!userDropdown && userName) {
+        userDropdown = document.createElement('div');
+        userDropdown.className = 'user-dropdown hidden';
+        userDropdown.innerHTML = '<button id="logout-btn" style="background:#dc3545;color:#fff;padding:8px 16px;border:none;border-radius:4px;cursor:pointer;margin-top:8px;">Logout</button>';
+        userName.parentNode.appendChild(userDropdown);
+      }
+      if (userName) {
+        userName.onclick = function() {
+          userDropdown.classList.toggle('hidden');
+        };
+      }
+      document.addEventListener('click', function(e) {
+        if (userDropdown && !userDropdown.contains(e.target) && !userName.contains(e.target)) {
+          userDropdown.classList.add('hidden');
+        }
+      });
+      if (userDropdown) {
+        userDropdown.querySelector('#logout-btn').onclick = async function() {
+          await fetch('/FoundIT/api/logout.php');
+          window.location.href = '/FoundIT/auth/login.html';
+        };
+      }
+      // Notification icon click
+      const notifBtn = document.querySelector('.notification-btn');
+      if (notifBtn) {
+        notifBtn.onclick = function() {
+          window.location.href = '/FoundIT/pages/inbox.html';
+        };
       }
     });
     </script>
