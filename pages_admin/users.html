@@ -12,6 +12,150 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <style>
+      .sidebar .nav-section-title {
+        font-weight: bold;
+        color: var(--clr-primary) !important;
+        letter-spacing: 0.02em;
+        margin-top: 1.2em;
+        margin-bottom: 0.7em;
+        font-size: 1.08em;
+      }
+      .sidebar .nav-link {
+        color: #222 !important;
+        font-weight: 500;
+        font-size: 1.07em;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        padding: 0.55em 0.7em;
+        border-radius: 8px;
+        transition: background 0.13s, color 0.13s;
+      }
+      .sidebar .nav-link:hover, .sidebar .nav-link:focus {
+        background: #eaf4fd;
+        color: var(--clr-primary) !important;
+        text-decoration: none;
+      }
+      .sidebar .nav-item {
+        margin-bottom: 0.2em;
+      }
+      .sidebar .nav-icon {
+        min-width: 20px;
+        min-height: 20px;
+        color: var(--clr-primary);
+        opacity: 0.95;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.22);
+        align-items: center; justify-content: center;
+        transition: background 0.2s;
+      }
+      .modal.show { display: flex; animation: modalFadeIn 0.2s; }
+      @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .modal-content {
+        background: #fff;
+        padding: 2.5em 2.8em 2em 2.8em;
+        border-radius: 18px;
+        min-width: 340px;
+        max-width: 95vw;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        position: relative;
+        animation: popIn 0.22s cubic-bezier(.4,2,.6,1);
+        border: 1.5px solid #e3e8f0;
+      }
+      @keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+      .modal-close {
+        position: absolute;
+        top: 1em; right: 1em;
+        background: none; border: none;
+        font-size: 1.7em; color: #888;
+        cursor: pointer;
+        transition: color 0.15s;
+      }
+      .modal-close:hover { color: #222; }
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1em;
+        margin-top: 1.5em;
+      }
+      .btn-cancel {
+        background: #f5f5f5;
+        color: #888;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 0.7em 1.5em;
+        font-weight: 600;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .btn-cancel:hover { background: #eee; color: #222; }
+      .modal-header {
+        font-size: 1.35em;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        color: #2a2a2a;
+        margin-bottom: 0.7em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+      .modal-divider {
+        height: 1.5px;
+        background: linear-gradient(90deg, #e3e8f0 0%, #f7f8fa 100%);
+        border: none;
+        margin: 1em 0 1.5em 0;
+      }
+      .modal-content label {
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 0.2em;
+        display: block;
+      }
+      .modal-content input, .modal-content select, .modal-content textarea {
+        width: 100%;
+        margin-bottom: 1em;
+        padding: 0.6em 1em;
+        border-radius: 8px;
+        border: 1px solid #e3e8f0;
+        font-size: 1em;
+        background: #f7f8fa;
+        transition: border 0.15s;
+      }
+      .modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus {
+        border: 1.5px solid #7bb6fa;
+        outline: none;
+        background: #fff;
+      }
+      .modal-content textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .modal-content .btn-primary {
+        background: linear-gradient(90deg, #4f8cff 0%, #1e90ff 100%);
+        color: #fff;
+        border: none;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(30,144,255,0.07);
+      }
+      .modal-content .btn-primary:hover {
+        background: linear-gradient(90deg, #1e90ff 0%, #4f8cff 100%);
+        color: #fff;
+      }
+      .btn-xs {
+        padding: 0.25em 0.7em !important;
+        font-size: 0.95em !important;
+        border-radius: 6px !important;
+        line-height: 1.2 !important;
+        margin-right: 0.2em;
+      }
+    </style>
   </head>
   <body>
     <div class="dashboard-container">
@@ -24,6 +168,7 @@
         </div>
         <nav class="sidebar-nav">
           <ul class="nav-list">
+            <li class="nav-section-title">INFORMATION</li>
             <li class="nav-item">
               <a href="/FoundIT/pages_admin/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -33,11 +178,11 @@
                 Dashboard
               </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a href="/FoundIT/pages_admin/users.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
                 </svg>
                 Users
               </a>
@@ -69,66 +214,499 @@
                 Settings
               </a>
             </li>
+            <li class="nav-section-title">ADMINISTRATION</li>
+            <li class="nav-item admin-only" style="display:none;">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Back to User Dashboard
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>
       <!-- Main Content -->
       <main class="main-content">
         <header class="top-bar">
-          <h1 class="page-title">User Management</h1>
+          <h1 class="page-title">FoundIT Users</h1>
           <div class="user-menu">
+            <div class="notifications">
+              <button class="notification-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="notification-dot" id="inbox-unread-count"></span>
+              </button>
+            </div>
             <div class="user-profile">
-              <span class="user-name dashboard-user-name">Admin User</span>
+              <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="user-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
+              <span class="user-name dashboard-user-name">FoundIT User</span>
+              <small class="user-role-label" style="display:block; color:#888; font-size:0.85em; margin-top:2px;"></small>
             </div>
           </div>
         </header>
         <div class="dashboard-content">
           <section class="admin-table-section">
-            <div class="section-header">
+            <div class="section-header" style="display:flex;align-items:center;gap:1.5em;">
               <h2>All Users</h2>
-              <input type="text" class="admin-search" placeholder="Search users..." />
+              <input type="text" class="admin-search" placeholder="Search users..." style="flex:1;max-width:320px;" />
+              <select id="user-status-filter" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;">
+                <option value="">All Status</option>
+                <option value="1">Active</option>
+                <option value="2">Archived</option>
+              </select>
+              <select id="user-role-filter" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;">
+                <option value="">All Roles</option>
+                <option value="1">Regular</option>
+                <option value="2">Staff</option>
+                <option value="3">Admin</option>
+              </select>
             </div>
             <div class="admin-table-wrapper">
-              <table class="admin-table">
+              <table class="admin-table" id="admin-users-table">
                 <thead>
                   <tr>
+                    <th>User ID</th>
                     <th>Full Name</th>
                     <th>Email Address</th>
-                    <th>Contact Number</th>
-                    <th>Staff ID</th>
+                    <th>Student/Staff ID</th>
+                    <th>Password</th>
+                    <th>Role</th>
                     <th>Status</th>
+                    <th>Last Login</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Jane Doe</td>
-                    <td>jane@email.com</td>
-                    <td>09171234567</td>
-                    <td>STF-001</td>
-                    <td><span class="status-badge active">Active</span></td>
-                    <td>
-                      <button class="btn btn-warning">Archive</button>
-                      <button class="btn btn-danger">Delete</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>John Smith</td>
-                    <td>john@email.com</td>
-                    <td>09179876543</td>
-                    <td>STF-002</td>
-                    <td><span class="status-badge archived">Archived</span></td>
-                    <td>
-                      <button class="btn btn-success">Activate</button>
-                      <button class="btn btn-danger">Delete</button>
-                    </td>
-                  </tr>
+                  <!-- Users will be injected by JS -->
                 </tbody>
               </table>
+              <div id="users-pagination" style="display:flex;justify-content:center;align-items:center;gap:1em;margin-top:1em;"></div>
             </div>
+            <div style="margin:12px 0 0 0;color:#555;font-size:0.98em;"><span class="status-badge" style="background:#222;color:#fff;">Note</span> User ID 1 is the <b>Superadmin</b> and cannot be viewed, edited, archived, deleted, or messaged.</div>
           </section>
         </div>
       </main>
+    </div>
+    <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+      &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+    </footer>
+    <script src="/FoundIT/scripts/custom-notification.js"></script>
+    <link rel="stylesheet" href="/FoundIT/styles/components/notification.css" />
+    <script>
+    let sessionUserId = null;
+    document.addEventListener('DOMContentLoaded', async function() {
+      // --- Admin Header Name/Role & Back to Dashboard ---
+      let role = null, firstName = '', lastName = '';
+      try {
+        const res = await fetch('/FoundIT/api/settings.php');
+        const data = await res.json();
+        if (data.success) {
+          role = Number(data.profile.role);
+          firstName = data.profile.first_name;
+          lastName = data.profile.last_name;
+          sessionUserId = data.profile.id || data.profile.user_id || data.profile.ID || data.profile.account_id || null;
+          if (!sessionUserId && data.profile) sessionUserId = data.profile.id || data.profile.user_id;
+        }
+      } catch {}
+      if (role === 2 || role === 3) {
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+      }
+      document.querySelectorAll('.dashboard-user-name').forEach(el => {
+        el.textContent = firstName + ' ' + lastName;
+      });
+      document.querySelectorAll('.user-role-label').forEach(el => {
+        if (role === 3) el.textContent = 'ADMIN';
+        else if (role === 2) el.textContent = 'STAFF';
+        else el.textContent = '';
+      });
+    });
+    // --- Search and Filter Functionality ---
+    let allUsers = [];
+    let filteredUsers = [];
+    let currentPage = 1;
+    const USERS_PER_PAGE = 9;
+    async function fetchAllUsers() {
+      const res = await fetch('/FoundIT/api/admin/users.php');
+      const data = await res.json();
+      if (data.success) {
+        allUsers = data.users;
+        applyFilters();
+      }
+    }
+    function applyFilters() {
+      currentPage = 1;
+      const searchValue = document.querySelector('.admin-search').value.trim().toLowerCase();
+      const statusValue = document.getElementById('user-status-filter').value;
+      const roleValue = document.getElementById('user-role-filter').value;
+      filteredUsers = allUsers.filter(user => {
+        // Status filter
+        if (statusValue === '1' && user.status != 1) return false;
+        if (statusValue === '2' && user.status != 2) return false;
+        // Role filter
+        if (roleValue && String(user.role) !== String(roleValue)) return false;
+        // Search filter
+        if (searchValue) {
+          const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+          const email = (user.email || '').toLowerCase();
+          const studentId = (user.student_number || '').toLowerCase();
+          if (!fullName.includes(searchValue) && !email.includes(searchValue) && !studentId.includes(searchValue)) {
+            return false;
+          }
+        }
+        return true;
+      });
+      renderUsers(filteredUsers);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchAllUsers();
+      document.querySelector('.admin-search').addEventListener('input', applyFilters);
+      document.getElementById('user-status-filter').addEventListener('change', applyFilters);
+      document.getElementById('user-role-filter').addEventListener('change', applyFilters);
+    });
+
+    console.log(sessionUserId);
+    function renderUsers(users) {
+      const tbody = document.querySelector('#admin-users-table tbody');
+      tbody.innerHTML = '';
+      if (!users.length) {
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#888;">No users found.</td></tr>';
+        document.getElementById('users-pagination').innerHTML = '';
+        return;
+      }
+      const start = (currentPage - 1) * USERS_PER_PAGE;
+      const end = start + USERS_PER_PAGE;
+      const pageUsers = users.slice(start, end);
+      pageUsers.forEach(user => {
+        const emailId = `email-${user.id}`;
+        const passId = `pass-${user.id}`;
+        const isSelf = sessionUserId && String(user.id) === String(sessionUserId);
+        const isSuperAdmin = String(user.id) === '1';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${user.id}</td>
+          <td>${user.first_name} ${user.last_name}</td>
+          <td><span id="${emailId}" class="sensitive-data">${isSuperAdmin ? '•••••••••••' : '•••••••••••'}</span> <button class="eye-btn" onclick="toggleSensitive('${emailId}', '${user.email}')" title="Show/Hide Email" style="background:none;border:none;cursor:pointer;" ${isSuperAdmin ? 'disabled style=\"opacity:0.5;pointer-events:none;\"' : ''}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+          <td>${user.student_number || ''}</td>
+          <td><span id="${passId}" class="sensitive-data">${isSuperAdmin ? '•••••••••••' : '•••••••••••'}</span> <button class="eye-btn" onclick="toggleSensitive('${passId}', '${user.password || ''}')" title="Show/Hide Password" style="background:none;border:none;cursor:pointer;" ${isSuperAdmin ? 'disabled style=\"opacity:0.5;pointer-events:none;\"' : ''}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+          <td>${user.role == 3 ? 'Admin' : user.role == 2 ? 'Staff' : 'Regular'}${isSuperAdmin ? ' <span class="status-badge" style="background:#222;color:#fff;margin-left:6px;">Superadmin</span>' : ''}</td>
+          <td><span class="status-badge ${user.status == 1 ? 'active' : 'archived'}" id="status-badge-${user.id}">${user.status == 1 ? 'Active' : 'Archived'}</span></td>
+          <td>${user.last_login ? formatDate(user.last_login) : '-'}</td>
+          <td>
+            ${isSuperAdmin 
+              ? '<span style="color:#888;font-size:0.98em;">Locked</span>' 
+              : `${user.status == 1 ? `<button class='btn btn-primary btn-xs' title="Archive" onclick='archiveUser(${user.id}, this)' ${isSelf ? 'disabled style=\"opacity:0.5;pointer-events:none;\"' : ''}>Archive</button>` : `<button class='btn btn-success btn-xs' title="Activate" onclick='activateUser(${user.id}, this)' ${isSelf ? 'disabled style=\"opacity:0.5;pointer-events:none;\"' : ''}>Activate</button>`}
+            <button class='btn btn-primary btn-xs' title="Edit" onclick='openEditModal(${JSON.stringify(user).replace(/"/g, '&quot;')})' ${isSelf ? 'disabled style=\"opacity:0.5;pointer-events:none;\"' : ''}>Edit</button>
+            <button class='btn btn-secondary btn-xs' title="Message" onclick='openMessageModal(${JSON.stringify(user).replace(/"/g, '&quot;')})'>Message</button>
+            ${user.status != 3 && !isSelf ? `<button class='btn btn-danger btn-xs' title="Delete" onclick='openDeleteUserModal(${user.id}, this)'><svg style="vertical-align:middle;" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>` : ''}`
+          }
+        `;
+        tbody.appendChild(tr);
+      });
+      // Pagination controls
+      const totalPages = Math.ceil(users.length / USERS_PER_PAGE);
+      let pagHtml = '';
+      pagHtml += `<button class='btn btn-xs' ${currentPage === 1 ? 'disabled' : ''} onclick='prevUsersPage()'>Prev</button>`;
+      pagHtml += `<span>Page ${currentPage} of ${totalPages}</span>`;
+      pagHtml += `<button class='btn btn-xs' ${currentPage === totalPages ? 'disabled' : ''} onclick='nextUsersPage()'>Next</button>`;
+      document.getElementById('users-pagination').innerHTML = pagHtml;
+    }
+    window.prevUsersPage = function() {
+      if (currentPage > 1) { currentPage--; renderUsers(filteredUsers); }
+    }
+    window.nextUsersPage = function() {
+      const totalPages = Math.ceil(filteredUsers.length / USERS_PER_PAGE);
+      if (currentPage < totalPages) { currentPage++; renderUsers(filteredUsers); }
+    }
+
+    // --- Add global modal and action functions ---
+    window.openEditModal = function(user) {
+      document.getElementById('edit-user-id').value = user.id;
+      document.getElementById('edit-first-name').value = user.first_name;
+      document.getElementById('edit-last-name').value = user.last_name;
+      document.getElementById('edit-email').value = user.email;
+      document.getElementById('edit-student-number').value = user.student_number || '';
+      document.getElementById('edit-role').value = user.role;
+      document.getElementById('edit-status').value = user.status;
+      document.getElementById('edit-password').value = '';
+      document.getElementById('edit-user-modal').style.display = 'flex';
+      setTimeout(() => document.getElementById('edit-user-modal').classList.add('show'), 10);
+    }
+    window.closeEditModal = function() {
+      const modal = document.getElementById('edit-user-modal');
+      modal.classList.remove('show');
+      setTimeout(() => { modal.style.display = 'none'; }, 200);
+    }
+    window.openMessageModal = function(user) {
+      document.getElementById('message-user-search').value = user ? (user.email || user.first_name + ' ' + user.last_name) : '';
+      document.getElementById('message-user-id').value = user ? user.id : '';
+      document.getElementById('message-type').value = 'INFO';
+      document.getElementById('message-title').value = '';
+      document.getElementById('message-subject').value = '';
+      document.getElementById('message-details').value = '';
+      document.getElementById('message-user-results').innerHTML = '';
+      document.getElementById('message-modal').style.display = 'flex';
+      setTimeout(() => document.getElementById('message-modal').classList.add('show'), 10);
+    }
+    window.closeMessageModal = function() {
+      const modal = document.getElementById('message-modal');
+      modal.classList.remove('show');
+      setTimeout(() => { modal.style.display = 'none'; }, 200);
+    }
+    window.activateUser = async function(id, btn) {
+      if (sessionUserId && String(id) === String(sessionUserId)) return; // Prevent self-activation
+      if (!confirm('Are you sure you want to activate this user?')) return;
+      const res = await fetch('/FoundIT/api/admin/activate-user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      const data = await res.json();
+      if (data.success) {
+        notification.show({type:'success',title:'User Activated',message:'User account activated.'});
+        // Instantly update status badge and buttons
+        const badge = document.getElementById('status-badge-' + id);
+        if (badge) {
+          badge.textContent = 'Active';
+          badge.classList.remove('archived');
+          badge.classList.add('active');
+        }
+        if (btn) {
+          btn.outerHTML = `<button class='btn btn-primary btn-xs' title="Archive" onclick='archiveUser(${id}, this)' ${sessionUserId && String(id) === String(sessionUserId) ? 'disabled style=\"opacity:0.5;pointer-events:none;\"' : ''}>Archive</button>`;
+        }
+      } else {
+        notification.show({type:'error',title:'Error',message:data.message||'Failed to activate user.'});
+      }
+    }
+    window.archiveUser = async function(id, btn) {
+      if (sessionUserId && String(id) === String(sessionUserId)) return; // Prevent self-archiving
+      if (!confirm('Are you sure you want to archive this user?')) return;
+      const res = await fetch('/FoundIT/api/admin/archive-user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      const data = await res.json();
+      if (data.success) {
+        notification.show({type:'success',title:'User Archived',message:'User account archived.'});
+        // Instantly update status badge and buttons
+        const badge = document.getElementById('status-badge-' + id);
+        if (badge) {
+          badge.textContent = 'Archived';
+          badge.classList.remove('active');
+          badge.classList.add('archived');
+        }
+        if (btn) {
+          btn.outerHTML = `<button class='btn btn-primary btn-xs' title="Archive" onclick='archiveUser(${id}, this)' ${sessionUserId && String(id) === String(sessionUserId) ? 'disabled style=\"opacity:0.5;pointer-events:none;\"' : ''}>Archive</button>`;
+        }
+      } else {
+        notification.show({type:'error',title:'Error',message:data.message||'Failed to archive user.'});
+      }
+    }
+    // Toggle sensitive info (email/password)
+    window.toggleSensitive = function(id, value) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.textContent.includes('•')) {
+        el.textContent = value;
+      } else {
+        el.textContent = '•••••••••••';
+      }
+    }
+    // Listen for refresh event to reload users
+    document.addEventListener('refreshUsersTable', function() {
+      if (typeof fetchAllUsers === 'function') fetchAllUsers();
+    });
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      const d = new Date(dateStr.replace(' ', 'T'));
+      if (isNaN(d)) return dateStr;
+      return d.toLocaleString(undefined, {
+        year: 'numeric', month: 'short', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var editUserForm = document.getElementById('edit-user-form');
+      if (editUserForm) {
+        editUserForm.onsubmit = async function(e) {
+          e.preventDefault();
+          const btn = this.querySelector('button[type="submit"]');
+          btn.disabled = true;
+          btn.textContent = 'Saving...';
+          const id = document.getElementById('edit-user-id').value;
+          const first_name = document.getElementById('edit-first-name').value.trim();
+          const last_name = document.getElementById('edit-last-name').value.trim();
+          const email = document.getElementById('edit-email').value.trim();
+          const student_number = document.getElementById('edit-student-number').value.trim();
+          const role = document.getElementById('edit-role').value;
+          const status = document.getElementById('edit-status').value;
+          const password = document.getElementById('edit-password').value;
+          const payload = { id, first_name, last_name, email, student_number, role, status };
+          if (password) payload.password = password;
+          try {
+            const res = await fetch('/FoundIT/api/admin/edit-user.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (data.success) {
+              notification.show({type:'success',title:'User Updated',message:'User details updated successfully.'});
+              closeEditModal();
+              if (typeof fetchAllUsers === 'function') fetchAllUsers();
+            } else {
+              notification.show({type:'error',title:'Error',message:data.message||'Failed to update user.'});
+            }
+          } catch (err) {
+            notification.show({type:'error',title:'Error',message:'Failed to update user.'});
+          }
+          btn.disabled = false;
+          btn.textContent = 'Save Changes';
+        };
+      }
+    });
+    let currentDeleteUserId = null;
+    window.openDeleteUserModal = function(id, btn) {
+      currentDeleteUserId = id;
+      document.getElementById('delete-user-modal').style.display = 'flex';
+      setTimeout(() => document.getElementById('delete-user-modal').classList.add('show'), 10);
+      document.getElementById('confirm-delete-user-btn').onclick = async function() {
+        if (!currentDeleteUserId) return;
+        this.disabled = true;
+        this.textContent = 'Deleting...';
+        try {
+          const res = await fetch('/FoundIT/api/admin/delete-user.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: currentDeleteUserId })
+          });
+          const data = await res.json();
+          if (data.success) {
+            notification.show({type:'success',title:'User Deleted',message:'User deleted successfully.'});
+            closeDeleteUserModal();
+            if (typeof fetchAllUsers === 'function') fetchAllUsers();
+          } else {
+            notification.show({type:'error',title:'Error',message:data.message||'Failed to delete user.'});
+          }
+        } catch (err) {
+          notification.show({type:'error',title:'Error',message:'Failed to delete user.'});
+        }
+        await new Promise(r => setTimeout(r, 2000));
+        this.disabled = false;
+        this.textContent = 'Delete';
+      };
+    }
+    window.closeDeleteUserModal = function() {
+      const modal = document.getElementById('delete-user-modal');
+      modal.classList.remove('show');
+      setTimeout(() => { modal.style.display = 'none'; }, 200);
+    }
+    </script>
+    <!-- Edit User Modal -->
+    <div id="edit-user-modal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeEditModal()" title="Close">&times;</button>
+        <div class="modal-header"><svg width="22" height="22" fill="none" stroke="#4f8cff" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg> Edit User</div>
+        <hr class="modal-divider" />
+        <form id="edit-user-form">
+          <input type="hidden" id="edit-user-id" />
+          <label>First Name<input type="text" id="edit-first-name" required /></label>
+          <label>Last Name<input type="text" id="edit-last-name" required /></label>
+          <label>Email<input type="email" id="edit-email" required /></label>
+          <label>Student/Staff ID<input type="text" id="edit-student-number" /></label>
+          <label>Role
+            <select id="edit-role">
+              <option value="1">Regular</option>
+              <option value="2">Staff</option>
+              <option value="3">Admin</option>
+            </select>
+          </label>
+          <label>Status
+            <select id="edit-status">
+              <option value="1">Active</option>
+              <option value="2">Archived</option>
+            </select>
+          </label>
+          <label>Password (leave blank to keep unchanged)<input type="text" id="edit-password" autocomplete="new-password" /></label>
+          <div class="modal-footer">
+            <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Message Modal -->
+    <div id="message-modal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeMessageModal()" title="Close">&times;</button>
+        <div class="modal-header"><svg width="22" height="22" fill="none" stroke="#4f8cff" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Send Message</div>
+        <hr class="modal-divider" />
+        <form id="message-form">
+          <label>Type
+            <select id="message-type">
+              <option value="INFO">Info</option>
+              <option value="WARN">Warning</option>
+              <option value="SUCCESS">Success</option>
+            </select>
+          </label>
+          <label>Title<input type="text" id="message-title" required /></label>
+          <label>Subject<input type="text" id="message-subject" required /></label>
+          <label>Details<textarea id="message-details" required style="width:100%;min-height:80px;"></textarea></label>
+          <label>To (search by name, email, or ID)<input type="text" id="message-user-search" autocomplete="off" required /></label>
+          <div id="message-user-results" style="max-height:120px;overflow-y:auto;margin-bottom:1em;"></div>
+          <input type="hidden" id="message-user-id" />
+          <div class="modal-footer">
+            <button type="button" class="btn-cancel" onclick="closeMessageModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Fix message delivery: ensure correct user id is sent -->
+    <script>
+    document.getElementById('message-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('message-user-id').value;
+      const type = document.getElementById('message-type').value;
+      const title = document.getElementById('message-title').value;
+      const subject = document.getElementById('message-subject').value;
+      const details = document.getElementById('message-details').value;
+      if (!id) {
+        notification.show({type:'error',title:'No User Selected',message:'Please select a user to send the message to.'});
+        return;
+      }
+      const message = `<b>[${type}] ${title}</b><br>${details}`;
+      const res = await fetch('/FoundIT/api/admin/users.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'message', id, subject, message })
+      });
+      const data = await res.json();
+      if (data.success) {
+        notification.show({type:'success',title:'Message Sent',message:'Inbox message sent to user.'});
+        closeMessageModal();
+      } else {
+        notification.show({type:'error',title:'Error',message:data.message||'Failed to send message.'});
+      }
+    };
+    </script>
+    <!-- Delete User Modal -->
+    <div id="delete-user-modal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeDeleteUserModal()" title="Close">&times;</button>
+        <div class="modal-header">Delete User</div>
+        <hr class="modal-divider" />
+        <div>Are you sure you want to <b>delete</b> this user? This action cannot be undone.</div>
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" onclick="closeDeleteUserModal()">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete-user-btn">Delete</button>
+        </div>
+      </div>
     </div>
   </body>
 </html> 

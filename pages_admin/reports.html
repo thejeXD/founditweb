@@ -12,6 +12,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <style>
+      .sidebar .nav-section-title {
+        font-weight: bold;
+        color: var(--clr-primary) !important;
+        letter-spacing: 0.02em;
+        margin-top: 1.2em;
+        margin-bottom: 0.7em;
+        font-size: 1.08em;
+      }
+      .sidebar .nav-link {
+        color: #222 !important;
+        font-weight: 500;
+        font-size: 1.07em;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        padding: 0.55em 0.7em;
+        border-radius: 8px;
+        transition: background 0.13s, color 0.13s;
+      }
+      .sidebar .nav-link:hover, .sidebar .nav-link:focus {
+        background: #eaf4fd;
+        color: var(--clr-primary) !important;
+        text-decoration: none;
+      }
+      .sidebar .nav-item {
+        margin-bottom: 0.2em;
+      }
+      .sidebar .nav-icon {
+        min-width: 20px;
+        min-height: 20px;
+        color: var(--clr-primary);
+        opacity: 0.95;
+      }
+    </style>
   </head>
   <body>
     <div class="dashboard-container">
@@ -24,6 +59,7 @@
         </div>
         <nav class="sidebar-nav">
           <ul class="nav-list">
+            <li class="nav-section-title">INFORMATION</li>
             <li class="nav-item">
               <a href="/FoundIT/pages_admin/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -51,7 +87,7 @@
                 Items
               </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a href="/FoundIT/pages_admin/reports.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 3h18v18H3z"></path>
@@ -64,9 +100,19 @@
               <a href="/FoundIT/pages_admin/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 Settings
+              </a>
+            </li>
+            <li class="nav-section-title">ADMINISTRATION</li>
+            <li class="nav-item admin-only" style="display:none;">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Back to User Dashboard
               </a>
             </li>
           </ul>
@@ -78,7 +124,9 @@
           <h1 class="page-title">Reports & Logs</h1>
           <div class="user-menu">
             <div class="user-profile">
+              <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="user-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
               <span class="user-name dashboard-user-name">Admin User</span>
+              <small class="user-role-label" style="display:block; color:#888; font-size:0.85em; margin-top:2px;"></small>
             </div>
           </div>
         </header>
@@ -97,11 +145,14 @@
               <table class="admin-table">
                 <thead>
                   <tr>
-                    <th>Action</th>
-                    <th>User</th>
-                    <th>Item</th>
-                    <th>Date/Time</th>
-                    <th>Details</th>
+                    <th>Report ID</th>
+                    <th>User ID</th>
+                    <th>Type</th>
+                    <th>Subject</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -111,6 +162,13 @@
                     <td>-</td>
                     <td>2024-06-01 10:00</td>
                     <td>Account archived by admin</td>
+                    <td>Archived</td>
+                    <td>2024-06-01 10:00</td>
+                    <td>
+                      <button class="action-button">View</button>
+                      <button class="action-button">Edit</button>
+                      <button class="action-button">Delete</button>
+                    </td>
                   </tr>
                   <tr>
                     <td>Deleted Item</td>
@@ -118,6 +176,13 @@
                     <td>Black Wallet</td>
                     <td>2024-06-01 09:30</td>
                     <td>Item removed from system</td>
+                    <td>Deleted</td>
+                    <td>2024-06-01 09:30</td>
+                    <td>
+                      <button class="action-button">View</button>
+                      <button class="action-button">Edit</button>
+                      <button class="action-button">Delete</button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -126,5 +191,47 @@
         </div>
       </main>
     </div>
+    <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+      &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+    </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        let role = null;
+        let firstName = '';
+        let lastName = '';
+        try {
+          const res = await fetch('/FoundIT/api/settings.php');
+          const data = await res.json();
+          if (data.success) {
+            role = Number(data.profile.role);
+            firstName = data.profile.first_name;
+            lastName = data.profile.last_name;
+          }
+        } catch {}
+        if (role === 2 || role === 3) {
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+        }
+        // Set admin name and role in top bar
+        document.querySelectorAll('.dashboard-user-name').forEach(el => {
+          el.textContent = firstName + ' ' + lastName;
+        });
+        document.querySelectorAll('.user-role-label').forEach(el => {
+          if (role === 3) el.textContent = 'ADMIN';
+          else if (role === 2) el.textContent = 'STAFF';
+          else el.textContent = '';
+        });
+      });
+      document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+      function formatDate(dateStr) {
+        if (!dateStr) return '-';
+        const d = new Date(dateStr.replace(' ', 'T'));
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleString(undefined, {
+          year: 'numeric', month: 'short', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        });
+      }
+    </script>
   </body>
 </html> 

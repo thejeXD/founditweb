@@ -181,8 +181,11 @@
             </li>
             <li class="nav-item">
               <a href="/FoundIT/pages/inbox.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
-                Inbox
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+                  <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                </svg>
+                Inbox <span class="notification-dot" id="sidebar-inbox-dot"></span>
               </a>
             </li>
             <li class="nav-item">
@@ -225,5 +228,32 @@
         </nav>
       </aside>
     </main>
+    <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+      &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+    </footer>
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        const badge = document.getElementById('sidebar-inbox-dot');
+        if (badge) {
+          try {
+            const res = await fetch('/FoundIT/api/inbox.php');
+            const data = await res.json();
+            let unreadCount = 0;
+            if (data.success) {
+              data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+            }
+            if (unreadCount > 0) {
+              badge.style.display = 'inline-block';
+              badge.style.background = '#dc3545';
+            } else {
+              badge.style.display = 'none';
+            }
+          } catch {
+            badge.style.display = 'none';
+          }
+        }
+      });
+      document.getElementById('footer-year').textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>

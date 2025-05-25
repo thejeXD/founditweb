@@ -99,3 +99,29 @@ a {
 .logo {
   max-width: 5.25rem;
 }
+
+/* Flat minimalist button styles */
+.btn, button, .tab-btn, .pagination-btn, .logout-btn {
+  background: #fff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  color: #2176c7 !important;
+  box-shadow: none !important;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border 0.15s;
+}
+.btn:hover, button:hover, .tab-btn:hover, .pagination-btn:hover, .logout-btn:hover {
+  background: #f4f8fb !important;
+  border: 1px solid #b5d6f7 !important;
+  color: #2176c7 !important;
+}
+.btn-danger, .btn-danger:hover {
+  color: #fff !important;
+  background: #dc3545 !important;
+  border: 1px solid #dc3545 !important;
+}
+.btn-secondary, .btn-secondary:hover {
+  color: #fff !important;
+  background: #4a90e2 !important;
+  border: 1px solid #4a90e2 !important;
+}

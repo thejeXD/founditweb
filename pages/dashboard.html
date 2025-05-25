@@ -15,6 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <style>
       .sidebar .nav-section-title {
@@ -51,12 +52,285 @@
         opacity: 0.95;
       }
       .tab-btn {
-        background: #f4faff !important;
+        background: #fff !important;
         color: #2176c7 !important;
         border: 2px solid #4a90e2 !important;
         font-weight: bold !important;
         border-radius: 8px 8px 0 0 !important;
         padding: 0.5em 1.2em !important;
+        box-shadow: none !important;
+      }
+      .tab-btn.active {
+        background: #2176c7 !important;
+        color: #fff !important;
+        border: 2px solid #2176c7 !important;
+      }
+      .tab-btn:not(.active):hover {
+        background: #eaf4fd !important;
+        color: #2176c7 !important;
+        border: 2px solid #b5d6f7 !important;
+      }
+      /* --- Recent Posts Card Redesign --- */
+      .posts-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin-top: 1em;
+      }
+      .post-card {
+        display: flex;
+        align-items: flex-start;
+        background: #fff;
+        border-radius: 14px;
+        border-left: 6px solid #4a90e2;
+        box-shadow: none;
+        overflow: hidden;
+        transition: background 0.15s, transform 0.15s;
+        padding: 0;
+        cursor: pointer;
+        margin: 0;
+      }
+      .post-card.found { border-left-color: #28a745; }
+      .post-card.lost { border-left-color: #dc3545; }
+      .post-card:hover { background: #f7fafd; }
+      .post-card-img {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin: 0.9em 1em 0.9em 0.9em;
+        background: #f4f4f4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.2em;
+        color: #bbb;
+        flex-shrink: 0;
+      }
+      .post-card-content {
+        flex: 1;
+        padding: 0.9em 1em 0.9em 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2em;
+      }
+      .post-card-title {
+        font-size: 1.08em;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #222;
+        margin-bottom: 0.05em;
+        letter-spacing: 0.01em;
+      }
+      .post-card-desc {
+        color: #6c757d;
+        font-size: 0.97em;
+        margin-bottom: 0.1em;
+        font-weight: 400;
+      }
+      .post-card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        align-items: center;
+        margin-top: 0.1em;
+      }
+      .badge {
+        display: inline-block;
+        padding: 0.13em 0.7em;
+        border-radius: 10px;
+        font-size: 0.89em;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        color: #fff;
+        background: #b5b5b5;
+        margin-right: 0.1em;
+        opacity: 0.92;
+      }
+      .badge.lost { background: #dc3545; }
+      .badge.found { background: #28a745; }
+      .badge.active { background: #4a90e2; }
+      .badge.archived { background: #888; }
+      .post-card-date {
+        color: #888;
+        font-size: 0.93em;
+        font-weight: 500;
+        margin-left: 0.1em;
+      }
+      @media (max-width: 700px) {
+        .post-card {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .post-card-img {
+          width: 100%;
+          height: 120px;
+          margin: 0;
+          border-radius: 14px 14px 0 0;
+          font-size: 2.5em;
+        }
+        .post-card-content {
+          padding: 0.9em 0.9em 0.9em 0.9em;
+        }
+      }
+      /* --- Modern Tabs --- */
+      .dashboard-tabs {
+        display: flex;
+        gap: 0.7em;
+        margin: 1.2em 0 1.1em 0;
+      }
+      .tab-btn {
+        background: #fff !important;
+        color: #2176c7 !important;
+        border: 2px solid #4a90e2 !important;
+        font-weight: bold !important;
+        border-radius: 8px 8px 0 0 !important;
+        padding: 0.5em 1.2em !important;
+        box-shadow: none !important;
+      }
+      .tab-btn.active {
+        background: #2176c7 !important;
+        color: #fff !important;
+        border: 2px solid #2176c7 !important;
+      }
+      .tab-btn:not(.active):hover {
+        background: #eaf4fd !important;
+        color: #2176c7 !important;
+        border: 2px solid #b5d6f7 !important;
+      }
+      /* --- Activity Card (same as post card, with tweaks) --- */
+      .activity-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 1em;
+        padding-right: 4px;
+      }
+      .activity-card {
+        display: flex;
+        align-items: flex-start;
+        background: #fff;
+        border-radius: 14px;
+        border-left: 6px solid #4a90e2;
+        box-shadow: none;
+        overflow: hidden;
+        transition: background 0.15s, transform 0.15s;
+        padding: 0;
+        margin: 0;
+        min-height: 102px;
+      }
+      .activity-card.edit_item { border-left-color: #2176c7; }
+      .activity-card.claim_item { border-left-color: #28a745; }
+      .activity-card.archive_item { border-left-color: #888; }
+      .activity-card.found { border-left-color: #28a745; }
+      .activity-card.lost { border-left-color: #dc3545; }
+      .activity-card:hover { background: #f7fafd; }
+      .activity-card-icon {
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7em;
+        background: #f4f4f4;
+        border-radius: 10px;
+        margin: 0.8em 1em 0.8em 0.8em;
+        flex-shrink: 0;
+        color: #4a90e2;
+      }
+      .activity-card-content {
+        flex: 1;
+        padding: 0.8em 1em 0.8em 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1em;
+      }
+      .activity-card-title {
+        font-size: 1.04em;
+        font-weight: 700;
+        color: #222;
+        margin-bottom: 0.05em;
+        letter-spacing: 0.01em;
+        text-transform: capitalize;
+      }
+      .activity-card-desc {
+        color: #6c757d;
+        font-size: 0.97em;
+        margin-bottom: 0.1em;
+        font-weight: 400;
+      }
+      .activity-card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em;
+        align-items: center;
+        margin-top: 0.1em;
+      }
+      .activity-badge {
+        display: inline-block;
+        padding: 0.13em 0.7em;
+        /* bor der-radius: 10px; */
+        font-size: 0.89em;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        color: #fff;
+        background: #b5b5b5;
+        margin-right: 0.1em;
+        opacity: 0.92;
+      }
+      .activity-badge.edit_item { background: #2176c7; }
+      .activity-badge.claim_item { background: #28a745; }
+      .activity-badge.archive_item { background: #888; }
+      .activity-badge.found { background: #28a745; }
+      .activity-badge.lost { background: #dc3545; }
+      .activity-card-date {
+        color: #888;
+        font-size: 0.93em;
+        font-weight: 500;
+        margin-left: 0.1em;
+      }
+      @media (max-width: 700px) {
+        .activity-card {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .activity-card-icon {
+          width: 100%;
+          height: 80px;
+          margin: 0;
+          border-radius: 14px 14px 0 0;
+          font-size: 2em;
+        }
+        .activity-card-content {
+          padding: 0.8em 0.8em 0.8em 0.8em;
+        }
+      }
+      .dashboard-main-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        align-items: flex-start;
+        width: 100%;
+        height: 100vh;
+        padding: 16px;
+        box-sizing: border-box;
+      }
+      .dashboard-right {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      .dashboard-banner {
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(74,144,226,0.07);
+        padding: 1.5rem;
+        min-height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     </style>
   </head>
@@ -94,7 +368,7 @@
             <li class="nav-item">
               <a href="/FoundIT/pages/inbox.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
-                Inbox
+                Inbox <span class="notification-dot" id="sidebar-inbox-dot"></span>
               </a>
             </li>
             <li class="nav-item">
@@ -107,6 +381,15 @@
               <a href="/FoundIT/pages/lost-found.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 Lost & Found
+              </a>
+            </li>
+            <li class="nav-item admin-only" style="display:none;">
+              <a href="/FoundIT/pages_admin/dashboard.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M16 3v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V3"></path>
+                </svg>
+                Administration
               </a>
             </li>
             <li class="nav-section-title">OTHERS</li>
@@ -163,8 +446,7 @@
           <div class="dashboard-left">
             <section class="stats-section">
               <div class="stat-card">
-                <div class="stat-icon lost" style="background:#e3f0ff;">
-                  <!-- Modern Lucide/Feather magnifying glass icon for lost -->
+                <div class="stat-icon lost" style="background:#e3f0ff; color:#4a90e2;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </div>
                 <div class="stat-info">
@@ -173,9 +455,8 @@
                 </div>
               </div>
               <div class="stat-card">
-                <div class="stat-icon found" style="background:#e3f7ee;">
-                  <!-- Modern Lucide/Feather icon for found -->
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <div class="stat-icon found" style="background:#e3f7ee; color:#28a745;">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </div>
                 <div class="stat-info">
                   <h3>Found Items</h3>
@@ -207,10 +488,39 @@
               </section>
             </section>
           </div>
+          <div class="dashboard-right">
+            <section class="dashboard-banner">
+              <img src="/FoundIT/assets/lost n found.png" alt="Ad Banner" style="width:100%;border-radius:12px;">
+            </section>
+            <section class="dashboard-calendar">
+              <div style="width:100%;background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(74,144,226,0.07);padding:1.5rem;display:flex;flex-direction:column;align-items:center;">
+                <div id="today-date-time" style="font-size:1.1rem;font-weight:600;color:#2176c7;margin-bottom:1.2rem;text-align:center;">
+                  <!-- JS will fill in date/time here -->
+                  <span id="today-date"></span><br><span id="today-time"></span>
+                </div>
+                <div class="static-calendar" style="width:100%;max-width:260px;">
+                  <table style="width:100%;border-collapse:collapse;text-align:center;font-size:1em;">
+                    <thead>
+                      <tr style="color:#2176c7;font-weight:700;">
+                        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                      </tr>
+                    </thead>
+                    <tbody id="calendar-body">
+                      <!-- JS will fill in days here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </main>
     </div>
 
+    <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+      &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+    </footer>
+    
     <script>
       document.addEventListener('DOMContentLoaded', async function() {
       const res = await fetch('/FoundIT/api/dashboard-data.php');
@@ -352,39 +662,30 @@
         const activityList = document.getElementById('activity-list');
         activityList.innerHTML = '';
         activities.forEach(act => {
-          const div = document.createElement('div');
-          div.className = 'activity-item';
-          let iconHtml = '';
-          let iconClass = '';
-          if (act.action === 'archive_item') {
-            iconClass = 'archived';
-            iconHtml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 3v4M8 3v4"/></svg>`;
-          } else if (act.action === 'claim_item') {
-            iconClass = 'claimed';
-            iconHtml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 22V12M17 22V12M12 22V2"/></svg>`;
-          } else if (act.action === 'edit_item') {
-            iconClass = 'edited';
-            iconHtml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>`;
-          } else {
-            iconClass = 'found';
-            iconHtml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>`;
-          }
-          div.innerHTML = `
-            <div class="activity-icon ${iconClass}">${iconHtml}</div>
-            <div class="activity-details">
-              <h4>${act.action.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h4>
-              <p>${act.details}</p>
-              <span class="activity-time">${new Date(act.created_at).toLocaleString()}</span>
+          const card = document.createElement('div');
+          card.className = 'activity-card ' + (act.action || 'found');
+          // Icon per action
+          let icon = '';
+          if (act.action === 'archive_item') icon = '🗃️';
+          else if (act.action === 'claim_item') icon = '✅';
+          else if (act.action === 'submit_item') icon = '📋';
+          else if (act.action === 'edit') icon = '✏️';
+          else icon = '📦';
+          card.innerHTML = `
+            <div class="activity-card-icon">${icon}</div>
+            <div class="activity-card-content">
+              <div class="activity-card-title">${act.action.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+              <div class="activity-card-desc">${act.details}</div>
+              <div class="activity-card-meta">
+                <span class="activity-badge ${act.action}">${act.action.replace(/_/g, ' ').toUpperCase()}</span>
+                <span class="activity-card-date">${new Date(act.created_at).toLocaleString()}</span>
+              </div>
             </div>
           `;
-          if (act.action === 'archive_item') {
-            div.querySelector('.activity-icon').style.background = '#888';
-            div.querySelector('.activity-icon').style.color = '#fff';
-          }
-          activityList.appendChild(div);
+          activityList.appendChild(card);
         });
         if (activities.length === 0) {
-          activityList.innerHTML = '<div class="activity-item"><div class="activity-details"><p>No recent activity.</p></div></div>';
+          activityList.innerHTML = '<div class="activity-card" style="color:#888;justify-content:center;align-items:center;padding:2em;">No recent activity.</div>';
         }
       }
       function renderActivityPagination() {
@@ -410,15 +711,21 @@
       async function fetchPosts() {
         const res = await fetch('/FoundIT/api/lost-found.php');
         const data = await res.json();
-        // Only show posts from the past 3 days and today
-        const now = new Date();
-        postsData = (data.success ? data.items.filter(i => {
-          if (i.status != 1) return false;
-          if (!i.date_time) return false;
-          const postDate = new Date(i.date_time);
-          const diffDays = (now - postDate) / (1000 * 60 * 60 * 24);
-          return diffDays <= 3 && diffDays >= 0;
-        }) : []);
+        // Only show posts from the past 3 days and today (calendar days)
+        if (data.success) {
+          const today = new Date();
+          today.setHours(0,0,0,0);
+          postsData = data.items.filter(i => {
+            if (i.status != 1) return false;
+            if (!i.date_time) return false;
+            const postDate = new Date(i.date_time);
+            postDate.setHours(0,0,0,0);
+            const diffDays = (today - postDate) / (1000 * 60 * 60 * 24);
+            return diffDays <= 3 && diffDays >= 0;
+          });
+        } else {
+          postsData = [];
+        }
         renderPostsPage();
         renderPostsPagination();
       }
@@ -429,28 +736,31 @@
         const end = start+POSTS_PER_PAGE;
         const pageItems = postsData.slice(start,end);
         pageItems.forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'post-item';
+          const card = document.createElement('div');
+          card.className = 'post-card ' + (item.type === 'lost' ? 'lost' : 'found');
+          card.onclick = () => window.location.href = `/FoundIT/pages/view-item.html?id=${item.id}`;
           let imageHtml = '';
           if (item.image) {
-            imageHtml = `<img src="/FoundIT/${item.image}" alt="Item Image" style="width:80px;height:80px;object-fit:cover;border-radius:8px;margin-right:1em;vertical-align:middle;box-shadow:0 1px 6px rgba(0,0,0,0.08);" />`;
+            imageHtml = `<img src="/FoundIT/${item.image}" alt="Item Image" class="post-card-img" />`;
+          } else {
+            imageHtml = `<div class="post-card-img">📦</div>`;
           }
-          div.innerHTML = `
-            <div style="display:flex;align-items:flex-start;gap:1em;">
-              ${imageHtml}
-              <div style="flex:1;">
-                <a href="/FoundIT/pages/view-item.html?id=${item.id}" class="post-link" style="font-size:1.15em;font-weight:700;text-transform:uppercase;">${item.name}</a>
-                <div style="color:#888;font-size:0.97em;margin-bottom:0.3em;">${item.description || ''}</div>
-                <div style="font-size:0.97em;margin-bottom:0.3em;"><b>Status Type:</b> <span style="color:${item.type === 'lost' ? '#dc3545' : '#28a745'};font-weight:600;">${item.type ? item.type.toUpperCase() : ''}</span></div>
-                <div style="font-size:0.97em;margin-bottom:0.3em;"><b>Active?</b> <span style="color:${item.status == 1 ? '#28a745' : '#888'};font-weight:600;">${item.status == 1 ? 'Yes' : 'No'}</span></div>
-                <div style="font-size:0.97em;margin-bottom:0.3em;"><b>When:</b> ${item.date_time ? new Date(item.date_time).toLocaleString() : ''}</div>
+          card.innerHTML = `
+            ${imageHtml}
+            <div class="post-card-content">
+              <div class="post-card-title">${item.name}</div>
+              <div class="post-card-desc">${item.description || ''}</div>
+              <div class="post-card-meta">
+                <span class="badge ${item.type === 'lost' ? 'lost' : 'found'}">${item.type ? item.type.toUpperCase() : ''}</span>
+                <span class="badge ${item.status == 1 ? 'active' : 'archived'}">${item.status == 1 ? 'ACTIVE' : 'ARCHIVED'}</span>
+                <span class="post-card-date">${item.date_time ? new Date(item.date_time).toLocaleString() : ''}</span>
               </div>
             </div>
           `;
-          postsList.appendChild(div);
+          postsList.appendChild(card);
         });
         if (pageItems.length === 0) {
-          postsList.innerHTML = '<div class="post-item" style="color:#888;">No recent posts.</div>';
+          postsList.innerHTML = '<div class="post-card" style="color:#888;justify-content:center;align-items:center;padding:2em;">No recent posts.</div>';
         }
       }
       function renderPostsPagination() {
@@ -472,6 +782,88 @@
       }
       await fetchPosts();
     });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        let role = null;
+        try {
+          const res = await fetch('/FoundIT/api/settings.php');
+          const data = await res.json();
+          if (data.success) {
+            role = Number(data.profile.role);
+          }
+        } catch {}
+        if (role === 2 || role === 3) {
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+        }
+      });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        const badge = document.getElementById('sidebar-inbox-dot');
+        if (badge) {
+          try {
+            const res = await fetch('/FoundIT/api/inbox.php');
+            const data = await res.json();
+            let unreadCount = 0;
+            if (data.success) {
+              data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+            }
+            if (unreadCount > 0) {
+              badge.style.display = 'inline-block';
+              badge.style.background = '#dc3545';
+            } else {
+              badge.style.display = 'none';
+            }
+          } catch {
+            badge.style.display = 'none';
+          }
+        }
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      flatpickr('#calendar-widget', {
+        inline: true,
+        locale: 'default',
+        showMonths: 1,
+        disableMobile: true
+      });
+    });
+    </script>
+
+    <script>
+    function updateDateTime() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      const timeStr = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('today-date').textContent = dateStr;
+      document.getElementById('today-time').textContent = timeStr;
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    function renderStaticCalendar() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      let html = '<tr>';
+      for (let i = 0; i < firstDay; i++) html += '<td></td>';
+      for (let d = 1; d <= daysInMonth; d++) {
+        if ((firstDay + d - 1) % 7 === 0 && d !== 1) html += '</tr><tr>';
+        const isToday = d === now.getDate();
+        html += `<td style="padding:0.4em 0.2em;border-radius:6px;${isToday ? 'background:#2176c7;color:#fff;font-weight:700;' : 'color:#222;'}">${d}</td>`;
+      }
+      html += '</tr>';
+      document.getElementById('calendar-body').innerHTML = html;
+    }
+    renderStaticCalendar();
     </script>
   </body>
 </html> 

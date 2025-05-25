@@ -5,20 +5,20 @@
 
 /* Stat icon colors for admin */
 .stat-icon.users {
-  background: #e3f2fd;
-  color: #1976d2;
+  background: #e3f2fd !important;
+  color: #1976d2 !important;
 }
 .stat-icon.items {
-  background: #fff3e0;
-  color: #f57c00;
+  background: #fff3e0 !important;
+  color: #f57c00 !important;
 }
 .stat-icon.active {
-  background: #e8f5e9;
-  color: #388e3c;
+  background: #e8f5e9 !important;
+  color: #388e3c !important;
 }
 .stat-icon.resolved {
-  background: #f3e5f5;
-  color: #8e24aa;
+  background: #f3e5f5 !important;
+  color: #8e24aa !important;
 }
 
 /* Activity icon colors */
@@ -63,4 +63,35 @@
   font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
   color: #888;
   font-size: 0.85em;
+}
+
+/* Flat minimalist card styles for admin */
+.stat-card, .activity-card, .recent-activity {
+  background: #fff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+/* Remove forced gray icon color for stat-icon and activity-card-icon */
+/* .stat-icon, .activity-card-icon {
+  background: none !important;
+  color: #888 !important;
+} */
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: inherit;
+  color: inherit;
+  overflow: hidden;
+}
+.stat-icon svg {
+  width: 28px;
+  height: 28px;
+  display: block;
 } 

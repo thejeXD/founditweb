@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 // Get user profile
-$stmt = $conn->prepare("SELECT first_name, last_name, student_number, email FROM accounts WHERE id = ?");
+$stmt = $conn->prepare("SELECT id, first_name, last_name, student_number, email, role FROM accounts WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $profile = $stmt->get_result()->fetch_assoc();

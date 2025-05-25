@@ -7,6 +7,19 @@
 A new folder `pages_admin` will contain static admin dashboard pages, following the same design system as user pages in `pages/`. This is for admin-only features like user/item management, reports, and settings.
 
 ```
+CREATE TABLE activity_log_admin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admin_id INT NOT NULL,                -- references accounts(id) of the admin/staff
+    action VARCHAR(64) NOT NULL,          -- e.g. 'archive_item', 'delete_user', 'update_report'
+    target_type VARCHAR(32),              -- e.g. 'item', 'user', 'report'
+    target_id INT,                        -- id of the affected entity (item/user/report)
+    details TEXT,                         -- optional: more info about the action
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (admin_id) REFERENCES accounts(id)
+);
+```
+
+```
 -- Accounts
 CREATE TABLE accounts (
     id INT PRIMARY KEY AUTO_INCREMENT,

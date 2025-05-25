@@ -9,9 +9,155 @@
     <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
     <link rel="stylesheet" href="/FoundIT/styles/pages/admin-dashboard.css" />
     <link rel="stylesheet" href="/FoundIT/styles/pages/admin-items.css" />
+    <link rel="stylesheet" href="/FoundIT/styles/components/notification.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <style>
+      .sidebar .nav-section-title {
+        font-weight: bold;
+        color: var(--clr-primary) !important;
+        letter-spacing: 0.02em;
+        margin-top: 1.2em;
+        margin-bottom: 0.7em;
+        font-size: 1.08em;
+      }
+      .sidebar .nav-link {
+        color: #222 !important;
+        font-weight: 500;
+        font-size: 1.07em;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        padding: 0.55em 0.7em;
+        border-radius: 8px;
+        transition: background 0.13s, color 0.13s;
+      }
+      .sidebar .nav-link:hover, .sidebar .nav-link:focus {
+        background: #eaf4fd;
+        color: var(--clr-primary) !important;
+        text-decoration: none;
+      }
+      .sidebar .nav-item {
+        margin-bottom: 0.2em;
+      }
+      .sidebar .nav-icon {
+        min-width: 20px;
+        min-height: 20px;
+        color: var(--clr-primary);
+        opacity: 0.95;
+      }
+      /* Modal and button styles copied from users.html for consistency */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.22);
+        align-items: center; justify-content: center;
+        transition: background 0.2s;
+      }
+      .modal.show { display: flex; animation: modalFadeIn 0.2s; }
+      @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+      .modal-content {
+        background: #fff;
+        padding: 2.5em 2.8em 2em 2.8em;
+        border-radius: 18px;
+        min-width: 340px;
+        max-width: 95vw;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        position: relative;
+        animation: popIn 0.22s cubic-bezier(.4,2,.6,1);
+        border: 1.5px solid #e3e8f0;
+      }
+      @keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+      .modal-close {
+        position: absolute;
+        top: 1em; right: 1em;
+        background: none; border: none;
+        font-size: 1.7em; color: #888;
+        cursor: pointer;
+        transition: color 0.15s;
+      }
+      .modal-close:hover { color: #222; }
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1em;
+        margin-top: 1.5em;
+      }
+      .btn-cancel {
+        background: #f5f5f5;
+        color: #888;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 0.7em 1.5em;
+        font-weight: 600;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .btn-cancel:hover { background: #eee; color: #222; }
+      .modal-header {
+        font-size: 1.35em;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        color: #2a2a2a;
+        margin-bottom: 0.7em;
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+      .modal-divider {
+        height: 1.5px;
+        background: linear-gradient(90deg, #e3e8f0 0%, #f7f8fa 100%);
+        border: none;
+        margin: 1em 0 1.5em 0;
+      }
+      .modal-content label {
+        font-weight: 500;
+        color: #444;
+        margin-bottom: 0.2em;
+        display: block;
+      }
+      .modal-content input, .modal-content select, .modal-content textarea {
+        width: 100%;
+        margin-bottom: 1em;
+        padding: 0.6em 1em;
+        border-radius: 8px;
+        border: 1px solid #e3e8f0;
+        font-size: 1em;
+        background: #f7f8fa;
+        transition: border 0.15s;
+      }
+      .modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus {
+        border: 1.5px solid #7bb6fa;
+        outline: none;
+        background: #fff;
+      }
+      .modal-content textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .modal-content .btn-primary {
+        background: linear-gradient(90deg, #4f8cff 0%, #1e90ff 100%);
+        color: #fff;
+        border: none;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(30,144,255,0.07);
+      }
+      .modal-content .btn-primary:hover {
+        background: linear-gradient(90deg, #1e90ff 0%, #4f8cff 100%);
+        color: #fff;
+      }
+      .btn-xs {
+        padding: 0.25em 0.7em !important;
+        font-size: 0.95em !important;
+        border-radius: 6px !important;
+        line-height: 1.2 !important;
+        margin-right: 0.2em;
+      }
+    </style>
   </head>
   <body>
     <div class="dashboard-container">
@@ -24,6 +170,7 @@
         </div>
         <nav class="sidebar-nav">
           <ul class="nav-list">
+            <li class="nav-section-title">INFORMATION</li>
             <li class="nav-item">
               <a href="/FoundIT/pages_admin/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -42,7 +189,7 @@
                 Users
               </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a href="/FoundIT/pages_admin/items.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -69,68 +216,401 @@
                 Settings
               </a>
             </li>
+            <li class="nav-section-title">ADMINISTRATION</li>
+            <li class="nav-item admin-only" style="display:none;">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Back to User Dashboard
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>
       <!-- Main Content -->
       <main class="main-content">
         <header class="top-bar">
-          <h1 class="page-title">Item Management</h1>
+          <h1 class="page-title">Admin Items</h1>
           <div class="user-menu">
             <div class="user-profile">
+              <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="user-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
               <span class="user-name dashboard-user-name">Admin User</span>
+              <small class="user-role-label" style="display:block; color:#888; font-size:0.85em; margin-top:2px;"></small>
             </div>
           </div>
         </header>
         <div class="dashboard-content">
           <section class="admin-table-section">
-            <div class="section-header">
+            <div class="section-header" style="display:flex;align-items:center;gap:1em;flex-wrap:wrap;">
               <h2>All Items</h2>
-              <input type="text" class="admin-search" placeholder="Search items..." />
+              <input type="text" class="admin-search" placeholder="Search items..." style="flex:1;max-width:320px;" />
+              <select id="item-status-filter" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;">
+                <option value="">All Status</option>
+                <option value="1">Active</option>
+                <option value="0">Archived</option>
+              </select>
+              <select id="item-type-filter" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;">
+                <option value="">All Types</option>
+                <option value="lost">Lost</option>
+                <option value="found">Found</option>
+              </select>
+              <select id="item-category-filter" style="padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem;">
+                <option value="">All Categories</option>
+              </select>
             </div>
             <div class="admin-table-wrapper">
-              <table class="admin-table">
+              <table class="admin-table" id="admin-items-table">
                 <thead>
                   <tr>
+                    <th>Item ID</th>
                     <th>Name</th>
                     <th>Category</th>
-                    <th>Owner</th>
+                    <th>Type</th>
+                    <th>User</th>
+                    <th>Date & Time</th>
+                    <th>Location</th>
                     <th>Status</th>
-                    <th>Date</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Black Wallet</td>
-                    <td>Accessories</td>
-                    <td>Jane Doe</td>
-                    <td><span class="status-badge active">Active</span></td>
-                    <td>2024-06-01</td>
-                    <td>
-                      <button class="btn btn-warning">Archive</button>
-                      <button class="btn btn-danger">Delete</button>
-                      <button class="btn btn-secondary">Edit</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Blue Bag</td>
-                    <td>Bags</td>
-                    <td>John Smith</td>
-                    <td><span class="status-badge archived">Archived</span></td>
-                    <td>2024-05-28</td>
-                    <td>
-                      <button class="btn btn-warning">Archive</button>
-                      <button class="btn btn-danger">Delete</button>
-                      <button class="btn btn-secondary">Edit</button>
-                    </td>
-                  </tr>
+                  <!-- Items will be injected by JS -->
                 </tbody>
               </table>
+              <div id="items-pagination" style="display:flex;justify-content:center;align-items:center;gap:1em;margin-top:1em;"></div>
             </div>
           </section>
         </div>
       </main>
     </div>
+    <!-- Item Modals (Edit/Delete/Archive) -->
+    <div id="edit-item-modal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeEditItemModal()" title="Close">&times;</button>
+        <div class="modal-header">Edit Item</div>
+        <hr class="modal-divider" />
+        <form id="edit-item-form">
+          <input type="hidden" id="edit-item-id" />
+          <label>Name<input type="text" id="edit-item-name" required /></label>
+          <label>Category<input type="text" id="edit-item-category" required /></label>
+          <label>Description<textarea id="edit-item-description" style="width:100%;min-height:60px;"></textarea></label>
+          <label>Date & Time<input type="datetime-local" id="edit-item-date-time" required /></label>
+          <label>Location<input type="text" id="edit-item-location" /></label>
+          <label>Specific Location<input type="text" id="edit-item-specific-location" /></label>
+          <label>Type
+            <select id="edit-item-type" required>
+              <option value="lost">Lost</option>
+              <option value="found">Found</option>
+            </select>
+          </label>
+          <label>Status
+            <select id="edit-item-status">
+              <option value="1">Active</option>
+              <option value="0">Archived</option>
+            </select>
+          </label>
+          <div class="modal-footer">
+            <button type="button" class="btn-cancel" onclick="closeEditItemModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="delete-item-modal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeDeleteItemModal()" title="Close">&times;</button>
+        <div class="modal-header">Delete Item</div>
+        <hr class="modal-divider" />
+        <div>Are you sure you want to <b>delete</b> this item? This action cannot be undone.</div>
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" onclick="closeDeleteItemModal()">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete-item-btn">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div id="archive-item-modal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeArchiveItemModal()" title="Close">&times;</button>
+        <div class="modal-header" id="archive-item-modal-title">Archive Item</div>
+        <hr class="modal-divider" />
+        <div id="archive-item-modal-msg">Are you sure you want to archive this item?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" onclick="closeArchiveItemModal()">Cancel</button>
+          <button type="button" class="btn btn-warning" id="confirm-archive-item-btn">Archive</button>
+        </div>
+      </div>
+    </div>
+    <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+      &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+    </footer>
+    <script src="/FoundIT/scripts/custom-notification.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        let role = null;
+        let firstName = '';
+        let lastName = '';
+        try {
+          const res = await fetch('/FoundIT/api/settings.php');
+          const data = await res.json();
+          if (data.success) {
+            role = Number(data.profile.role);
+            firstName = data.profile.first_name;
+            lastName = data.profile.last_name;
+          }
+        } catch {}
+        if (role === 2 || role === 3) {
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+        }
+        // Set admin name and role in top bar
+        document.querySelectorAll('.dashboard-user-name').forEach(el => {
+          el.textContent = firstName + ' ' + lastName;
+        });
+        document.querySelectorAll('.user-role-label').forEach(el => {
+          if (role === 3) el.textContent = 'ADMIN';
+          else if (role === 2) el.textContent = 'STAFF';
+          else el.textContent = '';
+        });
+      });
+      document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+      function formatDate(dateStr) {
+        if (!dateStr) return '-';
+        const d = new Date(dateStr.replace(' ', 'T'));
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleString(undefined, {
+          year: 'numeric', month: 'short', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        });
+      }
+
+      let allItems = [], filteredItems = [], currentPage = 1;
+      const ITEMS_PER_PAGE = 10;
+      async function fetchAllItems() {
+        const res = await fetch('/FoundIT/api/admin/items.php');
+        const data = await res.json();
+        if (data.success) {
+          allItems = data.items;
+          populateCategoryFilter(allItems);
+          applyItemFilters();
+        }
+      }
+      function populateCategoryFilter(items) {
+        const catSet = new Set();
+        items.forEach(item => { if (item.category) catSet.add(item.category); });
+        const catFilter = document.getElementById('item-category-filter');
+        catFilter.innerHTML = '<option value="">All Categories</option>' + Array.from(catSet).map(cat => `<option value="${cat}">${cat}</option>`).join('');
+      }
+      function applyItemFilters() {
+        const searchValue = document.querySelector('.admin-search').value.trim().toLowerCase();
+        const statusValue = document.getElementById('item-status-filter').value;
+        const typeValue = document.getElementById('item-type-filter').value;
+        const catValue = document.getElementById('item-category-filter').value;
+        filteredItems = allItems.filter(item => {
+          if (statusValue && String(item.status) !== String(statusValue)) return false;
+          if (typeValue && String(item.type) !== String(typeValue)) return false;
+          if (catValue && String(item.category) !== String(catValue)) return false;
+          if (searchValue) {
+            const haystack = `${item.name} ${item.category} ${item.description} ${item.location} ${item.specific_location} ${item.first_name} ${item.last_name} ${item.email}`.toLowerCase();
+            if (!haystack.includes(searchValue)) return false;
+          }
+          return true;
+        });
+        currentPage = 1;
+        renderItems(filteredItems);
+      }
+      function renderItems(items) {
+        const tbody = document.querySelector('#admin-items-table tbody');
+        tbody.innerHTML = '';
+        if (!items.length) {
+          tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#888;">No items found.</td></tr>';
+          document.getElementById('items-pagination').innerHTML = '';
+          return;
+        }
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+        const pageItems = items.slice(start, end);
+        pageItems.forEach(item => {
+          const userName = item.first_name ? `${item.first_name} ${item.last_name}` : 'Unknown';
+          const viewLink = `/FoundIT/pages/view-item.html?id=${item.id}`;
+          const statusLabel = item.status == 1 ? '<span class="status-badge active">Active</span>' : '<span class="status-badge archived">Archived</span>';
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${item.id}</td>
+            <td><a href="${viewLink}" target="_blank" style="color:#1976d2;text-decoration:underline;">${item.name}</a></td>
+            <td>${item.category || ''}</td>
+            <td>${item.type ? item.type.charAt(0).toUpperCase() + item.type.slice(1) : ''}</td>
+            <td>${userName}</td>
+            <td>${item.date_time ? formatDate(item.date_time) : '-'}</td>
+            <td>${item.location || ''}${item.specific_location ? ' - ' + item.specific_location : ''}</td>
+            <td>${statusLabel}</td>
+            <td>
+              <button class='btn btn-primary btn-xs' title="Edit" onclick='openEditItemModal(${JSON.stringify(item).replace(/"/g, '&quot;')})'>Edit</button>
+              <button class='btn btn-warning btn-xs' title="Archive" onclick='openArchiveItemModal(${item.id}, ${item.status})'>${item.status == 1 ? 'Archive' : 'Unarchive'}</button>
+              <button class='btn btn-danger btn-xs' title="Delete" onclick='openDeleteItemModal(${item.id})'>Delete</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+        // Pagination controls
+        const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+        let pagHtml = '';
+        pagHtml += `<button class='btn btn-xs' ${currentPage === 1 ? 'disabled' : ''} onclick='prevItemsPage()'>Prev</button>`;
+        pagHtml += `<span>Page ${currentPage} of ${totalPages}</span>`;
+        pagHtml += `<button class='btn btn-xs' ${currentPage === totalPages ? 'disabled' : ''} onclick='nextItemsPage()'>Next</button>`;
+        document.getElementById('items-pagination').innerHTML = pagHtml;
+      }
+      window.prevItemsPage = function() {
+        if (currentPage > 1) { currentPage--; renderItems(filteredItems); }
+      }
+      window.nextItemsPage = function() {
+        const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+        if (currentPage < totalPages) { currentPage++; renderItems(filteredItems); }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        fetchAllItems();
+        document.querySelector('.admin-search').addEventListener('input', applyItemFilters);
+        document.getElementById('item-status-filter').addEventListener('change', applyItemFilters);
+        document.getElementById('item-type-filter').addEventListener('change', applyItemFilters);
+        document.getElementById('item-category-filter').addEventListener('change', applyItemFilters);
+      });
+      let currentArchiveItemId = null, currentArchiveItemStatus = null, currentDeleteItemId = null, currentEditItem = null;
+      window.openEditItemModal = function(item) {
+        currentEditItem = item;
+        document.getElementById('edit-item-id').value = item.id;
+        document.getElementById('edit-item-name').value = item.name;
+        document.getElementById('edit-item-category').value = item.category;
+        document.getElementById('edit-item-description').value = item.description || '';
+        document.getElementById('edit-item-date-time').value = item.date_time ? item.date_time.replace(' ', 'T') : '';
+        document.getElementById('edit-item-location').value = item.location || '';
+        document.getElementById('edit-item-specific-location').value = item.specific_location || '';
+        document.getElementById('edit-item-type').value = item.type;
+        document.getElementById('edit-item-status').value = item.status;
+        document.getElementById('edit-item-modal').style.display = 'flex';
+        setTimeout(() => document.getElementById('edit-item-modal').classList.add('show'), 10);
+      }
+      window.closeEditItemModal = function() {
+        const modal = document.getElementById('edit-item-modal');
+        modal.classList.remove('show');
+        setTimeout(() => { modal.style.display = 'none'; }, 200);
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('edit-item-form');
+        if (form) {
+          form.onsubmit = async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Saving...';
+            const payload = {
+              id: document.getElementById('edit-item-id').value,
+              name: document.getElementById('edit-item-name').value.trim(),
+              category: document.getElementById('edit-item-category').value.trim(),
+              description: document.getElementById('edit-item-description').value.trim(),
+              date_time: document.getElementById('edit-item-date-time').value,
+              location: document.getElementById('edit-item-location').value.trim(),
+              specific_location: document.getElementById('edit-item-specific-location').value.trim(),
+              type: document.getElementById('edit-item-type').value,
+              status: document.getElementById('edit-item-status').value
+            };
+            try {
+              const res = await fetch('/FoundIT/api/admin/edit-item.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              const data = await res.json();
+              if (data.success) {
+                notification.show({type:'success',title:'Item Updated',message:'Item details updated successfully.'});
+                closeEditItemModal();
+                fetchAllItems();
+              } else {
+                notification.show({type:'error',title:'Error',message:data.message||'Failed to update item.'});
+              }
+            } catch (err) {
+              notification.show({type:'error',title:'Error',message:'Failed to update item.'});
+            }
+            await new Promise(r => setTimeout(r, 2000));
+            btn.disabled = false;
+            btn.textContent = 'Save Changes';
+          };
+        }
+      });
+      window.openArchiveItemModal = function(id, status) {
+        currentArchiveItemId = id;
+        currentArchiveItemStatus = status;
+        document.getElementById('archive-item-modal-title').textContent = status == 1 ? 'Archive Item' : 'Unarchive Item';
+        document.getElementById('archive-item-modal-msg').textContent = status == 1 ? 'Are you sure you want to archive this item?' : 'Are you sure you want to unarchive this item?';
+        document.getElementById('confirm-archive-item-btn').textContent = status == 1 ? 'Archive' : 'Unarchive';
+        document.getElementById('archive-item-modal').style.display = 'flex';
+        setTimeout(() => document.getElementById('archive-item-modal').classList.add('show'), 10);
+      }
+      window.closeArchiveItemModal = function() {
+        const modal = document.getElementById('archive-item-modal');
+        modal.classList.remove('show');
+        setTimeout(() => { modal.style.display = 'none'; }, 200);
+      }
+      document.getElementById('confirm-archive-item-btn').onclick = async function() {
+        if (!currentArchiveItemId) return;
+        this.disabled = true;
+        this.textContent = 'Saving...';
+        try {
+          const res = await fetch('/FoundIT/api/admin/archive-item.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: currentArchiveItemId, status: currentArchiveItemStatus == 1 ? 0 : 1 })
+          });
+          const data = await res.json();
+          if (data.success) {
+            notification.show({type:'success',title:'Item Updated',message:'Item status updated.'});
+            closeArchiveItemModal();
+            fetchAllItems();
+          } else {
+            notification.show({type:'error',title:'Error',message:data.message||'Failed to update item.'});
+          }
+        } catch (err) {
+          notification.show({type:'error',title:'Error',message:'Failed to update item.'});
+        }
+        await new Promise(r => setTimeout(r, 2000));
+        this.disabled = false;
+        this.textContent = currentArchiveItemStatus == 1 ? 'Archive' : 'Unarchive';
+      };
+      window.openDeleteItemModal = function(id) {
+        currentDeleteItemId = id;
+        document.getElementById('delete-item-modal').style.display = 'flex';
+        setTimeout(() => document.getElementById('delete-item-modal').classList.add('show'), 10);
+      }
+      window.closeDeleteItemModal = function() {
+        const modal = document.getElementById('delete-item-modal');
+        modal.classList.remove('show');
+        setTimeout(() => { modal.style.display = 'none'; }, 200);
+      }
+      document.getElementById('confirm-delete-item-btn').onclick = async function() {
+        if (!currentDeleteItemId) return;
+        this.disabled = true;
+        this.textContent = 'Deleting...';
+        try {
+          const res = await fetch('/FoundIT/api/admin/delete-item.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: currentDeleteItemId })
+          });
+          const data = await res.json();
+          if (data.success) {
+            notification.show({type:'success',title:'Item Deleted',message:'Item deleted successfully.'});
+            closeDeleteItemModal();
+            fetchAllItems();
+          } else {
+            notification.show({type:'error',title:'Error',message:data.message||'Failed to delete item.'});
+          }
+        } catch (err) {
+          notification.show({type:'error',title:'Error',message:'Failed to delete item.'});
+        }
+        await new Promise(r => setTimeout(r, 2000));
+        this.disabled = false;
+        this.textContent = 'Delete';
+      };
+    </script>
   </body>
 </html> 

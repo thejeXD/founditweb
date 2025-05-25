@@ -185,8 +185,10 @@
         <li><a href="/FoundIT/" class="header-nav-link">Home</a></li>
         <li><a href="/FoundIT/public/about.html" class="header-nav-link">About</a></li>
         <li><a href="/FoundIT/public/contact.html" class="header-nav-link">Contact</a></li>
-        <li><a href="/FoundIT/auth/login.html" class="header-nav-link">Login</a></li>
-        <li><a href="/FoundIT/auth/sign-up.html" class="sign-up-btn">Sign Up <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="icon" /></a></li>
+        <li class="login-link"><a href="/FoundIT/auth/login.html" class="header-nav-link">Login</a></li>
+        <li class="signup-link"><a href="/FoundIT/auth/sign-up.html" class="sign-up-btn">Sign Up <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="icon" /></a></li>
+        <li class="dashboard-link" style="display:none;"><a href="#" class="header-nav-link" id="dashboard-btn">Dashboard</a></li>
+        <li class="logout-link" style="display:none;"><a href="#" class="header-nav-link" id="logout-btn">Logout</a></li>
       </ul>
       <button class="hamburger-menu">
         <img src="/FoundIT/assets/hamburger-menu-svgrepo-com.svg" alt="Menu" class="hamburger-icon" />
@@ -224,31 +226,8 @@
     </div>
     <div class="pagination" id="pagination"></div>
   </main>
-  <footer>
-    <nav class="footer-nav max-container">
-      <ul class="footer-nav-links">
-        <li class="footer-title">
-          <a href="/FoundIT/"><img src="/FoundIT/assets/footer-logo.png" alt="" /></a>
-          <p class="footer-description">
-            To provide students with a system for tracking, reporting, and recovering lost items on campus, reducing unclaimed belongings and creating a more organized and efficient lost-and-found system.
-          </p>
-        </li>
-        <li class="footer-nav-li">
-          <h3>QUICK LINKS</h3>
-          <a href="/FoundIT/public/about.html">About</a>
-          <a href="/FoundIT/public/contact.html">Contact</a>
-        </li>
-        <li class="footer-nav-li">
-          <h3>ACCOUNT</h3>
-          <a href="/FoundIT/auth/login.html">Login</a>
-          <a href="/FoundIT/auth/sign-up.html">Sign Up</a>
-        </li>
-        <li class="footer-nav-li">
-          <h3>LEGAL</h3>
-          <a href="/FoundIT/public/eula.html">EULA</a>
-        </li>
-      </ul>
-    </nav>
+  <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+    &copy; <span id="footer-year"></span> Found IT. All rights reserved.
   </footer>
   <script>
     // --- PRIMARY COLOR ---
@@ -292,7 +271,12 @@
       for (const item of pageItems) {
         const tr = document.createElement('tr');
         tr.classList.add('item-link');
-        tr.style.cursor = 'pointer';
+        if (item.status == 1) {
+          tr.style.cursor = 'pointer';
+        } else {
+          tr.style.cursor = 'not-allowed';
+          tr.style.opacity = '0.6';
+        }
         tr.innerHTML = `
           <td>${item.id}</td>
           <td>${item.location}${item.specific_location ? ' - ' + item.specific_location : ''}</td>
@@ -300,14 +284,16 @@
           <td>${item.date_time ? new Date(item.date_time).toLocaleDateString() : ''}</td>
           <td>${item.status == 1 ? '<span style="color:var(--clr-primary);font-weight:600;">ACTIVE</span>' : '<span style="color:#888;">ARCHIVED</span>'}</td>
         `;
-        tr.onclick = async function() {
-          await checkLogin();
-          if (!isLoggedIn) {
-            window.location.href = '/FoundIT/auth/sign-up.html';
-          } else {
-            window.location.href = `/FoundIT/pages/view-item.html?id=${item.id}`;
-          }
-        };
+        if (item.status == 1) {
+          tr.onclick = async function() {
+            await checkLogin();
+            if (!isLoggedIn) {
+              window.location.href = '/FoundIT/auth/sign-up.html';
+            } else {
+              window.location.href = `/FoundIT/pages/view-item.html?id=${item.id}`;
+            }
+          };
+        }
         tbody.appendChild(tr);
       }
       if (pageItems.length === 0) {
@@ -351,7 +337,31 @@
     document.addEventListener('DOMContentLoaded', async function() {
       await checkLogin();
       await fetchItems();
+      // Show/hide login/signup/logout links based on session
+      try {
+        const res = await fetch('/FoundIT/api/settings.php');
+        const data = await res.json();
+        if (data.success) {
+          document.querySelector('.login-link').style.display = 'none';
+          document.querySelector('.signup-link').style.display = 'none';
+          document.querySelector('.dashboard-link').style.display = '';
+          document.querySelector('.logout-link').style.display = '';
+          document.getElementById('logout-btn').onclick = async function() {
+            await fetch('/FoundIT/api/logout.php');
+            window.location.href = '/FoundIT/auth/login.html';
+          };
+        } else {
+          document.querySelector('.login-link').style.display = '';
+          document.querySelector('.signup-link').style.display = '';
+          document.querySelector('.logout-link').style.display = 'none';
+        }
+      } catch {
+        document.querySelector('.login-link').style.display = '';
+        document.querySelector('.signup-link').style.display = '';
+        document.querySelector('.logout-link').style.display = 'none';
+      }
     });
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html> 

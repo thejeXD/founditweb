@@ -213,8 +213,15 @@
       if (item.image) {
         imageHtml = `<img src="/FoundIT/${item.image}" alt="Item Image" id="item-image" style="width:100%;max-width:420px;height:260px;object-fit:cover;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,0.08);margin:0 auto;display:block;cursor:zoom-in;" />`;
       }
+      // Overlay for archived
+      let overlayHtml = '';
+      let cardStyle = 'background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);padding:32px 32px 24px 32px;position:relative;';
+      if (item.status == 0) {
+        overlayHtml = `<div id="archived-overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.82);backdrop-filter:blur(2px);z-index:2;display:flex;align-items:center;justify-content:center;"><div style='text-align:center;'><span style='font-size:2em;display:block;margin-bottom:0.5em;'>🗃️</span><div style='font-size:1.2em;font-weight:600;color:#dc3545;'>This item is archived and not accessible.</div></div></div>`;
+      }
       document.getElementById('item-details').innerHTML = `
-        <div class="forum-post-card" style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);padding:32px 32px 24px 32px;">
+        <div class="forum-post-card" style="${cardStyle}">
+          ${overlayHtml}
           <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
             <div style="flex:1;min-width:260px;">
               <div style="font-size:2rem;font-weight:800;color:#222;">${item.name}</div>
@@ -243,7 +250,13 @@
       setTimeout(() => {
         const claimBtn = document.getElementById('claim-btn');
         if (claimBtn) {
-          if (isOwner) {
+          // Disable claim for archived
+          if (item.status == 0) {
+            claimBtn.disabled = true;
+            claimBtn.classList.add('disabled');
+            claimBtn.style.opacity = '0.5';
+            claimBtn.style.pointerEvents = 'none';
+          } else if (isOwner) {
             // Only disable for the owner
             claimBtn.disabled = true;
             claimBtn.classList.add('disabled');
@@ -282,9 +295,17 @@
         }
         const reportBtn = document.getElementById('report-btn');
         if (reportBtn) {
-          reportBtn.onclick = function() {
-            showNotification('info', 'Report', 'Report functionality coming soon!');
-          };
+          // Disable report for archived
+          if (item.status == 0) {
+            reportBtn.disabled = true;
+            reportBtn.classList.add('disabled');
+            reportBtn.style.opacity = '0.5';
+            reportBtn.style.pointerEvents = 'none';
+          } else {
+            reportBtn.onclick = function() {
+              showNotification('info', 'Report', 'Report functionality coming soon!');
+            };
+          }
         }
         // Image zoom logic
         const img = document.getElementById('item-image');
@@ -299,6 +320,23 @@
             modal.style.display = 'none';
             modalImg.src = '';
           };
+        }
+        // Disable edit/archive for archived
+        if (item.status == 0) {
+          const editBtn = document.getElementById('edit-btn');
+          if (editBtn) {
+            editBtn.disabled = true;
+            editBtn.classList.add('disabled');
+            editBtn.style.opacity = '0.5';
+            editBtn.style.pointerEvents = 'none';
+          }
+          const archiveBtn = document.getElementById('archive-btn');
+          if (archiveBtn) {
+            archiveBtn.disabled = true;
+            archiveBtn.classList.add('disabled');
+            archiveBtn.style.opacity = '0.5';
+            archiveBtn.style.pointerEvents = 'none';
+          }
         }
       }, 0);
     }

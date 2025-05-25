@@ -222,6 +222,7 @@
             <div class="inbox-tabs">
               <button class="tab-btn active" id="tab-all">All</button>
               <button class="tab-btn" id="tab-unread">Unread</button>
+              <button class="tab-btn" id="tab-read">Read</button>
             </div>
             <button class="mark-all-read" id="mark-all-read">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -237,6 +238,11 @@
       </main>
     </div>
 
+    <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+      &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+    </footer>
+    <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
+
     <script src="/FoundIT/scripts/inbox-badge.js"></script>
     <script>
     let allMessages = [];
@@ -248,6 +254,8 @@
       let filtered = allMessages;
       if (filter === 'unread') {
         filtered = allMessages.filter(msg => msg.is_read == 0);
+      } else if (filter === 'read') {
+        filtered = allMessages.filter(msg => msg.is_read == 1);
       }
       filtered.forEach(msg => {
         const card = document.createElement('div');
@@ -326,12 +334,20 @@
       document.getElementById('tab-all').addEventListener('click', function() {
         document.getElementById('tab-all').classList.add('active');
         document.getElementById('tab-unread').classList.remove('active');
+        document.getElementById('tab-read').classList.remove('active');
         renderMessages('all');
       });
       document.getElementById('tab-unread').addEventListener('click', function() {
         document.getElementById('tab-unread').classList.add('active');
         document.getElementById('tab-all').classList.remove('active');
+        document.getElementById('tab-read').classList.remove('active');
         renderMessages('unread');
+      });
+      document.getElementById('tab-read').addEventListener('click', function() {
+        document.getElementById('tab-read').classList.add('active');
+        document.getElementById('tab-all').classList.remove('active');
+        document.getElementById('tab-unread').classList.remove('active');
+        renderMessages('read');
       });
 
       // Mark all as read

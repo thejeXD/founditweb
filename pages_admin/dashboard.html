@@ -16,6 +16,57 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <style>
+      .sidebar .nav-section-title {
+        font-weight: bold;
+        color: var(--clr-primary) !important;
+        letter-spacing: 0.02em;
+        margin-top: 1.2em;
+        margin-bottom: 0.7em;
+        font-size: 1.08em;
+      }
+      .sidebar .nav-link {
+        color: #222 !important;
+        font-weight: 500;
+        font-size: 1.07em;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        padding: 0.55em 0.7em;
+        border-radius: 8px;
+        transition: background 0.13s, color 0.13s;
+      }
+      .sidebar .nav-link:hover, .sidebar .nav-link:focus {
+        background: #eaf4fd;
+        color: var(--clr-primary) !important;
+        text-decoration: none;
+      }
+      .sidebar .nav-item {
+        margin-bottom: 0.2em;
+      }
+      .sidebar .nav-icon {
+        min-width: 20px;
+        min-height: 20px;
+        color: var(--clr-primary);
+        opacity: 0.95;
+      }
+      .activity-list#admin-activity-list {
+        max-height: 340px;
+        overflow-y: auto;
+      }
+      .recent-activity {
+        max-height: 420px;
+        overflow-y: auto;
+        margin-bottom: 2.5em;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(74,144,226,0.07);
+        padding-bottom: 1em;
+      }
+      .dashboard-main-grid {
+        margin-bottom: 3em;
+      }
+    </style>
   </head>
   <body>
     <div class="dashboard-container">
@@ -28,7 +79,8 @@
         </div>
         <nav class="sidebar-nav">
           <ul class="nav-list">
-            <li class="nav-item active">
+            <li class="nav-section-title">INFORMATION</li>
+            <li class="nav-item">
               <a href="/FoundIT/pages_admin/dashboard.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -73,6 +125,16 @@
                 Settings
               </a>
             </li>
+            <li class="nav-section-title">ADMINISTRATION</li>
+            <li class="nav-item admin-only" style="display:none;">
+              <a href="/FoundIT/pages/dashboard.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Back to User Dashboard
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>
@@ -84,105 +146,239 @@
           <h1 class="page-title">Admin Dashboard</h1>
           <div class="user-menu">
             <div class="user-profile">
+              <img src="/FoundIT/assets/icons_svg/user.svg" alt="User Icon" class="user-avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" />
               <span class="user-name dashboard-user-name">Admin User</span>
+              <small class="user-role-label" style="display:block; color:#888; font-size:0.85em; margin-top:2px;"></small>
             </div>
           </div>
         </header>
 
         <!-- Dashboard Content -->
-        <div class="dashboard-content">
-          <!-- Quick Stats -->
-          <section class="stats-section">
-            <div class="stat-card">
-              <div class="stat-icon users">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-              </div>
-              <div class="stat-info">
-                <h3>Total Users</h3>
-                <p class="stat-number">0</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon items">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <path d="M16 3v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V3"></path>
-                </svg>
-              </div>
-              <div class="stat-info">
-                <h3>Total Items</h3>
-                <p class="stat-number">0</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon active">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M12 6v6l4 2"></path>
-                </svg>
-              </div>
-              <div class="stat-info">
-                <h3>Active Cases</h3>
-                <p class="stat-number">0</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon resolved">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </div>
-              <div class="stat-info">
-                <h3>Resolved Cases</h3>
-                <p class="stat-number">0</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- Recent Admin Activity -->
-          <section class="recent-activity">
-            <div class="section-header">
-              <h2>Recent Admin Activity</h2>
-              <a href="#" class="view-all">View All</a>
-            </div>
-            <div class="activity-list">
-              <div class="activity-item">
-                <div class="activity-icon users">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="dashboard-main-grid">
+          <div class="dashboard-left">
+            <section class="stats-section" style="display: flex; flex-direction: column; gap: 1.2rem;">
+              <div class="stat-card">
+                <div class="stat-icon users">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    <path d="M9 7a4 4 0 1 1 8 0"></path>
                   </svg>
                 </div>
-                <div class="activity-details">
-                  <h4>User archived: Jane Doe</h4>
-                  <p>Admin archived user Jane Doe's account.</p>
-                  <span class="activity-time">1 hour ago</span>
+                <div class="stat-info">
+                  <h3>Total Users</h3>
+                  <p class="stat-number" id="admin-total-users">0</p>
+                  <div class="user-breakdown" style="margin-top:0.2em;">
+                    <span class="active-users" style="color:#219653;font-size:0.95em;">Active: <span id="admin-active-users">0</span></span>
+                    <span class="archived-users" style="color:#bdbdbd;font-size:0.95em;margin-left:1em;">Archived: <span id="admin-archived-users">0</span></span>
+                  </div>
                 </div>
               </div>
-              <div class="activity-item">
-                <div class="activity-icon items">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <div class="stat-card">
+                <div class="stat-icon items">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                     <path d="M16 3v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V3"></path>
                   </svg>
                 </div>
-                <div class="activity-details">
-                  <h4>Item deleted: Black Wallet</h4>
-                  <p>Admin deleted item "Black Wallet" from the system.</p>
-                  <span class="activity-time">2 hours ago</span>
+                <div class="stat-info">
+                  <h3>Total Items</h3>
+                  <p class="stat-number" id="admin-total-items">0</p>
                 </div>
               </div>
-            </div>
-          </section>
+              <div class="stat-card">
+                <div class="stat-icon active">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 6v6l4 2"></path>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <h3>Active Cases</h3>
+                  <p class="stat-number" id="admin-active-cases">0</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon resolved">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <h3>Resolved Cases</h3>
+                  <p class="stat-number" id="admin-resolved-cases">0</p>
+                </div>
+              </div>
+            </section>
+            <section class="recent-activity">
+              <div class="section-header">
+                <h2>Recent Admin Activity</h2>
+                <a href="#" class="view-all">View All</a>
+              </div>
+              <div class="activity-list" id="admin-activity-list"></div>
+            </section>
+          </div>
+          <div class="dashboard-right">
+            <section class="dashboard-banner">
+              <img src="/FoundIT/assets/ad-banner.png" alt="Ad Banner" style="width:100%;border-radius:12px;">
+            </section>
+            <section class="dashboard-calendar">
+              <div style="width:100%;background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(74,144,226,0.07);padding:1.5rem;display:flex;flex-direction:column;align-items:center;">
+                <div id="today-date-time" style="font-size:1.1rem;font-weight:600;color:#2176c7;margin-bottom:1.2rem;text-align:center;">
+                  <span id="today-date"></span><br><span id="today-time"></span>
+                </div>
+                <div class="static-calendar" style="width:100%;max-width:260px;">
+                  <table style="width:100%;border-collapse:collapse;text-align:center;font-size:1em;">
+                    <thead>
+                      <tr style="color:#2176c7;font-weight:700;">
+                        <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                      </tr>
+                    </thead>
+                    <tbody id="calendar-body-admin">
+                      <!-- JS will fill in days here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </main>
     </div>
+    <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
+      &copy; <span id="footer-year"></span> Found IT. All rights reserved.
+    </footer>
+
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        let role = null;
+        let firstName = '';
+        let lastName = '';
+        try {
+          const res = await fetch('/FoundIT/api/settings.php');
+          const data = await res.json();
+          if (data.success) {
+            role = Number(data.profile.role);
+            firstName = data.profile.first_name;
+            lastName = data.profile.last_name;
+          }
+        } catch {}
+        if (role === 2 || role === 3) {
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+        }
+        // Set admin name and role in top bar
+        document.querySelectorAll('.dashboard-user-name').forEach(el => {
+          el.textContent = firstName + ' ' + lastName;
+        });
+        document.querySelectorAll('.user-role-label').forEach(el => {
+          if (role === 3) el.textContent = 'ADMIN';
+          else if (role === 2) el.textContent = 'STAFF';
+          else el.textContent = '';
+        });
+        // Fetch stats
+        const statsRes = await fetch('/FoundIT/api/admin/dashboard-stats.php');
+        const stats = await statsRes.json();
+        if (stats.success) {
+          document.getElementById('admin-total-users').textContent = stats.total_users;
+          document.getElementById('admin-active-users').textContent = stats.active_users;
+          document.getElementById('admin-archived-users').textContent = stats.archived_users;
+          document.getElementById('admin-total-items').textContent = stats.total_items;
+          document.getElementById('admin-active-cases').textContent = stats.active_cases;
+          document.getElementById('admin-resolved-cases').textContent = stats.resolved_cases;
+        }
+        // Fetch admin activity
+        const actRes = await fetch('/FoundIT/api/admin/activity-log.php');
+        const actData = await actRes.json();
+        const activityList = document.getElementById('admin-activity-list');
+        activityList.innerHTML = '';
+        if (actData.success && actData.activities.length > 0) {
+          actData.activities.forEach(act => {
+            const card = document.createElement('div');
+            card.className = 'activity-card ' + (act.action || 'admin');
+            let icon = '';
+            if (act.action === 'archive_item') icon = '🗃️';
+            else if (act.action === 'delete_user') icon = '❌';
+            else if (act.action === 'update_report') icon = '📝';
+            else icon = '⚙️';
+            card.innerHTML = `
+              <div class="activity-card-icon">${icon}</div>
+              <div class="activity-card-content">
+                <div class="activity-card-title">${act.action.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                <div class="activity-card-desc">${act.details}</div>
+                <div class="activity-card-meta">
+                  <span class="activity-badge ${act.action}">${act.action.replace(/_/g, ' ').toUpperCase()}</span>
+                  <span class="activity-card-date">${new Date(act.created_at).toLocaleString()}</span>
+                  ${act.admin_name ? `<span class='activity-admin' style='color:#1976d2;font-weight:500;margin-left:1em;'>by ${act.admin_name}</span>` : ''}
+                </div>
+              </div>
+            `;
+            activityList.appendChild(card);
+          });
+        } else {
+          activityList.innerHTML = '<div class="activity-card no-activity" style="color:#888;justify-content:center;align-items:center;padding:2em;font-size:1.1em;font-weight:500;background:#f8fafc;border:1.5px dashed #bcd0e5;border-radius:12px;">No recent admin activity to display.</div>';
+        }
+        // Activity card minimalist style
+        const style = document.createElement('style');
+        style.innerHTML = `
+          .activity-card, .activity-card.no-activity {
+            background: #fff !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 10px !important;
+            box-shadow: none !important;
+            color: #222 !important;
+          }
+          .activity-card-icon {
+            background: none !important;
+            color: #888 !important;
+          }
+        `;
+        document.head.appendChild(style);
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
+      });
+
+      // Date and time updater for admin dashboard
+      function updateAdminDateTime() {
+        const dateEl = document.getElementById('today-date');
+        const timeEl = document.getElementById('today-time');
+        if (!dateEl || !timeEl) return;
+        const now = new Date();
+        dateEl.textContent = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        timeEl.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      }
+      setInterval(updateAdminDateTime, 1000);
+      document.addEventListener('DOMContentLoaded', updateAdminDateTime);
+
+      // Static calendar for admin dashboard
+      function renderAdminCalendar() {
+        const tbody = document.getElementById('calendar-body-admin');
+        if (!tbody) return;
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let html = '';
+        let day = 1;
+        for (let i = 0; i < 6; i++) {
+          html += '<tr>';
+          for (let j = 0; j < 7; j++) {
+            if (i === 0 && j < firstDay) {
+              html += '<td></td>';
+            } else if (day > daysInMonth) {
+              html += '<td></td>';
+            } else {
+              const isToday = day === now.getDate();
+              html += `<td style="${isToday ? 'background:#e3f2fd;color:#1976d2;font-weight:bold;border-radius:8px;' : ''}">${day}</td>`;
+              day++;
+            }
+          }
+          html += '</tr>';
+          if (day > daysInMonth) break;
+        }
+        tbody.innerHTML = html;
+      }
+      document.addEventListener('DOMContentLoaded', renderAdminCalendar);
+    </script>
   </body>
 </html> 
