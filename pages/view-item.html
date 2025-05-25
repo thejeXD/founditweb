@@ -10,6 +10,41 @@
   <link rel="stylesheet" href="/FoundIT/styles/components/header.css" />
   <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
   <link rel="stylesheet" href="/FoundIT/styles/components/notification.css" />
+  <style>
+    .sidebar .nav-section-title {
+      font-weight: bold;
+      color: var(--clr-primary) !important;
+      letter-spacing: 0.02em;
+      margin-top: 1.2em;
+      margin-bottom: 0.7em;
+      font-size: 1.08em;
+    }
+    .sidebar .nav-link {
+      color: #222 !important;
+      font-weight: 500;
+      font-size: 1.07em;
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      padding: 0.55em 0.7em;
+      border-radius: 8px;
+      transition: background 0.13s, color 0.13s;
+    }
+    .sidebar .nav-link:hover, .sidebar .nav-link:focus {
+      background: #eaf4fd;
+      color: var(--clr-primary) !important;
+      text-decoration: none;
+    }
+    .sidebar .nav-item {
+      margin-bottom: 0.2em;
+    }
+    .sidebar .nav-icon {
+      min-width: 20px;
+      min-height: 20px;
+      color: var(--clr-primary);
+      opacity: 0.95;
+    }
+  </style>
 </head>
 <body style="background:#f7f7f7;min-height:100vh;display:flex;flex-direction:column;">
   <header class="header">
@@ -208,33 +243,42 @@
       setTimeout(() => {
         const claimBtn = document.getElementById('claim-btn');
         if (claimBtn) {
-          claimBtn.disabled = true;
-          claimBtn.classList.add('disabled');
-          claimBtn.style.opacity = '0.5';
-          claimBtn.style.pointerEvents = 'none';
-          claimBtn.onclick = async function() {
+          if (isOwner) {
+            // Only disable for the owner
             claimBtn.disabled = true;
-            claimBtn.textContent = 'Processing...';
-            try {
-              const res = await fetch('/FoundIT/api/claim-item.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ item_id: item.id })
-              });
-              const data = await res.json();
-              if (data.success) {
-                claimBtn.textContent = 'Claimed!';
-                showNotification('success', 'Claim Sent', 'The owner has been notified. Please wait for their response.');
-              } else {
-                claimBtn.textContent = 'Claim';
-                showNotification('error', 'Claim Failed', data.message || 'Failed to claim item.');
-              }
-            } catch {
-              claimBtn.textContent = 'Claim';
-              showNotification('error', 'Network Error', 'Please try again.');
-            }
+            claimBtn.classList.add('disabled');
+            claimBtn.style.opacity = '0.5';
+            claimBtn.style.pointerEvents = 'none';
+          } else {
+            // Enable for others
             claimBtn.disabled = false;
-          };
+            claimBtn.classList.remove('disabled');
+            claimBtn.style.opacity = '';
+            claimBtn.style.pointerEvents = '';
+            claimBtn.onclick = async function() {
+              claimBtn.disabled = true;
+              claimBtn.textContent = 'Processing...';
+              try {
+                const res = await fetch('/FoundIT/api/claim-item.php', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ item_id: item.id })
+                });
+                const data = await res.json();
+                if (data.success) {
+                  claimBtn.textContent = 'Claimed!';
+                  showNotification('success', 'Claim Sent', 'The owner has been notified. Please wait for their response.');
+                } else {
+                  claimBtn.textContent = 'Claim';
+                  showNotification('error', 'Claim Failed', data.message || 'Failed to claim item.');
+                }
+              } catch {
+                claimBtn.textContent = 'Claim';
+                showNotification('error', 'Network Error', 'Please try again.');
+              }
+              claimBtn.disabled = false;
+            };
+          }
         }
         const reportBtn = document.getElementById('report-btn');
         if (reportBtn) {

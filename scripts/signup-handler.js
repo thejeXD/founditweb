@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (data.success) {
                 console.log('Registration successful - Redirecting to login');
-                alert('Registration successful! Please login.');
+                // alert('Registration successful! Please login.');
                 window.location.href = '/FoundIT/auth/login.html';
             } else {
                 console.log('Registration failed:', data.message);

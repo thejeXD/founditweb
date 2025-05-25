@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/FoundIT/styles/components/sidebar.css" />
   <style>
     body, h1, h2, h3, h4, h5, h6, p, a, input, button, label, th, td, select, option {
       font-family: 'Roboto', Arial, Helvetica, sans-serif !important;
@@ -138,6 +139,39 @@
     .pagination-btn.active, .pagination-btn:hover {
       background: #1db954;
       color: #fff;
+    }
+    .sidebar .nav-section-title {
+      font-weight: bold;
+      color: var(--clr-primary) !important;
+      letter-spacing: 0.02em;
+      margin-top: 1.2em;
+      margin-bottom: 0.7em;
+      font-size: 1.08em;
+    }
+    .sidebar .nav-link {
+      color: #222 !important;
+      font-weight: 500;
+      font-size: 1.07em;
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      padding: 0.55em 0.7em;
+      border-radius: 8px;
+      transition: background 0.13s, color 0.13s;
+    }
+    .sidebar .nav-link:hover, .sidebar .nav-link:focus {
+      background: #eaf4fd;
+      color: var(--clr-primary) !important;
+      text-decoration: none;
+    }
+    .sidebar .nav-item {
+      margin-bottom: 0.2em;
+    }
+    .sidebar .nav-icon {
+      min-width: 20px;
+      min-height: 20px;
+      color: var(--clr-primary);
+      opacity: 0.95;
     }
   </style>
 </head>

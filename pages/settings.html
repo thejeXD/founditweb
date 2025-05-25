@@ -16,62 +16,114 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      .sidebar .nav-section-title {
+        font-weight: bold;
+        color: var(--clr-primary) !important;
+        letter-spacing: 0.02em;
+        margin-top: 1.2em;
+        margin-bottom: 0.7em;
+        font-size: 1.08em;
+      }
+      .sidebar .nav-link {
+        color: #222 !important;
+        font-weight: 500;
+        font-size: 1.07em;
+        display: flex;
+        align-items: center;
+        gap: 0.7em;
+        padding: 0.55em 0.7em;
+        border-radius: 8px;
+        transition: background 0.13s, color 0.13s;
+      }
+      .sidebar .nav-link:hover, .sidebar .nav-link:focus {
+        background: #eaf4fd;
+        color: var(--clr-primary) !important;
+        text-decoration: none;
+      }
+      .sidebar .nav-item {
+        margin-bottom: 0.2em;
+      }
+      .sidebar .nav-icon {
+        min-width: 20px;
+        min-height: 20px;
+        color: var(--clr-primary);
+        opacity: 0.95;
+      }
+    </style>
   </head>
   <body>
     <div class="dashboard-container">
       <!-- Sidebar Navigation -->
       <aside class="sidebar">
         <div class="sidebar-header">
-          <a href="dashboard.html">
+          <a href="/FoundIT/pages/dashboard.html">
             <img src="/FoundIT/assets/logo.png" alt="FoundIT Logo" class="sidebar-logo" />
           </a>
         </div>
         
         <nav class="sidebar-nav">
           <ul class="nav-list">
+            <li class="nav-section-title">INFORMATION</li>
             <li class="nav-item">
               <a href="/FoundIT/pages/dashboard.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
               <a href="/FoundIT/pages/submit-item.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M12 5v14M5 12h14"></path>
-                </svg>
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
                 Submit Item
               </a>
             </li>
             <li class="nav-item">
               <a href="/FoundIT/pages/my-items.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 8v13H3V8M1 3h22v5H1z"></path>
-                  <path d="M10 12h4"></path>
-                </svg>
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1z"></path><path d="M10 12h4"></path></svg>
                 My Items
               </a>
             </li>
             <li class="nav-item">
               <a href="/FoundIT/pages/inbox.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
-                  <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
-                </svg>
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
                 Inbox
-                <span class="notification-badge" id="inbox-unread-count"></span>
               </a>
             </li>
-            <li class="nav-item active">
-              <a href="settings.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
+            <li class="nav-item">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 Settings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/FoundIT/pages/lost-found.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                Lost & Found
+              </a>
+            </li>
+            <li class="nav-section-title">OTHERS</li>
+            <li class="nav-item">
+              <a href="/FoundIT/public/about.html#mission" class="nav-link" target="_blank">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="4" y="4" width="16" height="16" rx="2"/>
+                  <line x1="8" y1="8" x2="16" y2="8"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                  <line x1="8" y1="16" x2="12" y2="16"/>
+                </svg>
+                Mission & Vision
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/FoundIT/public/about.html" class="nav-link" target="_blank">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                About
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/FoundIT/public/faq.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                FAQs
               </a>
             </li>
           </ul>
@@ -171,23 +223,41 @@
                   <svg class="warning-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                   </svg>
-                  <h3>Delete Account</h3>
+                  <h3>Archive Account</h3>
                 </div>
                 <div class="action-info">
-                  <p class="warning-text">This action cannot be undone. All your data, including lost and found items, will be permanently deleted.</p>
+                  <p class="warning-text">Archiving your account will deactivate your access and hide your data. You can request reactivation by contacting support.</p>
                   <div class="warning-details">
-                    <p>• All your submitted items will be removed</p>
-                    <p>• Your account information will be deleted</p>
+                    <p>• Your account will be set to archived status</p>
                     <p>• You will lose access to all features</p>
+                    <p>• Your data will be preserved but hidden</p>
                   </div>
                 </div>
-                <button class="btn btn-danger delete-account">
+                <button class="btn btn-warning archive-account">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 6h18"></path>
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                   </svg>
-                  Delete Account
+                  Archive Account
                 </button>
+              </div>
+              <div class="action-card">
+                <div class="action-info">
+                  <h3>Change Password</h3>
+                  <form id="change-password-form" style="margin-top:1em;display:flex;flex-direction:column;gap:0.7em;max-width:350px;">
+                    <label>Current Password
+                      <input type="password" name="current_password" required style="width:100%;padding:0.5em;margin-top:0.2em;" />
+                    </label>
+                    <label>New Password
+                      <input type="password" name="new_password" required style="width:100%;padding:0.5em;margin-top:0.2em;" />
+                    </label>
+                    <label>Confirm New Password
+                      <input type="password" name="confirm_new_password" required style="width:100%;padding:0.5em;margin-top:0.2em;" />
+                    </label>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                  </form>
+                  <div id="change-password-message" style="margin-top:0.5em;font-size:0.98em;"></div>
+                </div>
               </div>
               <div class="action-card">
                 <div class="action-info">
@@ -297,5 +367,51 @@
     </script>
 
     <script src="/FoundIT/scripts/inbox-badge.js"></script>
+
+    <script>
+    // Archive account button handler
+    document.addEventListener('DOMContentLoaded', function() {
+      const archiveBtn = document.querySelector('.archive-account');
+      if (archiveBtn) {
+        archiveBtn.addEventListener('click', async function() {
+          if (!confirm('Are you sure you want to archive your account? You will lose access until reactivated.')) return;
+          const res = await fetch('/FoundIT/api/archive-account.php', { method: 'POST' });
+          const data = await res.json();
+          if (data.success) {
+            alert('Your account has been archived. You will now be logged out.');
+            window.location.href = '/FoundIT/auth/login.html';
+          } else {
+            alert(data.message || 'Failed to archive account.');
+          }
+        });
+      }
+      // Change password form handler
+      const changeForm = document.getElementById('change-password-form');
+      if (changeForm) {
+        changeForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const formData = new FormData(changeForm);
+          const payload = {};
+          formData.forEach((v, k) => payload[k] = v);
+          if (payload.new_password !== payload.confirm_new_password) {
+            document.getElementById('change-password-message').textContent = 'New passwords do not match.';
+            return;
+          }
+          const res = await fetch('/FoundIT/api/change-password.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (data.success) {
+            document.getElementById('change-password-message').textContent = 'Password changed successfully!';
+            changeForm.reset();
+          } else {
+            document.getElementById('change-password-message').textContent = data.message || 'Failed to change password.';
+          }
+        });
+      }
+    });
+    </script>
   </body>
 </html> 

@@ -29,19 +29,17 @@ require_once '../database/connection.php';
 
 // Get JSON data from request
 $json = file_get_contents('php://input');
-error_log("Received JSON: " . $json);
-
-if (!$json) {
-    error_log("No JSON data received");
-    echo json_encode(['success' => false, 'message' => 'No data received']);
-    exit();
+$data = null;
+if ($json) {
+    $data = json_decode($json, true);
 }
-
-$data = json_decode($json, true);
-
-if (json_last_error() !== JSON_ERROR_NONE) {
-    error_log("JSON decode error: " . json_last_error_msg());
-    echo json_encode(['success' => false, 'message' => 'Invalid JSON data']);
+// If not JSON, try POST (form data)
+if (!$data || !is_array($data)) {
+    $data = $_POST;
+}
+if (!$data || !is_array($data) || count($data) === 0) {
+    error_log("No registration data received");
+    echo json_encode(['success' => false, 'message' => 'No data received']);
     exit();
 }
 
@@ -118,7 +116,10 @@ try {
         $new_user_id = $stmt->insert_id;
         // Insert welcome inbox message
         $welcome_subject = 'Welcome to FoundIT!';
-        $welcome_message = 'Hi ' . $firstName . ',\n\nWelcome to FoundIT! You can now submit lost or found items, track your submissions, and receive updates. If you have any questions, feel free to contact us.\n\nBest regards,\nThe FoundIT Team';
+        $welcome_message = 'Hi <b>' . htmlspecialchars($firstName). 
+                        '</b>, Welcome to FoundIT! You can now submit lost or found items, track your submissions, and receive updates. If you have any questions, feel free to contact us.'.
+                        '<br><br>Best regards,<br>The FoundIT Team';
+        // $welcome_message = 'Hi ' . $firstName . ',\n\nWelcome to FoundIT! You can now submit lost or found items, track your submissions, and receive updates. If you have any questions, feel free to contact us.\n\nBest regards,\nThe FoundIT Team';
         $stmt_inbox = $conn->prepare("INSERT INTO inbox (user_id, subject, message, is_read) VALUES (?, ?, ?, 0)");
         $stmt_inbox->bind_param("iss", $new_user_id, $welcome_subject, $welcome_message);
         $stmt_inbox->execute();

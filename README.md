@@ -7,7 +7,7 @@
 A new folder `pages_admin` will contain static admin dashboard pages, following the same design system as user pages in `pages/`. This is for admin-only features like user/item management, reports, and settings.
 
 ```
--- Items
+-- Accounts
 CREATE TABLE accounts (
     id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50) NOT NULL,
@@ -15,13 +15,29 @@ CREATE TABLE accounts (
     student_number VARCHAR(20) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    role INT NOT NULL DEFAULT 1 COMMENT '1 = REGULAR, 2 = STAFF, 3 = ADMIN',
     status TINYINT DEFAULT 1 COMMENT '1 = Active, 2 = Archived',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     last_login TIMESTAMP NULL,
     INDEX idx_email (email),
-    INDEX idx_student_number (student_number)
+    INDEX idx_student_number (student_number),
+    INDEX idx_role (role),
+    CONSTRAINT fk_accounts_role FOREIGN KEY (role) REFERENCES roles(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
+```
+-- Roles
+CREATE TABLE roles (
+    id INT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL UNIQUE
+);
+
+INSERT INTO roles (id, name) VALUES
+    (1, 'REGULAR'),
+    (2, 'STAFF'),
+    (3, 'ADMIN');
+
 ```
 
 ```

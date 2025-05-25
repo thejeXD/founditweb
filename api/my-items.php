@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT id, name, category, status, date_time, location, specific_location, image FROM items WHERE user_id = ? ORDER BY created_at DESC");
+$stmt = $conn->prepare("SELECT id, name, category, description, status, date_time, location, specific_location, image FROM items WHERE user_id = ? ORDER BY created_at DESC");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();

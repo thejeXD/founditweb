@@ -35,7 +35,7 @@ if ($update->execute()) {
     // Log to activity_log
     $action = 'edit';
     $desc = "Edited item: $name (ID: $id)";
-    $log = $conn->prepare('INSERT INTO activity_log (user_id, action, description, created_at) VALUES (?, ?, ?, NOW())');
+    $log = $conn->prepare('INSERT INTO activity_log (user_id, action, details, created_at) VALUES (?, ?, ?, NOW())');
     $log->bind_param('iss', $user_id, $action, $desc);
     $log->execute();
     $log->close();
