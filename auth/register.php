@@ -65,7 +65,20 @@ $firstName = sanitize_input($data['firstName']);
 $lastName = sanitize_input($data['lastName']);
 $studentNumber = sanitize_input($data['studentNumber']);
 $email = sanitize_input($data['email']);
-$password = password_hash($data['password'], PASSWORD_DEFAULT);
+
+// Password strength validation
+$password_raw = $data['password'];
+if (
+    strlen($password_raw) < 8 ||
+    !preg_match('/[A-Z]/', $password_raw) ||
+    !preg_match('/[a-z]/', $password_raw) ||
+    !preg_match('/[0-9]/', $password_raw) ||
+    !preg_match('/[^a-zA-Z0-9]/', $password_raw)
+) {
+    echo json_encode(['success' => false, 'message' => 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.']);
+    exit();
+}
+$password = password_hash($password_raw, PASSWORD_DEFAULT);
 
 try {
     error_log("Starting database operations");
@@ -117,12 +130,23 @@ try {
         // Insert welcome inbox message
         $welcome_subject = 'Welcome to FoundIT!';
         $welcome_message = 'Hi <b>' . htmlspecialchars($firstName). 
-                        '</b>, Welcome to FoundIT! You can now submit lost or found items, track your submissions, and receive updates. If you have any questions, feel free to contact us.'.
+                        '</b>, Welcome to FoundIT! You can now submit lost or found items, track your submissions, and receive updates. If you have any questions, feel free to contact us.' .
                         '<br><br>Best regards,<br>The FoundIT Team';
-        // $welcome_message = 'Hi ' . $firstName . ',\n\nWelcome to FoundIT! You can now submit lost or found items, track your submissions, and receive updates. If you have any questions, feel free to contact us.\n\nBest regards,\nThe FoundIT Team';
         $stmt_inbox = $conn->prepare("INSERT INTO inbox (user_id, subject, message, is_read) VALUES (?, ?, ?, 0)");
         $stmt_inbox->bind_param("iss", $new_user_id, $welcome_subject, $welcome_message);
         $stmt_inbox->execute();
+        
+        // Notify all admins and staff
+        $admin_stmt = $conn->query("SELECT id FROM accounts WHERE role IN (2,3)");
+        $subject = 'New User Registration';
+        $msg = 'A new user has registered: <b>' . htmlspecialchars($firstName . ' ' . $lastName) . '</b> (' . htmlspecialchars($email) . ')';
+        while ($admin = $admin_stmt->fetch_assoc()) {
+            $admin_id = $admin['id'];
+            $inbox = $conn->prepare('INSERT INTO inbox (user_id, subject, message, is_read) VALUES (?, ?, ?, 0)');
+            $inbox->bind_param('iss', $admin_id, $subject, $msg);
+            $inbox->execute();
+            $inbox->close();
+        }
         error_log("User registered successfully: " . $email);
         echo json_encode(['success' => true, 'message' => 'Registration successful']);
     } else {

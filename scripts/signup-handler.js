@@ -73,11 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (data.success) {
                 console.log('Registration successful - Redirecting to login');
-                // alert('Registration successful! Please login.');
-                window.location.href = '/FoundIT/auth/login.html';
+                showNotification('success', 'Registration Successful', 'Your account has been created! Please login.');
+                setTimeout(() => {
+                    window.location.href = '/FoundIT/auth/login.html';
+                }, 1200);
             } else {
                 console.log('Registration failed:', data.message);
-                alert(data.message || 'Registration failed. Please try again.');
+                showNotification('error', 'Registration Failed', data.message || 'Registration failed. Please try again.');
             }
         } catch (error) {
             console.error('Error during registration:', error);
@@ -86,7 +88,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 message: error.message,
                 stack: error.stack
             });
-            alert('An error occurred. Please try again later.');
+            showNotification('error', 'Network Error', 'An error occurred. Please try again later.');
         }
     });
-}); 
+});
+
+// --- Custom Notification Helper (inline, copied from login.html) ---
+function showNotification(type, title, message) {
+    console.log('Showing notification:', type, title, message);
+    let notif = document.querySelector('.custom-notification');
+    if (!notif) {
+        notif = document.createElement('div');
+        notif.className = 'custom-notification ' + type;
+        notif.innerHTML = `
+            <span class="notification-icon">&#9888;</span>
+            <div class="notification-content">
+                <div class="notification-title">${title}</div>
+                <div class="notification-message">${message}</div>
+            </div>
+        `;
+        document.body.appendChild(notif);
+    } else {
+        notif.className = 'custom-notification ' + type;
+        notif.querySelector('.notification-title').textContent = title;
+        notif.querySelector('.notification-message').textContent = message;
+    }
+    notif.classList.add('show');
+    setTimeout(() => notif.classList.remove('show'), 4000);
+} 
