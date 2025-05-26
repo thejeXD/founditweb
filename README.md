@@ -2,10 +2,9 @@
 - XAMPP
 - Project must be under XAMPP folder.
 
-## Admin Pages
-
-A new folder `pages_admin` will contain static admin dashboard pages, following the same design system as user pages in `pages/`. This is for admin-only features like user/item management, reports, and settings.
-
+## SETUP
+- XAMPP should be in LOCAL C incase it doesn't work.
+- FOUNDIT should be under XAMPP/htdocs/FoundIT
 
 ```
 -- Roles
