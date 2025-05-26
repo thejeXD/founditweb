@@ -44,6 +44,30 @@
       color: var(--clr-primary);
       opacity: 0.95;
     }
+    @media (max-width: 900px) {
+      .forum-container {
+        flex-direction: column;
+        gap: 0;
+      }
+      #active-posts-sidebar {
+        max-width: 100%;
+        margin-bottom: 24px;
+      }
+    }
+    .sidebar .notification-dot {
+      display: inline-block !important;
+      background: #dc3545 !important;
+      color: #fff !important;
+      border-radius: 50% !important;
+      padding: 0.18em 0.7em !important;
+      font-weight: 700 !important;
+      font-size: 0.98em !important;
+      margin-left: 0.4em !important;
+      min-width: 1.7em !important;
+      text-align: center !important;
+      line-height: 1.2em !important;
+      vertical-align: middle !important;
+    }
   </style>
 </head>
 <body style="background:#f7f7f7;min-height:100vh;display:flex;flex-direction:column;">
@@ -58,14 +82,30 @@
         <li><a href="/FoundIT/public/contact.html" class="header-nav-link">Contact</a></li>
         <li><a href="/FoundIT/pages/dashboard.html" class="header-nav-link">Dashboard</a></li>
         <li><a href="/FoundIT/pages/my-items.html" class="header-nav-link">My Items</a></li>
-        <li><a href="/FoundIT/pages/inbox.html" class="header-nav-link">Inbox <span class="notification-badge" id="inbox-unread-count"></span></a></li>
+        <li><a href="/FoundIT/pages/inbox.html" class="header-nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+            <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+          </svg>
+          Inbox <span class="notification-dot" id="sidebar-inbox-dot"></span>
+        </a></li>
         <li><a href="/FoundIT/pages/settings.html" class="header-nav-link">Settings</a></li>
       </ul>
     </nav>
   </header>
-  <main class="forum-container" style="max-width:900px;margin:2.5rem auto 2rem auto;padding:0 0 2rem 0;background:none;">
-    <button class="btn btn-secondary" id="back-btn" style="margin-bottom:18px;">&larr; Back</button>
-    <div id="item-details"></div>
+  <main class="forum-container" style="max-width:1200px;margin:2.5rem auto 2rem auto;padding:0 0 2rem 0;display:flex;gap:32px;">
+    <aside id="active-posts-sidebar" style="flex:0 0 270px;max-width:270px;">
+      <div style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,0.07);padding:18px;">
+        <h3 style="margin-top:0;margin-bottom:1em;font-size:1.1em;color:#2176c7;">Active Posts</h3>
+        <div id="active-posts-list">
+          <!-- JS will fill this -->
+        </div>
+      </div>
+    </aside>
+    <div style="flex:1;min-width:0;">
+      <button class="btn btn-secondary" id="back-btn" style="margin-bottom:18px;">&larr; Back</button>
+      <div id="item-details"></div>
+    </div>
   </main>
   <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
     &copy; <span id="footer-year"></span> Found IT. All rights reserved.
@@ -234,6 +274,7 @@
               <div style="margin-bottom:18px;"><span style="font-weight:600;">Date & Time:</span> ${item.date_time ? new Date(item.date_time).toLocaleString() : ''}</div>
               <div style="margin-bottom:18px;"><span style="font-weight:600;">Location:</span> ${item.location || 'N/A'}</div>
               <div style="margin-bottom:18px;"><span style="font-weight:600;">Specific Location:</span> ${item.specific_location || 'N/A'}</div>
+              ${(item.type === 'found') ? `<div style=\"margin-bottom:18px;\"><span style=\"font-weight:600;\">Where was it left:</span> ${item.left_with && item.left_with.trim() ? item.left_with : 'N/A'}</div>` : ''}
               <div style="margin-bottom:18px;"><span style="font-weight:600;">Contact Method:</span> ${item.contact_method || 'N/A'}</div>
               <div style="margin-bottom:18px;"><span style="font-weight:600;">Status:</span> <span class="status-badge ${item.status == 1 ? 'active' : 'archived'}" style="padding:4px 12px;border-radius:12px;font-weight:bold;color:#fff;background:${item.status == 1 ? '#28a745' : '#6c757d'};">${item.status == 1 ? 'Active' : 'Archived'}</span></div>
               <div style="margin-bottom:18px;"><span style="font-weight:600;">Type:</span> ${item.type.charAt(0).toUpperCase() + item.type.slice(1)}</div>
@@ -302,9 +343,9 @@
             reportBtn.style.opacity = '0.5';
             reportBtn.style.pointerEvents = 'none';
           } else {
-          reportBtn.onclick = function() {
-            showNotification('info', 'Report', 'Report functionality coming soon!');
-          };
+            reportBtn.onclick = function() {
+              document.getElementById('report-modal').style.display = 'flex';
+            };
           }
         }
         // Image zoom logic
@@ -338,9 +379,88 @@
             archiveBtn.style.pointerEvents = 'none';
           }
         }
+        // Report modal logic (moved here for showNotification scope)
+        const reportModal = document.getElementById('report-modal');
+        const closeReportModal = document.getElementById('close-report-modal');
+        const cancelReportBtn = document.getElementById('cancel-report-btn');
+        [closeReportModal, cancelReportBtn].forEach(btn => {
+          btn.onclick = function() {
+            reportModal.style.display = 'none';
+            document.getElementById('report-form').reset();
+          };
+        });
+        document.getElementById('report-form').onsubmit = async function(e) {
+          e.preventDefault();
+          const type = document.getElementById('report-type').value;
+          const details = document.getElementById('report-details').value;
+          if (!type) {
+            showNotification('error', 'Report Error', 'Please select a report type.');
+            return;
+          }
+          try {
+            const res = await fetch('/FoundIT/api/report-item.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ item_id: item.id, type, details })
+            });
+            const data = await res.json();
+            if (data.success) {
+              showNotification('success', 'Report Submitted', 'Thank you for reporting. Admins have been notified.');
+              reportModal.style.display = 'none';
+              document.getElementById('report-form').reset();
+            } else {
+              showNotification('error', 'Report Error', data.message || 'Failed to submit report.');
+            }
+          } catch {
+            showNotification('error', 'Network Error', 'Could not connect to server.');
+          }
+        };
       }, 0);
     }
     loadItemDetails();
+    async function loadActivePosts() {
+      const res = await fetch('/FoundIT/api/lost-found.php?per_page=10');
+      const data = await res.json();
+      if (data.success && data.items) {
+        const list = document.getElementById('active-posts-list');
+        list.innerHTML = data.items
+          .filter(item => item.status == 1)
+          .map(item => `
+            <div style="margin-bottom:1.1em;">
+              <a href="/FoundIT/pages/view-item.html?id=${item.id}" style="font-weight:600;color:#2176c7;text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                ${item.name || 'No Name'}
+              </a>
+              <div style="font-size:0.93em;color:#888;">
+                ${(item.category.toUpperCase() || 'No Category')} • ${(item.type ? (item.type.charAt(0).toUpperCase() + item.type.slice(1)) : 'Unknown')}
+              </div>
+            </div>
+          `).join('');
+      }
+    }
+    loadActivePosts();
   </script>
+  <!-- Report Modal -->
+  <div id="report-modal" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;">
+    <form id="report-form" style="background:#fff;padding:2rem 2.5rem;border-radius:16px;min-width:320px;max-width:95vw;box-shadow:0 4px 24px rgba(0,0,0,0.18);display:flex;flex-direction:column;gap:1.2rem;position:relative;">
+      <button type="button" id="close-report-modal" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
+      <h2 style="margin-bottom:0.5rem;">Report Item</h2>
+      <label>Report Type
+        <select id="report-type" required style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;">
+          <option value="">Select...</option>
+          <option value="Inappropriate Content">Inappropriate Content</option>
+          <option value="Spam or Scam">Spam or Scam</option>
+          <option value="Suspicious Claim">Suspicious Claim</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+      <label>Details (optional)
+        <textarea id="report-details" rows="3" style="width:100%;padding:0.5rem 1rem;border-radius:8px;border:1px solid #d9d9d9;"></textarea>
+      </label>
+      <div style="display:flex;gap:1rem;justify-content:flex-end;">
+        <button type="button" id="cancel-report-btn" class="btn btn-secondary">Cancel</button>
+        <button type="submit" class="btn btn-danger">Submit Report</button>
+      </div>
+    </form>
+  </div>
 </body>
 </html> 

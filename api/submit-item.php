@@ -80,7 +80,7 @@ if (
       $mime = mime_content_type($tmp_name);
       if (in_array($mime, $allowed_mimes) && $size <= 5 * 1024 * 1024) {
         // Insert item first to get the item_id
-        $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, left_with, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
+        $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, left_with, contact_method, status, type, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, NOW())");
         $date_time = $date . ($time ? (' ' . $time) : '');
         $stmt->bind_param('isssssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $left_with, $contact, $type);
         if (!$stmt->execute()) respond(false, 'Database error: ' . $stmt->error);
@@ -101,7 +101,7 @@ if (
   }
 } else {
   // Insert item without image
-  $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, left_with, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
+  $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, left_with, contact_method, status, type, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, NOW())");
   $date_time = $date . ($time ? (' ' . $time) : '');
   $stmt->bind_param('isssssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $left_with, $contact, $type);
   if (!$stmt->execute()) respond(false, 'Database error: ' . $stmt->error);

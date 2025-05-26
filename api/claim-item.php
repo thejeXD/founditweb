@@ -58,4 +58,32 @@ $inbox_stmt = $conn->prepare('INSERT INTO inbox (user_id, subject, message, is_r
 $inbox_stmt->bind_param('iss', $item['user_id'], $subject, $msg);
 $inbox_stmt->execute();
 $inbox_stmt->close();
+// Log to activity_log for the claimer
+$action = 'claim_item';
+$details = "Claimed item: {$item['name']} (ID: {$item['id']})";
+$log_stmt = $conn->prepare("INSERT INTO activity_log (user_id, action, item_id, details, created_at) VALUES (?, ?, ?, ?, NOW())");
+$log_stmt->bind_param('isis', $user_id, $action, $item['id'], $details);
+$log_stmt->execute();
+$log_stmt->close();
+// Notify the claimer in their inbox
+$subject_claimer = 'Item Claim Confirmation';
+$msg_claimer = 'You have claimed the item: <b>' . htmlspecialchars($item['name']) . '</b>.<br>' .
+              '<a href="' . $link . '">View Item</a>';
+$inbox_stmt2 = $conn->prepare('INSERT INTO inbox (user_id, subject, message, is_read, created_at) VALUES (?, ?, ?, 0, NOW())');
+$inbox_stmt2->bind_param('iss', $user_id, $subject_claimer, $msg_claimer);
+$inbox_stmt2->execute();
+$inbox_stmt2->close();
+// Notify all admins and staff
+$admin_stmt = $conn->query("SELECT id FROM accounts WHERE role IN (2,3)");
+while ($admin = $admin_stmt->fetch_assoc()) {
+    $admin_id = $admin['id'];
+    $subject_admin = 'Item Claimed Notification';
+    $msg_admin = 'A user has claimed the item: <b>' . htmlspecialchars($item['name']) . '</b> (ID: ' . $item['id'] . ').<br>' .
+                 'Claimer: <b>' . htmlspecialchars($claimer['first_name'] . ' ' . $claimer['last_name']) . '</b> (' . htmlspecialchars($claimer['email']) . ')<br>' .
+                 '<a href="' . $link . '">View Item</a>';
+    $inbox_admin = $conn->prepare('INSERT INTO inbox (user_id, subject, message, is_read, created_at) VALUES (?, ?, ?, 0, NOW())');
+    $inbox_admin->bind_param('iss', $admin_id, $subject_admin, $msg_admin);
+    $inbox_admin->execute();
+    $inbox_admin->close();
+}
 echo json_encode(['success' => true, 'message' => 'The author has been notified.']); 

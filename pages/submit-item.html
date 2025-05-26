@@ -15,42 +15,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet"/>
     <style>
-      .sidebar .nav-section-title {
-        font-weight: bold;
-        color: var(--clr-primary) !important;
-        letter-spacing: 0.02em;
-        margin-top: 1.2em;
-        margin-bottom: 0.7em;
-        font-size: 1.08em;
-      }
-      .sidebar .nav-link {
-        color: #222 !important;
-        font-weight: 500;
-        font-size: 1.07em;
-        display: flex;
-        align-items: center;
-        gap: 0.7em;
-        padding: 0.55em 0.7em;
-        border-radius: 8px;
-        transition: background 0.13s, color 0.13s;
-      }
-      .sidebar .nav-link:hover, .sidebar .nav-link:focus {
-        background: #eaf4fd;
-        color: var(--clr-primary) !important;
-        text-decoration: none;
-      }
-      .sidebar .nav-item {
-        margin-bottom: 0.2em;
-      }
-      .sidebar .nav-icon {
-        min-width: 20px;
-        min-height: 20px;
-        color: var(--clr-primary);
-        opacity: 0.95;
-      }
       .type-btn.active {
         background: #2176c7 !important;
         color: #fff !important;
@@ -114,7 +80,7 @@
                   <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
                   <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
                 </svg>
-                Inbox <span class="notification-dot" id="sidebar-inbox-dot"></span>
+                Inbox
               </a>
             </li>
             <li class="nav-item">
@@ -234,9 +200,13 @@
                 <select id="category" name="category" required>
                   <option value="">Select a category</option>
                   <option value="electronics">Electronics</option>
+                  <option value="electronics">Personal Belongings</option>
+                  <option value="electronics">Student Essentials</option>
+                  <option value="electronics">Cards</option>
                   <option value="accessories">Accessories</option>
                   <option value="documents">Documents</option>
                   <option value="clothing">Clothing</option>
+                  <option value="electronics">Miscellaneous</option>
                   <option value="other">Other</option>
                 </select>
                 <div class="error-message" id="error-category"></div>
@@ -348,12 +318,26 @@
               data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
             }
             if (unreadCount > 0) {
+              badge.textContent = unreadCount;
               badge.style.display = 'inline-block';
               badge.style.background = '#dc3545';
+              badge.style.color = '#fff';
+              badge.style.borderRadius = '50%';
+              badge.style.padding = '0.18em 0.7em';
+              badge.style.fontWeight = '700';
+              badge.style.fontSize = '0.98em';
+              badge.style.marginLeft = '0.4em';
+              badge.style.minWidth = '1.7em';
+              badge.style.textAlign = 'center';
+              badge.style.lineHeight = '1.2em';
+              console.log(unreadCount);
             } else {
+              badge.textContent = '';
               badge.style.display = 'none';
+              console.log("No unread messages");
             }
           } catch {
+            badge.textContent = '';
             badge.style.display = 'none';
           }
         }

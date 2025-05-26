@@ -157,6 +157,14 @@
         line-height: 1.2 !important;
         margin-right: 0.2em;
       }
+      .warning-row {
+        background: #fff7e6 !important;
+        border-left: 5px solid #ffa500 !important;
+      }
+      .danger-row {
+        background: #ffeaea !important;
+        border-left: 5px solid #dc3545 !important;
+      }
     </style>
 
   </head>
@@ -443,6 +451,8 @@
           const viewLink = `/FoundIT/pages/view-item.html?id=${item.id}`;
           const statusLabel = item.status == 1 ? '<span class="status-badge active">Active</span>' : '<span class="status-badge archived">Archived</span>';
           const tr = document.createElement('tr');
+          if (item.report_count >= 3) tr.classList.add('danger-row');
+          else if (item.report_count >= 2) tr.classList.add('warning-row');
           let actionButtons = '';
           const sessionUserId = window.sessionUserId;
           // If session user id is 1, always show all buttons

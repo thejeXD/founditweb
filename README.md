@@ -6,19 +6,20 @@
 
 A new folder `pages_admin` will contain static admin dashboard pages, following the same design system as user pages in `pages/`. This is for admin-only features like user/item management, reports, and settings.
 
-```
-CREATE TABLE activity_log_admin (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    admin_id INT NOT NULL,                -- references accounts(id) of the admin/staff
-    action VARCHAR(64) NOT NULL,          -- e.g. 'archive_item', 'delete_user', 'update_report'
-    target_type VARCHAR(32),              -- e.g. 'item', 'user', 'report'
-    target_id INT,                        -- id of the affected entity (item/user/report)
-    details TEXT,                         -- optional: more info about the action
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (admin_id) REFERENCES accounts(id)
-);
-```
 
+```
+-- Roles
+CREATE TABLE roles (
+    id INT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL UNIQUE
+);
+
+INSERT INTO roles (id, name) VALUES
+    (1, 'REGULAR'),
+    (2, 'STAFF'),
+    (3, 'ADMIN');
+
+```
 ```
 -- Accounts
 CREATE TABLE accounts (
@@ -39,19 +40,7 @@ CREATE TABLE accounts (
     CONSTRAINT fk_accounts_role FOREIGN KEY (role) REFERENCES roles(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
-```
--- Roles
-CREATE TABLE roles (
-    id INT PRIMARY KEY,
-    name VARCHAR(20) NOT NULL UNIQUE
-);
 
-INSERT INTO roles (id, name) VALUES
-    (1, 'REGULAR'),
-    (2, 'STAFF'),
-    (3, 'ADMIN');
-
-```
 
 ```
 -- Items
@@ -79,6 +68,22 @@ CREATE TABLE items (
 ```
 
 ```
+-- Reports
+CREATE TABLE item_reports (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    item_id INT NOT NULL,
+    user_id INT NOT NULL,         -- The user who reported
+    author_id INT NOT NULL,       -- The owner of the reported item
+    type VARCHAR(64) NOT NULL,
+    details TEXT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES accounts(id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES accounts(id) ON DELETE CASCADE
+);
+```
+
+```
 -- Activity Log Table
 CREATE TABLE activity_log (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -92,7 +97,18 @@ CREATE TABLE activity_log (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ```
-
+```
+CREATE TABLE activity_log_admin (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    admin_id INT NOT NULL,                -- references accounts(id) of the admin/staff
+    action VARCHAR(64) NOT NULL,          -- e.g. 'archive_item', 'delete_user', 'update_report'
+    target_type VARCHAR(32),              -- e.g. 'item', 'user', 'report'
+    target_id INT,                        -- id of the affected entity (item/user/report)
+    details TEXT,                         -- optional: more info about the action
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (admin_id) REFERENCES accounts(id)
+);
+```
 ```
 -- Inbox Table
 CREATE TABLE inbox (

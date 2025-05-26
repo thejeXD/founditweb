@@ -116,6 +116,20 @@
       color: var(--clr-primary);
       opacity: 0.95;
     }
+    .sidebar .notification-dot {
+      display: inline-block !important;
+      background: #dc3545 !important;
+      color: #fff !important;
+      border-radius: 50% !important;
+      padding: 0.18em 0.7em !important;
+      font-weight: 700 !important;
+      font-size: 0.98em !important;
+      margin-left: 0.4em !important;
+      min-width: 1.7em !important;
+      text-align: center !important;
+      line-height: 1.2em !important;
+      vertical-align: middle !important;
+    }
     </style>
   </head>
   <body>
@@ -151,8 +165,11 @@
             </li>
             <li class="nav-item">
               <a href="/FoundIT/pages/inbox.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"></path><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg>
-                Inbox
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 12h-6l-2 3h-4l-2-3H2"></path>
+                  <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                </svg>
+                Inbox <span class="notification-dot" id="sidebar-inbox-dot"></span>
               </a>
             </li>
             <li class="nav-item">
@@ -234,6 +251,7 @@
           </div>
 
           <div class="inbox-messages-list" id="inbox-messages-list"></div>
+          <div id="inbox-pagination" style="display:flex;justify-content:center;align-items:center;gap:1em;margin-top:1.5em;"></div>
         </div>
       </main>
     </div>
@@ -247,8 +265,13 @@
     <script>
     let allMessages = [];
     let unreadCount = 0;
+    let currentPage = 1;
+    const MESSAGES_PER_PAGE = 5;
+    let currentFilter = 'all';
 
-    function renderMessages(filter) {
+    function renderMessages(filter, page = 1) {
+      currentFilter = filter;
+      currentPage = page;
       const container = document.getElementById('inbox-messages-list');
       container.innerHTML = '';
       let filtered = allMessages;
@@ -257,7 +280,12 @@
       } else if (filter === 'read') {
         filtered = allMessages.filter(msg => msg.is_read == 1);
       }
-      filtered.forEach(msg => {
+      const totalPages = Math.max(1, Math.ceil(filtered.length / MESSAGES_PER_PAGE));
+      if (currentPage > totalPages) currentPage = totalPages;
+      const start = (currentPage - 1) * MESSAGES_PER_PAGE;
+      const end = start + MESSAGES_PER_PAGE;
+      const pageMessages = filtered.slice(start, end);
+      pageMessages.forEach(msg => {
         const card = document.createElement('div');
         card.className = 'message-card' + (msg.is_read == 1 ? ' read' : ' unread');
         card.innerHTML = `
@@ -291,6 +319,26 @@
       if (filtered.length === 0) {
         container.innerHTML = '<div style="text-align:center;color:#888;">No messages found.</div>';
       }
+      renderPagination(filtered.length, totalPages);
+    }
+
+    function renderPagination(totalMessages, totalPages) {
+      const pag = document.getElementById('inbox-pagination');
+      if (totalMessages <= MESSAGES_PER_PAGE) {
+        pag.innerHTML = '';
+        return;
+      }
+      pag.innerHTML = `
+        <button class='btn btn-xs' ${currentPage === 1 ? 'disabled' : ''} id='inbox-prev-page'>Prev</button>
+        <span>Page ${currentPage} of ${totalPages}</span>
+        <button class='btn btn-xs' ${currentPage === totalPages ? 'disabled' : ''} id='inbox-next-page'>Next</button>
+      `;
+      document.getElementById('inbox-prev-page').onclick = function() {
+        if (currentPage > 1) renderMessages(currentFilter, currentPage - 1);
+      };
+      document.getElementById('inbox-next-page').onclick = function() {
+        if (currentPage < totalPages) renderMessages(currentFilter, currentPage + 1);
+      };
     }
 
     function updateBadge() {
@@ -328,26 +376,26 @@
       allMessages = data.messages;
       unreadCount = allMessages.filter(msg => msg.is_read == 0).length;
       updateBadge();
-      renderMessages('all');
+      renderMessages('all', 1);
 
       // Tab functionality
       document.getElementById('tab-all').addEventListener('click', function() {
         document.getElementById('tab-all').classList.add('active');
         document.getElementById('tab-unread').classList.remove('active');
         document.getElementById('tab-read').classList.remove('active');
-        renderMessages('all');
+        renderMessages('all', 1);
       });
       document.getElementById('tab-unread').addEventListener('click', function() {
         document.getElementById('tab-unread').classList.add('active');
         document.getElementById('tab-all').classList.remove('active');
         document.getElementById('tab-read').classList.remove('active');
-        renderMessages('unread');
+        renderMessages('unread', 1);
       });
       document.getElementById('tab-read').addEventListener('click', function() {
         document.getElementById('tab-read').classList.add('active');
         document.getElementById('tab-all').classList.remove('active');
         document.getElementById('tab-unread').classList.remove('active');
-        renderMessages('read');
+        renderMessages('read', 1);
       });
 
       // Mark all as read
@@ -363,9 +411,43 @@
         unreadMsgs.forEach(msg => { msg.is_read = 1; });
         unreadCount = 0;
         updateBadge();
-        renderMessages(document.getElementById('tab-unread').classList.contains('active') ? 'unread' : 'all');
+        renderMessages(document.getElementById('tab-unread').classList.contains('active') ? 'unread' : 'all', 1);
         if (window.updateInboxBadge) await window.updateInboxBadge();
       });
+
+      const badge = document.getElementById('sidebar-inbox-dot');
+      if (badge) {
+        try {
+          const res = await fetch('/FoundIT/api/inbox.php');
+          const data = await res.json();
+          let unreadCount = 0;
+          if (data.success) {
+            data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+          }
+          console.log('Sidebar badge inbox data:', data, 'Unread count:', unreadCount); // DEBUG
+          if (unreadCount > 0) {
+            badge.textContent = unreadCount;
+            badge.style.display = 'inline-block';
+            badge.style.background = '#dc3545';
+            badge.style.color = '#fff';
+            badge.style.borderRadius = '50%';
+            badge.style.padding = '0.18em 0.7em';
+            badge.style.fontWeight = '700';
+            badge.style.fontSize = '0.98em';
+            badge.style.marginLeft = '0.4em';
+            badge.style.minWidth = '1.7em';
+            badge.style.textAlign = 'center';
+            badge.style.lineHeight = '1.2em';
+          } else {
+            badge.textContent = '';
+            badge.style.display = 'none';
+          }
+        } catch (e) {
+          console.log('Sidebar badge fetch error:', e); // DEBUG
+          badge.textContent = '';
+          badge.style.display = 'none';
+        }
+      }
     });
     </script>
   </body>

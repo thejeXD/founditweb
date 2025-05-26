@@ -23,6 +23,15 @@ $sql = 'SELECT i.id, i.user_id, i.name, i.category, i.description, i.date_time, 
 $result = $conn->query($sql);
 $items = [];
 while ($row = $result->fetch_assoc()) {
+    // Get report count for this item
+    $report_count = 0;
+    $report_stmt = $conn->prepare('SELECT COUNT(*) FROM item_reports WHERE item_id = ?');
+    $report_stmt->bind_param('i', $row['id']);
+    $report_stmt->execute();
+    $report_stmt->bind_result($report_count);
+    $report_stmt->fetch();
+    $report_stmt->close();
+    $row['report_count'] = $report_count;
     $items[] = $row;
 }
 echo json_encode(['success' => true, 'items' => $items]); 

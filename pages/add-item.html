@@ -241,6 +241,7 @@
             let unreadCount = 0;
             if (data.success) {
               data.messages.forEach(msg => { if (msg.is_read == 0) unreadCount++; });
+              console.log(data.messages);
             }
             if (unreadCount > 0) {
               badge.style.display = 'inline-block';
