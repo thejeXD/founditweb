@@ -46,6 +46,36 @@
         color: var(--clr-primary);
         opacity: 0.95;
       }
+      .action-badge {
+        display: inline-block;
+        padding: 0.25em 0.7em;
+        border-radius: 6px;
+        font-size: 0.98em;
+        font-weight: 600;
+        color: #fff;
+        background: #888;
+        text-transform: capitalize;
+        letter-spacing: 0.01em;
+        margin-right: 2px;
+      }
+      .action-badge.create, .action-badge.submit, .action-badge.add { background: #43a047; }
+      .action-badge.edit, .action-badge.update { background: #1976d2; }
+      .action-badge.delete, .action-badge.remove { background: #e53935; }
+      .action-badge.archive, .action-badge.unarchive { background: #ffb300; color: #222; }
+      .action-badge.activate { background: #00bcd4; }
+      .action-badge.deactivate { background: #607d8b; }
+      .action-badge.login, .action-badge.logout { background: #7e57c2; }
+      .action-badge.match { background: #00bfae; }
+      .action-badge.default { background: #888; }
+      .log-date {
+        font-size: 0.97em;
+        color: #888;
+        white-space: nowrap;
+        font-family: 'Roboto Mono', monospace, monospace;
+      }
+      .admin-table th:nth-child(3), .admin-table td:nth-child(3) {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -72,8 +102,8 @@
             <li class="nav-item">
               <a href="/FoundIT/pages_admin/users.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
                 </svg>
                 Users
               </a>
@@ -97,7 +127,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/FoundIT/pages_admin/settings.html" class="nav-link">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -112,7 +142,7 @@
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                Back to User Dashboard
+                User Dashboard
               </a>
             </li>
           </ul>
@@ -131,61 +161,74 @@
           </div>
         </header>
         <div class="dashboard-content">
-          <section class="admin-stats-section">
-            <div class="stat-card"><h3>Total Users</h3><p class="stat-number">0</p></div>
-            <div class="stat-card"><h3>Total Items</h3><p class="stat-number">0</p></div>
-            <div class="stat-card"><h3>Active Cases</h3><p class="stat-number">0</p></div>
-            <div class="stat-card"><h3>Resolved Cases</h3><p class="stat-number">0</p></div>
+          <section class="admin-stats-section" id="admin-stats-section">
+            <div class="stat-card"><h3>Total Users</h3><p class="stat-number" id="stat-total-users">0</p></div>
+            <div class="stat-card"><h3>Total Items</h3><p class="stat-number" id="stat-total-items">0</p></div>
+            <div class="stat-card"><h3>Active Cases</h3><p class="stat-number" id="stat-active-cases">0</p></div>
+            <div class="stat-card"><h3>Resolved Cases</h3><p class="stat-number" id="stat-resolved-cases">0</p></div>
           </section>
           <section class="admin-table-section">
-            <div class="section-header">
-              <h2>Recent Admin Actions</h2>
+            <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;gap:1em;">
+              <h2>Admin Activity Log</h2>
+              <div>
+                <label style="font-weight:500;font-size:0.98em;">Sort by: </label>
+                <select id="admin-sort-field" style="padding:0.3em 0.7em;border-radius:6px;">
+                  <option value="date">Date</option>
+                  <option value="id">ID</option>
+                  <option value="name">Admin</option>
+                </select>
+                <select id="admin-sort-dir" style="padding:0.3em 0.7em;border-radius:6px;">
+                  <option value="desc">Descending</option>
+                  <option value="asc">Ascending</option>
+                </select>
+              </div>
             </div>
             <div class="admin-table-wrapper">
-              <table class="admin-table">
+              <table class="admin-table" id="admin-activity-table">
                 <thead>
                   <tr>
-                    <th>Report ID</th>
-                    <th>User ID</th>
-                    <th>Type</th>
-                    <th>Subject</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Created Date</th>
-                    <th>Actions</th>
+                    <th>ID</th>
+                    <th>Admin</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                    <th>Date</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>Archived User</td>
-                    <td>Jane Doe</td>
-                    <td>-</td>
-                    <td>2024-06-01 10:00</td>
-                    <td>Account archived by admin</td>
-                    <td>Archived</td>
-                    <td>2024-06-01 10:00</td>
-                    <td>
-                      <button class="action-button">View</button>
-                      <button class="action-button">Edit</button>
-                      <button class="action-button">Delete</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Deleted Item</td>
-                    <td>Admin</td>
-                    <td>Black Wallet</td>
-                    <td>2024-06-01 09:30</td>
-                    <td>Item removed from system</td>
-                    <td>Deleted</td>
-                    <td>2024-06-01 09:30</td>
-                    <td>
-                      <button class="action-button">View</button>
-                      <button class="action-button">Edit</button>
-                      <button class="action-button">Delete</button>
-                    </td>
-                  </tr>
-                </tbody>
+                <tbody><tr><td colspan="5" style="text-align:center;color:#888;">Loading...</td></tr></tbody>
               </table>
+              <div id="admin-activity-pagination" style="display:flex;justify-content:center;align-items:center;gap:1em;margin-top:1em;"></div>
+            </div>
+          </section>
+          <section class="admin-table-section">
+            <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;gap:1em;">
+              <h2>User Activity Log</h2>
+              <div>
+                <label style="font-weight:500;font-size:0.98em;">Sort by: </label>
+                <select id="user-sort-field" style="padding:0.3em 0.7em;border-radius:6px;">
+                  <option value="date">Date</option>
+                  <option value="id">ID</option>
+                  <option value="name">User</option>
+                </select>
+                <select id="user-sort-dir" style="padding:0.3em 0.7em;border-radius:6px;">
+                  <option value="desc">Descending</option>
+                  <option value="asc">Ascending</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-table-wrapper">
+              <table class="admin-table" id="user-activity-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody><tr><td colspan="5" style="text-align:center;color:#888;">Loading...</td></tr></tbody>
+              </table>
+              <div id="user-activity-pagination" style="display:flex;justify-content:center;align-items:center;gap:1em;margin-top:1em;"></div>
             </div>
           </section>
         </div>
@@ -194,6 +237,13 @@
     <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
       &copy; <span id="footer-year"></span> Found IT. All rights reserved.
     </footer>
+    <div id="session-expired-overlay" style="display:none;position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
+      <div style="background:#fff;padding:2.5em 2.5em 2em 2.5em;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.18);text-align:center;max-width:90vw;">
+        <h2 style="color:#e53935;margin-bottom:0.7em;">Session Expired</h2>
+        <p style="color:#444;font-size:1.1em;margin-bottom:1.5em;">Your session has expired for security reasons. Please log in again to continue.</p>
+        <button onclick="window.location.href='/FoundIT/pages/login.html'" style="background:#1976d2;color:#fff;padding:0.8em 2.2em;font-size:1.1em;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Go to Login</button>
+      </div>
+    </div>
     <script>
       document.addEventListener('DOMContentLoaded', async function() {
         let role = null;
@@ -231,6 +281,144 @@
           year: 'numeric', month: 'short', day: '2-digit',
           hour: '2-digit', minute: '2-digit'
         });
+      }
+
+      async function fetchStats() {
+        const data = await fetchWithSessionCheck('/FoundIT/api/admin/dashboard-stats.php');
+        if (data.success) {
+          document.getElementById('stat-total-users').textContent = data.total_users;
+          document.getElementById('stat-total-items').textContent = data.total_items;
+          document.getElementById('stat-active-cases').textContent = data.active_cases;
+          document.getElementById('stat-resolved-cases').textContent = data.resolved_cases;
+        }
+      }
+
+      // --- Activity Log Pagination ---
+      let adminActivity = [], userActivity = [], adminPage = 1, userPage = 1;
+      const PER_PAGE = 11;
+      async function fetchAdminActivity() {
+        const data = await fetchWithSessionCheck('/FoundIT/api/admin/activity-log.php?type=admin&limit=100');
+        adminActivity = data.success ? data.activities : [];
+        renderAdminActivity();
+      }
+      async function fetchUserActivity() {
+        const data = await fetchWithSessionCheck('/FoundIT/api/admin/activity-log.php?type=user&limit=100');
+        userActivity = data.success ? data.activities : [];
+        renderUserActivity();
+      }
+      function getActionBadge(action) {
+        if (!action) return '<span class="action-badge default">-</span>';
+        let a = action.toLowerCase();
+        let label = action.replace(/(_item|_user|_account|_case|_report)$/i, '');
+        label = label.charAt(0).toUpperCase() + label.slice(1);
+        if (a.includes('create') || a.includes('submit') || a.includes('add')) return `<span class="action-badge create">${label}</span>`;
+        if (a.includes('edit') || a.includes('update')) return `<span class="action-badge edit">${label}</span>`;
+        if (a.includes('delete') || a.includes('remove')) return `<span class="action-badge delete">${label}</span>`;
+        if (a.includes('archive') || a.includes('unarchive')) return `<span class="action-badge archive">${label}</span>`;
+        if (a.includes('activate')) return `<span class="action-badge activate">${label}</span>`;
+        if (a.includes('deactivate')) return `<span class="action-badge deactivate">${label}</span>`;
+        if (a.includes('login') || a.includes('logout')) return `<span class="action-badge login">${label}</span>`;
+        if (a.includes('match')) return `<span class="action-badge match">${label}</span>`;
+        return `<span class="action-badge default">${label}</span>`;
+      }
+      function formatDatePretty(dateStr) {
+        if (!dateStr) return '-';
+        const d = new Date(dateStr.replace(' ', 'T'));
+        if (isNaN(d)) return dateStr;
+        return d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true });
+      }
+      let adminSortField = 'date', adminSortDir = 'desc', userSortField = 'date', userSortDir = 'desc';
+      document.getElementById('admin-sort-field').onchange = function() { adminSortField = this.value; renderAdminActivity(); };
+      document.getElementById('admin-sort-dir').onchange = function() { adminSortDir = this.value; renderAdminActivity(); };
+      document.getElementById('user-sort-field').onchange = function() { userSortField = this.value; renderUserActivity(); };
+      document.getElementById('user-sort-dir').onchange = function() { userSortDir = this.value; renderUserActivity(); };
+      function sortActivity(arr, field, dir, isAdmin) {
+        return arr.slice().sort((a, b) => {
+          let v1, v2;
+          if (field === 'date') {
+            v1 = new Date(a.created_at);
+            v2 = new Date(b.created_at);
+          } else if (field === 'id') {
+            v1 = Number(a.id);
+            v2 = Number(b.id);
+          } else if (field === 'name') {
+            v1 = (isAdmin ? a.admin_name : a.user_name) || '';
+            v2 = (isAdmin ? b.admin_name : b.user_name) || '';
+            v1 = v1.toLowerCase();
+            v2 = v2.toLowerCase();
+          }
+          if (v1 < v2) return dir === 'asc' ? -1 : 1;
+          if (v1 > v2) return dir === 'asc' ? 1 : -1;
+          return 0;
+        });
+      }
+      function renderAdminActivity() {
+        const tbody = document.querySelector('#admin-activity-table tbody');
+        tbody.innerHTML = '';
+        if (!adminActivity.length) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;">No admin activity found.</td></tr>';
+          document.getElementById('admin-activity-pagination').innerHTML = '';
+          return;
+        }
+        const sorted = sortActivity(adminActivity, adminSortField, adminSortDir, true);
+        const start = (adminPage-1)*PER_PAGE, end = start+PER_PAGE;
+        const pageData = sorted.slice(start, end);
+        for (const row of pageData) {
+          tbody.innerHTML += `<tr><td>${row.id}</td><td>${row.admin_name||'-'}</td><td>${getActionBadge(row.action)}</td><td>${row.details}</td><td class='log-date'>${formatDatePretty(row.created_at)}</td></tr>`;
+        }
+        renderPagination('admin', adminActivity.length, adminPage);
+      }
+      function renderUserActivity() {
+        const tbody = document.querySelector('#user-activity-table tbody');
+        tbody.innerHTML = '';
+        if (!userActivity.length) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;">No user activity found.</td></tr>';
+          document.getElementById('user-activity-pagination').innerHTML = '';
+          return;
+        }
+        const sorted = sortActivity(userActivity, userSortField, userSortDir, false);
+        const start = (userPage-1)*PER_PAGE, end = start+PER_PAGE;
+        const pageData = sorted.slice(start, end);
+        for (const row of pageData) {
+          tbody.innerHTML += `<tr><td>${row.id}</td><td>${row.user_name||'-'}</td><td>${getActionBadge(row.action)}</td><td>${row.details}</td><td class='log-date'>${formatDatePretty(row.created_at)}</td></tr>`;
+        }
+        renderPagination('user', userActivity.length, userPage);
+      }
+      function renderPagination(type, total, page) {
+        const totalPages = Math.ceil(total/PER_PAGE);
+        let html = '';
+        html += `<button class='btn btn-xs' ${page===1?'disabled':''} onclick='${type}PrevPage()'>Prev</button>`;
+        html += `<span>Page ${page} of ${totalPages}</span>`;
+        html += `<button class='btn btn-xs' ${page===totalPages?'disabled':''} onclick='${type}NextPage()'>Next</button>`;
+        document.getElementById(`${type}-activity-pagination`).innerHTML = html;
+      }
+      function adminPrevPage() { if (adminPage>1) { adminPage--; renderAdminActivity(); } }
+      function adminNextPage() { const totalPages = Math.ceil(adminActivity.length/PER_PAGE); if (adminPage<totalPages) { adminPage++; renderAdminActivity(); } }
+      function userPrevPage() { if (userPage>1) { userPage--; renderUserActivity(); } }
+      function userNextPage() { const totalPages = Math.ceil(userActivity.length/PER_PAGE); if (userPage<totalPages) { userPage++; renderUserActivity(); } }
+      window.adminPrevPage = adminPrevPage; window.adminNextPage = adminNextPage;
+      window.userPrevPage = userPrevPage; window.userNextPage = userNextPage;
+
+      document.addEventListener('DOMContentLoaded', function() {
+        fetchStats();
+        fetchAdminActivity();
+        fetchUserActivity();
+      });
+
+      function handleSessionExpired() {
+        document.getElementById('session-expired-overlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      async function fetchWithSessionCheck(url, opts) {
+        const res = await fetch(url, opts);
+        let data;
+        try { data = await res.json(); } catch { data = {}; }
+        if (data && data.message && data.message.toLowerCase().includes('session expired')) {
+          handleSessionExpired();
+          throw new Error('Session expired');
+        }
+        return data;
       }
     </script>
   </body>

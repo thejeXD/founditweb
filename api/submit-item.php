@@ -47,6 +47,7 @@ $location = trim($_POST['location']);
 $specific_location = isset($_POST['specific-location']) ? trim($_POST['specific-location']) : null;
 $contact = trim($_POST['contact-preference']);
 $type = trim($_POST['type']);
+$left_with = isset($_POST['left-with']) ? trim($_POST['left-with']) : null;
 
 $regex = "/^[a-zA-Z0-9\s.,'\"()\-!?:;]+$/";
 if (!preg_match($regex, $name)) respond(false, 'Invalid characters in item name.');
@@ -79,9 +80,9 @@ if (
       $mime = mime_content_type($tmp_name);
       if (in_array($mime, $allowed_mimes) && $size <= 5 * 1024 * 1024) {
         // Insert item first to get the item_id
-        $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
+        $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, left_with, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
         $date_time = $date . ($time ? (' ' . $time) : '');
-        $stmt->bind_param('issssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $contact, $type);
+        $stmt->bind_param('isssssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $left_with, $contact, $type);
         if (!$stmt->execute()) respond(false, 'Database error: ' . $stmt->error);
         $item_id = $stmt->insert_id;
         $stmt->close();
@@ -100,9 +101,9 @@ if (
   }
 } else {
   // Insert item without image
-  $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
+  $stmt = $conn->prepare("INSERT INTO items (user_id, name, category, description, date_time, location, specific_location, left_with, contact_method, type, image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, '', 1, NOW())");
   $date_time = $date . ($time ? (' ' . $time) : '');
-  $stmt->bind_param('issssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $contact, $type);
+  $stmt->bind_param('isssssssss', $user_id, $name, $category, $desc, $date_time, $location, $specific_location, $left_with, $contact, $type);
   if (!$stmt->execute()) respond(false, 'Database error: ' . $stmt->error);
   $item_id = $stmt->insert_id;
   $stmt->close();

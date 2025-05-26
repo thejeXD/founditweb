@@ -51,6 +51,22 @@
         color: var(--clr-primary);
         opacity: 0.95;
       }
+      .type-btn.active {
+        background: #2176c7 !important;
+        color: #fff !important;
+        border: 2px solid #2176c7 !important;
+        box-shadow: 0 2px 8px rgba(33,118,199,0.08);
+      }
+      .type-btn {
+        background: #fff !important;
+        color: #2176c7 !important;
+        border: 2px solid #4a90e2 !important;
+        font-weight: bold !important;
+        border-radius: 8px 8px 0 0 !important;
+        padding: 0.5em 1.2em !important;
+        box-shadow: none !important;
+        transition: background 0.15s, color 0.15s, border 0.15s;
+      }
     </style>
   </head>
   <body>
@@ -118,6 +134,15 @@
                 Lost & Found
               </a>
             </li>
+            <li class="nav-item admin-only" style="display:none;">
+              <a href="/FoundIT/pages_admin/dashboard.html" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M16 3v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V3"></path>
+                </svg>
+                Administration
+              </a>
+            </li>
             <li class="nav-section-title">OTHERS</li>
             <li class="nav-item">
               <a href="/FoundIT/public/about.html#mission" class="nav-link" target="_blank">
@@ -150,15 +175,7 @@
                 FAQs
               </a>
             </li>
-            <li class="nav-item admin-only" style="display:none;">
-              <a href="/FoundIT/pages_admin/dashboard.html" class="nav-link">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <path d="M16 3v4a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V3"></path>
-                </svg>
-                Administration
-              </a>
-            </li>
+            
           </ul>
         </nav>
       </aside>
@@ -298,6 +315,11 @@
                 </select>
                 <div class="error-message" id="error-contact-preference"></div>
               </div>
+
+              <div class="form-group" id="left-with-group" style="display:none;">
+                <label for="left-with">Where did you leave the item?</label>
+                <input type="text" id="left-with" name="left-with" placeholder="e.g., Guard, Front Desk, Lost & Found Office" />
+              </div>
             </div>
 
             <div class="form-actions">
@@ -371,15 +393,26 @@
       </script>
 
     <script>
-      // Toggle between Lost and Found forms
-      const typeBtns = document.querySelectorAll('.type-btn');
-      typeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          typeBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
+      document.addEventListener('DOMContentLoaded', function() {
+        const typeBtns = document.querySelectorAll('.type-btn');
+        const leftWithGroup = document.getElementById('left-with-group');
+        typeBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            typeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Show/hide left-with field
+            if (btn.dataset.type === 'found') {
+              leftWithGroup.style.display = '';
+            } else {
+              leftWithGroup.style.display = 'none';
+              document.getElementById('left-with').value = '';
+            }
+          });
         });
       });
+    </script>
 
+    <script>
       // --- Custom Notification Helper ---
       function showNotification(type, title, message) {
         // Assumes you have a .custom-notification element in your layout
@@ -486,6 +519,9 @@
         // Add item type (lost/found)
         const type = document.querySelector('.type-btn.active').dataset.type;
         formData.append('type', type);
+        // Add left-with if present
+        const leftWith = document.getElementById('left-with').value.trim();
+        if (leftWith) formData.append('left-with', leftWith);
 
         // Submit via AJAX
         try {

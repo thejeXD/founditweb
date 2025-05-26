@@ -47,7 +47,7 @@ $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 session_start();
 
 try {
-    $stmt = $conn->prepare("SELECT id, password, status, first_name, last_name FROM accounts WHERE email = ? AND status = 1 LIMIT 1");
+    $stmt = $conn->prepare("SELECT id, password, status, first_name, last_name FROM accounts WHERE email = ? LIMIT 1");
     if (!$stmt) {
         throw new Exception("Prepare failed: " . $conn->error);
     }
@@ -61,6 +61,19 @@ try {
     $user = $result->fetch_assoc();
     if (!password_verify($password, $user['password'])) {
         echo json_encode(['success' => false, 'message' => 'Invalid email or password.']);
+        exit();
+    }
+    // Check account status
+    if ($user['status'] == 2) {
+        echo json_encode(['success' => false, 'message' => 'Your account has been archived.']);
+        exit();
+    }
+    if ($user['status'] == 3) {
+        echo json_encode(['success' => false, 'message' => 'Your account has been deleted.']);
+        exit();
+    }
+    if ($user['status'] != 1) {
+        echo json_encode(['success' => false, 'message' => 'Your account is not active.']);
         exit();
     }
     // Success: set session and update last_login

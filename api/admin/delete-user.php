@@ -24,12 +24,22 @@ if (!$id) {
     echo json_encode(['success' => false, 'message' => 'Missing user id.']);
     exit();
 }
+// Fetch the full name of the user to be deleted
+$fullName = '';
+$nameStmt = $conn->prepare('SELECT first_name, last_name FROM accounts WHERE id = ?');
+$nameStmt->bind_param('i', $id);
+$nameStmt->execute();
+$nameStmt->bind_result($first_name, $last_name);
+if ($nameStmt->fetch()) {
+    $fullName = trim($first_name . ' ' . $last_name);
+}
+$nameStmt->close();
 $update = $conn->prepare('UPDATE accounts SET status=3 WHERE id=?');
 $update->bind_param('i', $id);
 if ($update->execute()) {
     // Log to activity_log_admin
     $action = 'delete_user';
-    $details = "Deleted user (ID: $id)";
+    $details = "Deleted user (ID: $id, Name: $fullName)";
     $log = $conn->prepare('INSERT INTO activity_log_admin (admin_id, action, target_type, target_id, details) VALUES (?, ?, ?, ?, ?)');
     $target_type = 'user';
     $log->bind_param('issis', $user_id, $action, $target_type, $id, $details);

@@ -39,15 +39,22 @@ if (!$first_name || !$last_name || !$email) {
 }
 
 // Update user
-if ($password) {
+if (!empty($password) && strlen($password) >= 8 && preg_match('/[a-zA-Z]/', $password) && preg_match('/[0-9]/', $password) && preg_match('/[^a-zA-Z0-9]/', $password)) {
     $hashed = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $conn->prepare('UPDATE accounts SET first_name=?, last_name=?, email=?, student_number=?, role=?, status=?, password=? WHERE id=?');
-    $stmt->bind_param('ssssiiii', $first_name, $last_name, $email, $student_number, $role_val, $status, $hashed, $id);
+    $stmt->bind_param('ssssissi', $first_name, $last_name, $email, $student_number, $role_val, $status, $hashed, $id);
 } else {
     $stmt = $conn->prepare('UPDATE accounts SET first_name=?, last_name=?, email=?, student_number=?, role=?, status=? WHERE id=?');
     $stmt->bind_param('ssssiii', $first_name, $last_name, $email, $student_number, $role_val, $status, $id);
 }
 if ($stmt->execute()) {
+    $affected = $stmt->affected_rows;
+    echo json_encode([
+        'success' => true,
+        'message' => isset($hashed) ? $hashed : 'Updated without password',
+        'affected_rows' => $affected,
+        'id' => $id
+    ]);
     // Log to activity_log_admin
     $action = 'edit_user';
     $details = "Edited user (ID: $id, Name: $first_name $last_name)";
@@ -63,8 +70,7 @@ if ($stmt->execute()) {
     $inbox->bind_param('iss', $id, $subject, $message);
     $inbox->execute();
     $inbox->close();
-    echo json_encode(['success' => true]);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Failed to update user.']);
+    echo json_encode(['success' => false, 'message' => 'Failed to update user: ' . $stmt->error]);
 }
 $stmt->close(); 

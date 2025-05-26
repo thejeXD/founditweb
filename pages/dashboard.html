@@ -332,6 +332,10 @@
         align-items: center;
         justify-content: center;
       }
+      #recent-posts-tab {
+        max-height: 400px;
+        overflow-y: auto;
+      }
     </style>
   </head>
   <body>
@@ -444,26 +448,26 @@
         <!-- Two-column dashboard layout -->
         <div class="dashboard-main-grid">
           <div class="dashboard-left">
-            <section class="stats-section">
-              <div class="stat-card">
+          <section class="stats-section">
+            <div class="stat-card">
                 <div class="stat-icon lost" style="background:#e3f0ff; color:#4a90e2;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4a90e2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                </div>
-                <div class="stat-info">
-                  <h3>Lost Items</h3>
-                  <p class="stat-number" id="total-lost">0</p>
-                </div>
               </div>
-              <div class="stat-card">
+              <div class="stat-info">
+                <h3>Lost Items</h3>
+                <p class="stat-number" id="total-lost">0</p>
+              </div>
+            </div>
+            <div class="stat-card">
                 <div class="stat-icon found" style="background:#e3f7ee; color:#28a745;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#28a745" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <div class="stat-info">
-                  <h3>Found Items</h3>
-                  <p class="stat-number" id="total-found">0</p>
-                </div>
               </div>
-            </section>
+              <div class="stat-info">
+                <h3>Found Items</h3>
+                <p class="stat-number" id="total-found">0</p>
+              </div>
+            </div>
+          </section>
 
             <!-- Tabs for Activity/Posts -->
             <div class="dashboard-tabs">
@@ -472,10 +476,10 @@
             </div>
             <section class="recent-activity-section">
               <section class="recent-activity" id="recent-activity-tab" style="background:#f4faff;box-shadow:0 2px 8px rgba(74,144,226,0.07);border-radius:16px;">
-                <div class="section-header">
-                  <h2>Recent Activity</h2>
-                  <a href="/FoundIT/pages/my-items.html" class="view-all">View All</a>
-                </div>
+            <div class="section-header">
+              <h2>Recent Activity</h2>
+              <a href="/FoundIT/pages/my-items.html" class="view-all">View All</a>
+            </div>
                 <div class="activity-list" id="activity-list"></div>
                 <div class="pagination" id="activity-pagination"></div>
               </section>
@@ -510,8 +514,8 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
-            </section>
+            </div>
+          </section>
           </div>
         </div>
       </main>
@@ -520,7 +524,7 @@
     <footer style="background:#f7f8fa;border-top:1px solid #eee;padding:24px 0;text-align:center;color:#888;font-size:0.95rem;margin-top:auto;">
       &copy; <span id="footer-year"></span> Found IT. All rights reserved.
     </footer>
-    
+
     <script>
       document.addEventListener('DOMContentLoaded', async function() {
       const res = await fetch('/FoundIT/api/dashboard-data.php');

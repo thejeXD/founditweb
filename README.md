@@ -64,6 +64,7 @@ CREATE TABLE items (
     date_time DATETIME NOT NULL,         -- Date & Time of submission or event
     location VARCHAR(255),               -- General Location
     specific_location VARCHAR(255),      -- Specific Location
+    left_with VARCHAR(255),              -- For Found Item
     image VARCHAR(255),                  -- Image file path or URL
     contact_method VARCHAR(255),         -- Contact Method (email, phone, etc.)
     status TINYINT(1) DEFAULT 1,         -- 1 = active, 0 = archived

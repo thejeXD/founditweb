@@ -158,6 +158,7 @@
         margin-right: 0.2em;
       }
     </style>
+
   </head>
   <body>
     <div class="dashboard-container">
@@ -183,8 +184,8 @@
             <li class="nav-item">
               <a href="/FoundIT/pages_admin/users.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
                 </svg>
                 Users
               </a>
@@ -208,7 +209,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/FoundIT/pages_admin/settings.html" class="nav-link">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -223,7 +224,7 @@
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                Back to User Dashboard
+                User Dashboard
               </a>
             </li>
           </ul>
@@ -348,30 +349,36 @@
     <script src="/FoundIT/scripts/custom-notification.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async function() {
-        let role = null;
-        let firstName = '';
-        let lastName = '';
         try {
           const res = await fetch('/FoundIT/api/settings.php');
           const data = await res.json();
-          if (data.success) {
-            role = Number(data.profile.role);
-            firstName = data.profile.first_name;
-            lastName = data.profile.last_name;
+          const role = Number(data.profile.role);
+          const sessionUserId = Number(data.profile.id || data.profile.user_id);
+          if (!data.success || (role !== 1 && role !== 2 && role !== 3)) {
+            window.location.href = '/FoundIT/auth/login.html';
+            return;
           }
-        } catch {}
-        if (role === 2 || role === 3) {
-          document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+          document.body.style.display = '';
+          let firstName = data.profile.first_name;
+          let lastName = data.profile.last_name;
+          if (role === 1 || role === 2 || role === 3) {
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+          }
+          // Set admin name and role in top bar
+          document.querySelectorAll('.dashboard-user-name').forEach(el => {
+            el.textContent = firstName + ' ' + lastName;
+          });
+          document.querySelectorAll('.user-role-label').forEach(el => {
+            if (role === 1) el.textContent = 'SUPERADMIN';
+            else if (role === 3) el.textContent = 'ADMIN';
+            else if (role === 2) el.textContent = 'STAFF';
+            else el.textContent = '';
+          });
+          window.currentUserRole = role;
+          window.sessionUserId = sessionUserId;
+        } catch (e) {
+          window.location.href = '/FoundIT/auth/login.html';
         }
-        // Set admin name and role in top bar
-        document.querySelectorAll('.dashboard-user-name').forEach(el => {
-          el.textContent = firstName + ' ' + lastName;
-        });
-        document.querySelectorAll('.user-role-label').forEach(el => {
-          if (role === 3) el.textContent = 'ADMIN';
-          else if (role === 2) el.textContent = 'STAFF';
-          else el.textContent = '';
-        });
       });
       document.getElementById('footer-year').textContent = new Date().getFullYear();
 
@@ -436,20 +443,32 @@
           const viewLink = `/FoundIT/pages/view-item.html?id=${item.id}`;
           const statusLabel = item.status == 1 ? '<span class="status-badge active">Active</span>' : '<span class="status-badge archived">Archived</span>';
           const tr = document.createElement('tr');
+          let actionButtons = '';
+          const sessionUserId = window.sessionUserId;
+          // If session user id is 1, always show all buttons
+          if (sessionUserId === 1) {
+            actionButtons = `
+              <button class='btn btn-primary btn-xs' title="Edit" onclick='openEditItemModal(${JSON.stringify(item).replace(/"/g, '&quot;')})'>Edit</button>
+              <button class='btn btn-warning btn-xs' title="Archive" onclick='openArchiveItemModal(${item.id}, ${item.status})'>${item.status == 1 ? 'Archive' : 'Unarchive'}</button>
+              <button class='btn btn-danger btn-xs' title="Delete" onclick='openDeleteItemModal(${item.id})'>Delete</button>
+            `;
+          } else {
+            actionButtons = `
+              <button class='btn btn-primary btn-xs' title="Edit" onclick='openEditItemModal(${JSON.stringify(item).replace(/"/g, '&quot;')})'>Edit</button>
+              <button class='btn btn-warning btn-xs' title="Archive" onclick='openArchiveItemModal(${item.id}, ${item.status})'>${item.status == 1 ? 'Archive' : 'Unarchive'}</button>
+              <button class='btn btn-danger btn-xs' title="Delete" onclick='openDeleteItemModal(${item.id})'>Delete</button>
+            `;
+          }
           tr.innerHTML = `
             <td>${item.id}</td>
-            <td><a href="${viewLink}" target="_blank" style="color:#1976d2;text-decoration:underline;">${item.name}</a></td>
+            <td><b><a href="${viewLink}" style="color:#1976d2;text-decoration:underline;">${item.name}</a></b></td>
             <td>${item.category || ''}</td>
             <td>${item.type ? item.type.charAt(0).toUpperCase() + item.type.slice(1) : ''}</td>
             <td>${userName}</td>
             <td>${item.date_time ? formatDate(item.date_time) : '-'}</td>
             <td>${item.location || ''}${item.specific_location ? ' - ' + item.specific_location : ''}</td>
             <td>${statusLabel}</td>
-            <td>
-              <button class='btn btn-primary btn-xs' title="Edit" onclick='openEditItemModal(${JSON.stringify(item).replace(/"/g, '&quot;')})'>Edit</button>
-              <button class='btn btn-warning btn-xs' title="Archive" onclick='openArchiveItemModal(${item.id}, ${item.status})'>${item.status == 1 ? 'Archive' : 'Unarchive'}</button>
-              <button class='btn btn-danger btn-xs' title="Delete" onclick='openDeleteItemModal(${item.id})'>Delete</button>
-            </td>
+            <td>${actionButtons}</td>
           `;
           tbody.appendChild(tr);
         });
@@ -487,6 +506,14 @@
         document.getElementById('edit-item-specific-location').value = item.specific_location || '';
         document.getElementById('edit-item-type').value = item.type;
         document.getElementById('edit-item-status').value = item.status;
+        // For superadmin (user id 1), make all fields editable
+        const sessionUserId = window.sessionUserId;
+        if (sessionUserId === 1) {
+          ['edit-item-name', 'edit-item-category', 'edit-item-description', 'edit-item-date-time', 'edit-item-location', 'edit-item-specific-location', 'edit-item-type', 'edit-item-status'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.disabled = false;
+          });
+        }
         document.getElementById('edit-item-modal').style.display = 'flex';
         setTimeout(() => document.getElementById('edit-item-modal').classList.add('show'), 10);
       }

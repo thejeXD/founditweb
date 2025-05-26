@@ -252,10 +252,10 @@
         if (claimBtn) {
           // Disable claim for archived
           if (item.status == 0) {
-            claimBtn.disabled = true;
-            claimBtn.classList.add('disabled');
-            claimBtn.style.opacity = '0.5';
-            claimBtn.style.pointerEvents = 'none';
+          claimBtn.disabled = true;
+          claimBtn.classList.add('disabled');
+          claimBtn.style.opacity = '0.5';
+          claimBtn.style.pointerEvents = 'none';
           } else if (isOwner) {
             // Only disable for the owner
             claimBtn.disabled = true;
@@ -268,29 +268,29 @@
             claimBtn.classList.remove('disabled');
             claimBtn.style.opacity = '';
             claimBtn.style.pointerEvents = '';
-            claimBtn.onclick = async function() {
-              claimBtn.disabled = true;
-              claimBtn.textContent = 'Processing...';
-              try {
-                const res = await fetch('/FoundIT/api/claim-item.php', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ item_id: item.id })
-                });
-                const data = await res.json();
-                if (data.success) {
-                  claimBtn.textContent = 'Claimed!';
-                  showNotification('success', 'Claim Sent', 'The owner has been notified. Please wait for their response.');
-                } else {
-                  claimBtn.textContent = 'Claim';
-                  showNotification('error', 'Claim Failed', data.message || 'Failed to claim item.');
-                }
-              } catch {
+          claimBtn.onclick = async function() {
+            claimBtn.disabled = true;
+            claimBtn.textContent = 'Processing...';
+            try {
+              const res = await fetch('/FoundIT/api/claim-item.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item_id: item.id })
+              });
+              const data = await res.json();
+              if (data.success) {
+                claimBtn.textContent = 'Claimed!';
+                showNotification('success', 'Claim Sent', 'The owner has been notified. Please wait for their response.');
+              } else {
                 claimBtn.textContent = 'Claim';
-                showNotification('error', 'Network Error', 'Please try again.');
+                showNotification('error', 'Claim Failed', data.message || 'Failed to claim item.');
               }
-              claimBtn.disabled = false;
-            };
+            } catch {
+              claimBtn.textContent = 'Claim';
+              showNotification('error', 'Network Error', 'Please try again.');
+            }
+            claimBtn.disabled = false;
+          };
           }
         }
         const reportBtn = document.getElementById('report-btn');
@@ -302,9 +302,9 @@
             reportBtn.style.opacity = '0.5';
             reportBtn.style.pointerEvents = 'none';
           } else {
-            reportBtn.onclick = function() {
-              showNotification('info', 'Report', 'Report functionality coming soon!');
-            };
+          reportBtn.onclick = function() {
+            showNotification('info', 'Report', 'Report functionality coming soon!');
+          };
           }
         }
         // Image zoom logic

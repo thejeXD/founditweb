@@ -17,6 +17,7 @@
       rel="stylesheet"
     />
     <style>
+      /* body { display: none !important; } */
       .sidebar .nav-section-title {
         font-weight: bold;
         color: var(--clr-primary) !important;
@@ -67,6 +68,21 @@
         margin-bottom: 3em;
       }
     </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      try {
+        const res = await fetch('/FoundIT/api/settings.php');
+        const data = await res.json();
+        if (!data.success || (Number(data.profile.role) !== 2 && Number(data.profile.role) !== 3)) {
+          window.location.href = '/FoundIT/auth/login.html';
+          return;
+        }
+        document.body.style.display = '';
+      } catch (e) {
+        window.location.href = '/FoundIT/auth/login.html';
+      }
+    });
+    </script>
   </head>
   <body>
     <div class="dashboard-container">
@@ -92,8 +108,8 @@
             <li class="nav-item">
               <a href="/FoundIT/pages_admin/users.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
                 </svg>
                 Users
               </a>
@@ -117,7 +133,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/FoundIT/pages_admin/settings.html" class="nav-link">
+              <a href="/FoundIT/pages/settings.html" class="nav-link">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="3"></circle>
                   <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -132,7 +148,7 @@
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                Back to User Dashboard
+                User Dashboard
               </a>
             </li>
           </ul>
@@ -213,7 +229,7 @@
             <section class="recent-activity">
               <div class="section-header">
                 <h2>Recent Admin Activity</h2>
-                <a href="#" class="view-all">View All</a>
+                <a href="/FoundIT/pages_admin/reports.html" class="view-all">View All</a>
               </div>
               <div class="activity-list" id="admin-activity-list"></div>
             </section>
@@ -249,7 +265,6 @@
       &copy; <span id="footer-year"></span> Found IT. All rights reserved.
     </footer>
 
-    
     <script>
       document.addEventListener('DOMContentLoaded', async function() {
         let role = null;
@@ -299,8 +314,15 @@
             let icon = '';
             if (act.action === 'archive_item') icon = '🗃️';
             else if (act.action === 'delete_user') icon = '❌';
+            else if (act.action === 'edit_user') icon = '📝';
+            else if (act.action === 'activate_user') icon = '✅';
+            else if (act.action === 'delete_item') icon = '🗑️';
             else if (act.action === 'update_report') icon = '📝';
-            else icon = '⚙️';
+            else icon = '📂';
+            // Determine role label
+            let roleLabel = '';
+            if (act.admin_role === 3) roleLabel = 'ADMIN';
+            else if (act.admin_role === 2) roleLabel = 'STAFF';
             card.innerHTML = `
               <div class="activity-card-icon">${icon}</div>
               <div class="activity-card-content">
@@ -309,7 +331,7 @@
                 <div class="activity-card-meta">
                   <span class="activity-badge ${act.action}">${act.action.replace(/_/g, ' ').toUpperCase()}</span>
                   <span class="activity-card-date">${new Date(act.created_at).toLocaleString()}</span>
-                  ${act.admin_name ? `<span class='activity-admin' style='color:#1976d2;font-weight:500;margin-left:1em;'>by ${act.admin_name}</span>` : ''}
+                  ${act.admin_name ? `<span class='activity-admin' style='color:#1976d2;font-weight:500;margin-left:1em;'>by ${act.admin_name}${roleLabel ? ' <span style=\'color:#888;font-weight:400;font-size:0.95em;\'>(' + roleLabel + ')</span>' : ''}</span>` : ''}
                 </div>
               </div>
             `;
